@@ -5,6 +5,7 @@
 
 int main(int argc, char* argv[]) {
   /* Read the input file */
-  readInput("dataset1.txt", '\n', '\t');
+  readInput("dataset.txt", "\t", "\n");
+  
   return 1;
 }

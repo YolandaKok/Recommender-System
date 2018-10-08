@@ -7,10 +7,13 @@
 #include "IOutils.h"
 
 /* Read the dataset file */
-int readInput(const char filename[], char seperator, char delimiter) {
+int readInput(const char filename[], const char seperator[], const char delimiter[]) {
   FILE *fp = NULL;
   char line[LINE_SIZE];
-  char *name;
+  char *name, *token, *delimiters;
+  delimiters = (char*)malloc(strlen(seperator) + strlen(delimiter) + 1);
+  strcat(delimiters, seperator);
+  strcat(delimiters, delimiter);
   name = (char*)malloc(strlen(filename) + strlen("datasets/") + 1);
   sprintf(name, "datasets/%s", filename);
   /* Open the file */
@@ -18,9 +21,17 @@ int readInput(const char filename[], char seperator, char delimiter) {
   if(fp == NULL)
     assert(fp != NULL);
 
+  /* Read line by line */
   while (fgets(line, LINE_SIZE, fp)) {
-    printf("%s", line);
+    token = strtok(line, delimiters);
+    while( token != NULL ) {
+      printf( "%s\n", token );
+      token = strtok(NULL, delimiters);
+   }
   }
 
+  free(delimiters);
   free(name);
+
+  return true;
 }
