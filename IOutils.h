@@ -5,6 +5,6 @@
 
 /* Read input data */
 
-int readInput(char* filename, char seperator, char delimiter);
+int readInput(const char filename[], char seperator, char delimiter);
 
 #endif
