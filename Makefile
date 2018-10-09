@@ -1,7 +1,7 @@
 IOutils.o: IOutils.cpp
 	g++ -c IOutils.cpp
 Point.o: Point.cpp
-	g++ -c Point.cpp
+	g++ -std=c++11 -c Point.cpp
 main.o: main.cpp
 	g++ -std=c++11 -c main.cpp
 all: main.o IOutils.o Point.o
