@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cassert>
 #include "IOutils.h"
+#include "Point.h"
 
 /* Read the dataset file */
 int readInput(const char filename[], const char seperator[], const char delimiter[]) {

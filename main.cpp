@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+#include <random>
 #include "IOutils.h"
 
 int main(int argc, char* argv[]) {
