@@ -1,5 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <functional>
+
 #include "Point.h"
 using namespace std;
 /* Constructor of the Class Point */
@@ -19,6 +22,14 @@ void Point::print() {
           cout << endl;
 }
 
-/* Getter for dimensions */
-/* Setter for dimensions */
+/* Calculate the inner product between two points */
+double Point::innerProduct(Point *p) {
+  return inner_product(this->coords.begin(), this->coords.end(), p->coords.begin(), 0.0);
+}
+
+/* Getters */
+/* Setters */
+void Point::setId(int id) {
+  this->id = id;
+}
 /* Destructor of the Class Point */

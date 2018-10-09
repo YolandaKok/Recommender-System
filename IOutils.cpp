@@ -17,6 +17,8 @@ int readInput(const char filename[], const char seperator[], const char delimite
   char *name, *token, *delimiters;
   int i;
   char *ptr;
+  /* Array of points */
+  vector<Point*> points;
   delimiters = (char*)malloc(strlen(seperator) + strlen(delimiter) + 1);
   strcat(delimiters, seperator);
   strcat(delimiters, delimiter);
@@ -41,7 +43,7 @@ int readInput(const char filename[], const char seperator[], const char delimite
         point->addCoord(strtod(token, &ptr));
       }
       else {
-        point->setId();
+        point->setId(atoi(token));
       }
 
       token = strtok(NULL, delimiters);
@@ -49,7 +51,10 @@ int readInput(const char filename[], const char seperator[], const char delimite
    }
    i = 0;
    point->print();
+   points.push_back(point);
   }
+
+  cout << points.at(0)->innerProduct(points.at(1)) << endl;
 
   free(delimiters);
   free(name);
