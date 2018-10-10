@@ -4,13 +4,21 @@
 #include <cstdlib>
 #include <cstring>
 #include <cassert>
+#include <string>
 #include "IOutils.h"
+#include "Point.h"
+#include <stdlib.h>
 
+using namespace std;
 /* Read the dataset file */
 int readInput(const char filename[], const char seperator[], const char delimiter[]) {
   FILE *fp = NULL;
   char line[LINE_SIZE];
   char *name, *token, *delimiters;
+  int i;
+  char *ptr;
+  /* Array of points */
+  vector<Point*> points;
   delimiters = (char*)malloc(strlen(seperator) + strlen(delimiter) + 1);
   strcat(delimiters, seperator);
   strcat(delimiters, delimiter);
@@ -24,11 +32,29 @@ int readInput(const char filename[], const char seperator[], const char delimite
   /* Read line by line */
   while (fgets(line, LINE_SIZE, fp)) {
     token = strtok(line, delimiters);
+    /* Create a Point */
+    i = 0;
+    Point *point = new Point();
     while( token != NULL ) {
-      printf( "%s\n", token );
+      //printf( "%s\n", token );
+      /* Make token a double */
+      /* Create an array of points */
+      if (i) {
+        point->addCoord(strtod(token, &ptr));
+      }
+      else {
+        point->setId(atoi(token));
+      }
+
       token = strtok(NULL, delimiters);
+      i++;
    }
+   i = 0;
+   point->print();
+   points.push_back(point);
   }
+
+  cout << points.at(0)->innerProduct(points.at(1)) << endl;
 
   free(delimiters);
   free(name);
@@ -40,7 +66,7 @@ int readInput(const char filename[], const char seperator[], const char delimite
 int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k, int& L, char*& outputFile) {
   int i;
   if(!strcmp(argv[0], "./lsh")) {
-      printf("lsh \n");
+      //printf("lsh \n");
       /* Read the arguments for the lsh */
       /* Code to handle the command line flags */
       for(i = 1; i < argc; i += 2) {
