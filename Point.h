@@ -12,7 +12,7 @@ class Point {
   public:
     Point();
     void addCoord(int coord);
-    /* Get Dimension of the current point */
+    /* Get Dimensions */
     int getDimension();
     /* Set Id */
     void setId(int id);

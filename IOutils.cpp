@@ -7,6 +7,7 @@
 #include <string>
 #include "IOutils.h"
 #include "Point.h"
+#include "Hashutils.h"
 #include <stdlib.h>
 
 using namespace std;
@@ -48,9 +49,15 @@ int readInput(const char filename[], const char seperator[], const char delimite
    points.push_back(point);
   }
 
+  int j;
+  for(j = 0; j < 1000; j++) {
+    cout << h(points.at(j)) << endl;
+    cout << "h(p)" << endl;
+  }
+
   //cout << points.at(0)->innerProduct(points.at(1)) << endl;
-  cout << points.at(9999)->getDimension() << endl;
-  points.at(9999)->print();
+  //cout << points.at(9999)->getDimension() << endl;
+  //points.at(9999)->print();
   free(delimiters);
   free(name);
 

@@ -9,6 +9,7 @@ using namespace std;
 Point::Point() {
   this->dimension = 0;
 }
+
 /* Add point into the Vector */
 void Point::addCoord(int coord) {
   coords.push_back(coord);
