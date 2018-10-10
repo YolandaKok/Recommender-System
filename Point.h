@@ -8,10 +8,11 @@ class Point {
     /* The length of the point */
     int id;
     int dimension;
-    vector<double> coords;
+    vector<int> coords;
   public:
     Point();
-    void addCoord(double coord);
+    void addCoord(int coord);
+    /* Get Dimension of the current point */
     int getDimension();
     /* Set Id */
     void setId(int id);

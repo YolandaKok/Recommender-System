@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
   int k, L;
   /* Read the input file */
   readArgs(argv, argc, inputFile, queryFile, k, L, outputFile);
-  readInput(inputFile, "\t", "\n");
+  readInput(inputFile, " ", "\n");
   //printf("%s %s %s %d %d \n", inputFile, queryFile, outputFile, k, L);
   free(inputFile);free(queryFile);free(outputFile);
   return 1;

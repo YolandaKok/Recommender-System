@@ -1,4 +1,4 @@
-#define LINE_SIZE 200
+#define LINE_SIZE 500
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -15,7 +15,6 @@ int readInput(const char filename[], const char seperator[], const char delimite
   FILE *fp = NULL;
   char line[LINE_SIZE];
   char *name, *token, *delimiters;
-  int i;
   char *ptr;
   /* Array of points */
   vector<Point*> points;
@@ -29,33 +28,29 @@ int readInput(const char filename[], const char seperator[], const char delimite
   if(fp == NULL)
     assert(fp != NULL);
 
+  /* Set the id for the point */
+  int i = 0;
   /* Read line by line */
   while (fgets(line, LINE_SIZE, fp)) {
     token = strtok(line, delimiters);
     /* Create a Point */
-    i = 0;
     Point *point = new Point();
+    point->setId(i);
     while( token != NULL ) {
       //printf( "%s\n", token );
       /* Make token a double */
       /* Create an array of points */
-      if (i) {
-        point->addCoord(strtod(token, &ptr));
-      }
-      else {
-        point->setId(atoi(token));
-      }
-
+      point->addCoord(atoi(token));
       token = strtok(NULL, delimiters);
-      i++;
    }
-   i = 0;
-   point->print();
+   //point->print();
+   i++;
    points.push_back(point);
   }
 
-  cout << points.at(0)->innerProduct(points.at(1)) << endl;
-
+  //cout << points.at(0)->innerProduct(points.at(1)) << endl;
+  cout << points.at(9999)->getDimension() << endl;
+  points.at(9999)->print();
   free(delimiters);
   free(name);
 
