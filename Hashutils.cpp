@@ -2,6 +2,7 @@
 #include <random>
 #include "Hashutils.h"
 #include "Point.h"
+#include <math.h>
 
 using namespace std;
 
@@ -9,10 +10,7 @@ using namespace std;
 int h(Point *p) {
   int w = 4;
   Point *v = generateV(p->getDimension(), 0.0, 1.0);
-  //cout << p->innerProduct(v) << endl;
-  //cout << "inner_product" << endl;
-  return (p->innerProduct(v) + generateT(0.0, 1.0)) / w;
-  //delete v;
+  return floor((p->innerProduct(v) + generateT(0.0, 4.0)) / w);
 }
 
 /* Generate V */
@@ -35,8 +33,6 @@ Point* generateV(int dimension, double mean, double variance) {
 /* Generate number t */
 double generateT(double mean, double variance) {
   default_random_engine generator;
-  normal_distribution<double> distribution(mean, variance);
-
+  uniform_real_distribution<double> distribution(mean, variance);
   return distribution(generator);
-
 }
