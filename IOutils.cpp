@@ -9,10 +9,12 @@
 #include "Point.h"
 #include "Hashutils.h"
 #include <stdlib.h>
+#include <time.h>
 
 using namespace std;
 /* Read the dataset file */
 int readInput(const char filename[], const char seperator[], const char delimiter[], int k) {
+  srand (time(NULL));
   FILE *fp = NULL;
   char line[LINE_SIZE];
   char *name, *token, *delimiters;
@@ -65,8 +67,14 @@ int readInput(const char filename[], const char seperator[], const char delimite
       h_array[j] = h(points.at(i));
     }
     cout << "h[0] = " << h_array[0] << " h[1] = " << h_array[1] << " h[2] = " << h_array[2] << " h[3] = " << h_array[3] << endl;
+    /* Now compute the f value */
+    /* That's the key for the hashtable */
   }
-
+  f(k, points.size());
+  long int mult = 1;
+  for(i = 0; i < 32; i++)
+    mult = mult * 2;
+  cout << mult - 5 << endl;
   //cout << points.at(0)->innerProduct(points.at(1)) << endl;
   //cout << points.at(9999)->getDimension() << endl;
   //points.at(9999)->print();
