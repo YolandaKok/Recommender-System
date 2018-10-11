@@ -9,7 +9,7 @@ using namespace std;
 /* Calculate the value of h hash function */
 int h(Point *p) {
   int w = 4;
-  Point *v = generateV(p->getDimension(), 0.0, 1.0);
+  Point *v = generateV(p->getDimension(), 3.0, 1.0);
   return floor((p->innerProduct(v) + generateT(0.0, 4.0)) / w);
 }
 
@@ -19,11 +19,11 @@ Point* generateV(int dimension, double mean, double variance) {
   /* Create a Point */
   Point *p = new Point();
   /* Generate the values for the Vector v using the normal distribution */
-  default_random_engine generator;
+  static default_random_engine generator;
   normal_distribution<double> distribution(mean, variance);
-
+  double number;
   for (int i=0; i < dimension; ++i) {
-    double number = distribution(generator);
+    number = distribution(generator);
     p->addCoord(number);
     //cout << number << endl;
   }
@@ -35,4 +35,12 @@ double generateT(double mean, double variance) {
   default_random_engine generator;
   uniform_real_distribution<double> distribution(mean, variance);
   return distribution(generator);
+}
+
+/* Calculate the value of the f hash function */
+int f(int k, int dataset_size) {
+  /* Generate k values for r */
+  default_random_engine generator;
+  uniform_real_distribution<double> distribution(0.0, 10.0);
+
 }

@@ -4,7 +4,7 @@
 #include <cstdlib>
 
 /* Read input data */
-int readInput(const char filename[], const char seperator[], const char delimiter[]);
+int readInput(const char filename[], const char seperator[], const char delimiter[], int k);
 /* Read the arguments */
 int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k, int& L, char*& outputFile);
 

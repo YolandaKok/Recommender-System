@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
   /* Read the input file */
   readArgs(argv, argc, inputFile, queryFile, k, L, outputFile);
   /* Create the exact KNN algorithm */
-  readInput(inputFile, " ", "\n");
+  readInput(inputFile, " ", "\n", k);
   //printf("%s %s %s %d %d \n", inputFile, queryFile, outputFile, k, L);
   free(inputFile);free(queryFile);free(outputFile);
   return 1;

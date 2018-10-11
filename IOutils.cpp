@@ -12,7 +12,7 @@
 
 using namespace std;
 /* Read the dataset file */
-int readInput(const char filename[], const char seperator[], const char delimiter[]) {
+int readInput(const char filename[], const char seperator[], const char delimiter[], int k) {
   FILE *fp = NULL;
   char line[LINE_SIZE];
   char *name, *token, *delimiters;
@@ -53,6 +53,18 @@ int readInput(const char filename[], const char seperator[], const char delimite
   for(j = 0; j < 1000; j++) {
     cout << h(points.at(j)) << endl;
     cout << "h(p)" << endl;
+  }
+
+  cout << points.size() << endl;
+
+  int h_array[4];
+  /* Get the hash value for every point */
+  /* Keep the k hash function values into an array */
+  for( i = 0; i < points.size(); i++ ) {
+    for( j = 0; j < k; j++ ) {
+      h_array[j] = h(points.at(i));
+    }
+    cout << "h[0] = " << h_array[0] << " h[1] = " << h_array[1] << " h[2] = " << h_array[2] << " h[3] = " << h_array[3] << endl;
   }
 
   //cout << points.at(0)->innerProduct(points.at(1)) << endl;

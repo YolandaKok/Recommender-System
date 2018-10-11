@@ -7,7 +7,8 @@ using namespace std;
 int h(Point *p);
 /* Create f(p) */
 /* Array of hash functions int's */
-int f();
+int f(int k, int dataset_size);
 Point* generateV(int dimension, double mean, double variance);
 double generateT(double mean, double variance);
+
 #endif
