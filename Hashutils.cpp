@@ -48,15 +48,27 @@ static int* generateRk(int k) {
 
 /* Calculate the value of the f hash function */
 int f(int k, int dataset_size, int* h_array) {
-  int TableSize = dataset_size / 4, sum = 0;
+  int TableSize = dataset_size / 4;
   /* Generate the rk values only once */
   static int* rk = generateRk(k);
-  int M = (int)pow(2.0, 32.0) - 5;
+  long long int M = (long long int)pow(2.0, 32.0) - 5, mod, sum = 0;
   /* Calculate the mod values */
   for( int i = 0; i < k; i++ ) {
-    sum += (h_array[i] * rk[i]) % M;
+    /* Check if h_array[i] * rk[i] is negative */
+    if( (h_array[i] * rk[i]) < 0 ) {
+      cout << h_array[i] * rk[i] << endl;
+      mod = (h_array[i] * rk[i]) % M;
+      if ((mod < 0) ^ (M < 0)) mod += M;
+      cout << "mod " << mod << endl;
+      sum += mod;
+    }
+    else {
+      sum += (h_array[i] * rk[i]) % M;
+    }
   }
+
   sum = sum % M;
   sum = sum % TableSize;
+  cout << sum  << " sum" << endl;
   return sum;
 }
