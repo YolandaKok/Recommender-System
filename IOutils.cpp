@@ -20,8 +20,8 @@ int readInput(const char filename[], const char seperator[], const char delimite
   srand (time(NULL));
   FILE *fp = NULL;
   char line[LINE_SIZE];
-  char *name, *token, *delimiters;
-  char *ptr;
+  char *name = NULL, *token = NULL, *delimiters = NULL;
+  char *ptr = NULL;
   /* Array of points */
   vector<Point*> points;
   delimiters = (char*)malloc(strlen(seperator) + strlen(delimiter) + 1);
@@ -77,6 +77,9 @@ int readInput(const char filename[], const char seperator[], const char delimite
   //cout << points.at(0)->innerProduct(points.at(1)) << endl;
   //cout << points.at(9999)->getDimension() << endl;
   //points.at(9999)->print();
+  for( i = 0; i < points.size(); i++ ) {
+    delete points.at(i);
+  }
   free(delimiters);
   free(name);
   free(h_array);

@@ -9,8 +9,11 @@ using namespace std;
 /* Calculate the value of h hash function */
 int h(Point *p) {
   int w = 4;
+  int result;
   Point *v = generateV(p->getDimension(), 0.0, 1.0);
-  return floor((p->innerProduct(v) + generateT(0.0, 4.0)) / w);
+  result = floor((p->innerProduct(v) + generateT(0.0, 4.0)) / w);
+  delete v;
+  return result;
 }
 
 /* Generate V */
@@ -38,7 +41,7 @@ double generateT(double mean, double variance) {
 }
 
 /* Generate rk values */
-static int* generateRk(int k) {
+int* generateRk(int k) {
   int i;
   int *array = (int*) malloc(sizeof(int) * k);
   for(i = 0; i < k; i++)
@@ -50,7 +53,7 @@ static int* generateRk(int k) {
 int f(int k, int dataset_size, int* h_array) {
   int TableSize = dataset_size / 4;
   /* Generate the rk values only once */
-  static int* rk = generateRk(k);
+  int* rk = generateRk(k);
   long long int M = (long long int)pow(2.0, 32.0) - 5, mod, sum = 0;
   /* Calculate the mod values */
   for( int i = 0; i < k; i++ ) {
@@ -70,5 +73,6 @@ int f(int k, int dataset_size, int* h_array) {
   sum = sum % M;
   sum = sum % TableSize;
   cout << sum  << " sum" << endl;
+  free(rk);
   return sum;
 }

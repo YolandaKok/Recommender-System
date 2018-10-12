@@ -57,5 +57,8 @@ double Point::euclidean(Point *p) {
 
 /* Destructor of the Class Point */
 Point::~Point() {
-
+  /*while(!coords.empty()) {
+        delete coords.back();
+        coords.pop_back();
+    }*/
 }

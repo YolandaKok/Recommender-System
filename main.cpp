@@ -6,7 +6,7 @@
 #include "Hashutils.h"
 
 int main(int argc, char* argv[]) {
-  char *inputFile, *queryFile, *outputFile;
+  char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
   int k, L;
   /* Read the input file */
   readArgs(argv, argc, inputFile, queryFile, k, L, outputFile);

@@ -10,6 +10,6 @@ int h(Point *p);
 int f(int k, int dataset_size, int* h_array);
 Point* generateV(int dimension, double mean, double variance);
 double generateT(double mean, double variance);
-static int* generateRk(int k);
+int* generateRk(int k);
 
 #endif
