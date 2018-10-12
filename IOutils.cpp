@@ -5,6 +5,8 @@
 #include <cstring>
 #include <cassert>
 #include <string>
+#include <vector>
+#include <list>
 #include "IOutils.h"
 #include "Point.h"
 #include "Hashutils.h"
@@ -64,8 +66,9 @@ int readInput(const char filename[], const char seperator[], const char delimite
     //cout << f(k, points.size(), h_array) << endl;
     /* Now compute the f value */
     hash_value = f(k, points.size(), h_array);
-    //cout << hash_value << endl;
     /* That's the key for the hashtable */
+    /* Create a hashtable to keep them */
+    vector<list<Point>> hashtable;
   }
 
   //cout << points.at(0)->innerProduct(points.at(1)) << endl;

@@ -34,6 +34,10 @@ void Point::setId(int id) {
   this->id = id;
 }
 
+int Point::getId() {
+  return this->id;
+}
+
 int Point::getDimension() {
   return dimension;
 }
@@ -50,3 +54,6 @@ double Point::euclidean(Point *p) {
 }
 
 /* Destructor of the Class Point */
+Point::~Point() {
+
+}

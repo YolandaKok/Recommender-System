@@ -16,6 +16,7 @@ class Point {
     int getDimension();
     /* Set Id */
     void setId(int id);
+    int getId();
     /* Show the list of the coords of the point */
     void print();
     /* Inner Product between two points */
