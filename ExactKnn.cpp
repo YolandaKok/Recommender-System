@@ -9,13 +9,23 @@
 using namespace std;
 
 double ExactKNN(Point* p, vector<Point*> input) {
-  double distance;
+  double distance, final_distance;
+  int id = 0;
+  /* Initialize time */
+
   /* Make a vector with a fixed size */
-  map<int, double> mapKnn;
+  //map<int, double> mapKnn;
+  final_distance = p->euclidean(input.at(0));
   /* Calculate the distance between two points for every point */
   for( int i = 0; i < input.size(); i++ ) {
     distance = p->euclidean(input.at(i));
-    mapKnn.insert(pair<int,double>(p->getId(), distance));
+    if(distance < final_distance) {
+      final_distance = distance;
+      id = input.at(i)->getId();
+    }
+    //mapKnn.insert(pair<int,double>(p->getId(), distance));
   }
-  /* Find the min value */
+
+  /* Calculate the time in seconds */
+
 }
