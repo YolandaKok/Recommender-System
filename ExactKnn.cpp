@@ -4,7 +4,8 @@
 #include <tuple>
 #include <vector>
 #include <utility>
-
+#include <ctime>
+#include <iostream>
 
 using namespace std;
 
@@ -12,7 +13,8 @@ double ExactKNN(Point* p, vector<Point*> input) {
   double distance, final_distance;
   int id = 0;
   /* Initialize time */
-
+  const clock_t begin_time = clock();
+  clock_t interval;
   /* Make a vector with a fixed size */
   //map<int, double> mapKnn;
   final_distance = p->euclidean(input.at(0));
@@ -27,5 +29,7 @@ double ExactKNN(Point* p, vector<Point*> input) {
   }
 
   /* Calculate the time in seconds */
-
+  cout << float( clock () - begin_time ) /  CLOCKS_PER_SEC << " time" << endl;
+  cout << final_distance << endl;
+  cout << id << endl;
 }

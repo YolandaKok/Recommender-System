@@ -45,11 +45,13 @@ int Point::getDimension() {
 /* Euclidean distance metric */
 double Point::euclidean(Point *p) {
   double result;
-  int sum = 0;
+  long long int sum = 0;
   for (int i = 0; i < this->coords.size(); i++) {
-    sum += (this->coords.at(i) * p->coords.at(i)) * (this->coords.at(i) * p->coords.at(i));
+    sum += abs((this->coords.at(i) - p->coords.at(i))) * abs((this->coords.at(i) - p->coords.at(i)));
   }
+
   result = (double)sqrt(sum);
+  cout << "result " << result << endl;
   return result;
 }
 

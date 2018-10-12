@@ -12,6 +12,7 @@
 #include "Hashutils.h"
 #include <stdlib.h>
 #include <time.h>
+#include "ExactKnn.h"
 
 using namespace std;
 /* Read the dataset file */
@@ -70,6 +71,8 @@ int readInput(const char filename[], const char seperator[], const char delimite
     /* Create a hashtable to keep them */
     vector<list<Point>> hashtable;
   }
+
+  ExactKNN(points.at(33), points);
 
   //cout << points.at(0)->innerProduct(points.at(1)) << endl;
   //cout << points.at(9999)->getDimension() << endl;
