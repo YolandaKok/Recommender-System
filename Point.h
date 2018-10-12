@@ -20,6 +20,8 @@ class Point {
     void print();
     /* Inner Product between two points */
     double innerProduct(Point *p);
+    /* Euclidean distance */
+    double euclidean(Point *p);
     ~Point();
 };
 

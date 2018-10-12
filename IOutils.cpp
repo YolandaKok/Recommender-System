@@ -51,15 +51,9 @@ int readInput(const char filename[], const char seperator[], const char delimite
    points.push_back(point);
   }
 
-  int j;
-  for(j = 0; j < 1000; j++) {
-    cout << h(points.at(j)) << endl;
-    cout << "h(p)" << endl;
-  }
-
   // I have to do it with malloc because we have k elements
   int *h_array;
-  int hash_value;
+  int hash_value, j;
   h_array = (int*)malloc(sizeof(int) * k);
   /* Get the hash value for every point */
   /* Keep the k hash function values into an array */
@@ -69,7 +63,8 @@ int readInput(const char filename[], const char seperator[], const char delimite
     }
     //cout << f(k, points.size(), h_array) << endl;
     /* Now compute the f value */
-    hash_value = f(k, points.size(), h_array)
+    hash_value = f(k, points.size(), h_array);
+    //cout << hash_value << endl;
     /* That's the key for the hashtable */
   }
 
