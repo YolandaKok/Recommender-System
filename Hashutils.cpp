@@ -47,13 +47,16 @@ static int* generateRk(int k) {
 }
 
 /* Calculate the value of the f hash function */
-int f(int k, int dataset_size) {
-  int TableSize = dataset_size / 4;
-  /* Generate k values for r */
-  default_random_engine generator;
-  uniform_real_distribution<double> distribution(0.0, 10.0);
-
-  static int* array = generateRk(k);
-  for(int i = 0; i < k; i++)
-    cout << array[i] << endl;
+int f(int k, int dataset_size, int* h_array) {
+  int TableSize = dataset_size / 4, sum = 0;
+  /* Generate the rk values only once */
+  static int* rk = generateRk(k);
+  int M = (int)pow(2.0, 32.0) - 5;
+  /* Calculate the mod values */
+  for( int i = 0; i < k; i++ ) {
+    sum += (h_array[i] * rk[i]) % M;
+  }
+  sum = sum % M;
+  sum = sum % TableSize;
+  return sum;
 }

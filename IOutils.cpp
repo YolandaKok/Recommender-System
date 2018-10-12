@@ -57,30 +57,28 @@ int readInput(const char filename[], const char seperator[], const char delimite
     cout << "h(p)" << endl;
   }
 
-  cout << points.size() << endl;
-
-  int h_array[4];
+  // I have to do it with malloc because we have k elements
+  int *h_array;
+  int hash_value;
+  h_array = (int*)malloc(sizeof(int) * k);
   /* Get the hash value for every point */
   /* Keep the k hash function values into an array */
   for( i = 0; i < points.size(); i++ ) {
     for( j = 0; j < k; j++ ) {
       h_array[j] = h(points.at(i));
     }
-    cout << "h[0] = " << h_array[0] << " h[1] = " << h_array[1] << " h[2] = " << h_array[2] << " h[3] = " << h_array[3] << endl;
+    //cout << f(k, points.size(), h_array) << endl;
     /* Now compute the f value */
+    hash_value = f(k, points.size(), h_array)
     /* That's the key for the hashtable */
   }
-  f(k, points.size());
-  long int mult = 1;
-  for(i = 0; i < 32; i++)
-    mult = mult * 2;
-  cout << mult - 5 << endl;
+
   //cout << points.at(0)->innerProduct(points.at(1)) << endl;
   //cout << points.at(9999)->getDimension() << endl;
   //points.at(9999)->print();
   free(delimiters);
   free(name);
-
+  free(h_array);
   return true;
 }
 
