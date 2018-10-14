@@ -30,23 +30,30 @@ Point* H::generateV(int dimension, double mean, double variance) {
   /* Create a Point */
   Point* p = new Point();
   random_device rd;  //Will be used to obtain a seed for the random number engine
-  mt19937 gen(rd());
   /* Generate the values for the Vector v using the normal distribution */
   default_random_engine generator(rd());
   normal_distribution<double> distribution(mean, variance);
   double number;
-  for (int i=0; i < dimension; ++i) {
+  for ( int i = 0; i < dimension; ++i ) {
     number = distribution(generator);
     p->addCoord(number);
-    //cout << number << endl;
   }
   return p;
 }
 
 double H::generateT(double mean, double variance) {
-  default_random_engine generator(time(NULL));
+  random_device rd;
+  default_random_engine generator(rd());
   uniform_real_distribution<double> distribution(mean, variance);
   return distribution(generator);
+}
+
+double H::getT() {
+  return this->t;
+}
+
+Point*& H::getV() {
+  return this->v;
 }
 
 H::~H() {

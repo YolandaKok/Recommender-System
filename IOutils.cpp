@@ -14,10 +14,12 @@
 #include <time.h>
 #include "ExactKnn.h"
 #include "H.h"
+#include "F.h"
 
 using namespace std;
 /* Read the dataset file */
 int readInput(const char filename[], const char seperator[], const char delimiter[], int k) {
+  /* Initialize random seed */
   srand (time(NULL));
   FILE *fp = NULL;
   char line[LINE_SIZE];
@@ -55,12 +57,26 @@ int readInput(const char filename[], const char seperator[], const char delimite
    points.push_back(point);
   }
 
-  H *h = new H(128, 4, 0.0, 1.0);
-  cout << h->hashForPoint(points.at(1)) << endl;
-  H *h1 = new H(128, 4, 0.0, 1.0);
-  cout << h1->hashForPoint(points.at(1)) << endl;
-  H *h2 = new H(128, 4, 0.0, 1.0);
-  cout << h2->hashForPoint(points.at(1)) << endl;
+  //H *h = new H(128, 4, 0.0, 1.0);
+  //cout << h->hashForPoint(points.at(1)) << endl;
+  //H *h1 = new H(128, 4, 0.0, 1.0);
+  //cout << h1->hashForPoint(points.at(1)) << endl;
+  //H *h2 = new H(128, 4, 0.0, 1.0);
+  //H** h_array = (H**) malloc(sizeof(H*) * 3);
+  //h_array[0] = h;
+  //h_array[1] = h1;
+  //h_array[2] = h2;
+
+  F *f = new F(k);
+  //f->printRk();
+  //delete f;
+
+  //cout << h_array[0]->hashForPoint(points.at(1)) << endl;
+  cout << f->hashForPoint(points.size(), points.at(1)) << " f" << endl;
+  //cout.precision(18);
+  //cout << "t " << h->getT() << endl;
+  //cout << "t " << h1->getT() << endl;
+  //cout << "t " << h2->getT() << endl;
   // I have to do it with malloc because we have k elements
   /* Get the hash value for every point */
   /* Keep the k hash function values into an array */

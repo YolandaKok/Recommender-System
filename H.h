@@ -12,6 +12,9 @@ class H {
     Point* generateV(int dimension, double mean, double variance);
     double generateT(double mean, double variance);
     int hashForPoint(Point* p);
+    /* Getters */
+    Point*& getV();
+    double getT();
     ~H();
 };
 
