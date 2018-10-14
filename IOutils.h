@@ -2,9 +2,11 @@
 #define __IOUTILS__
 #include <cstdio>
 #include <cstdlib>
-
+#include <vector>
+#include "Point.h"
+using namespace std;
 /* Read input data */
-int readInput(const char filename[], const char seperator[], const char delimiter[], int k);
+vector<Point*> readInput(const char filename[], const char seperator[], const char delimiter[], int k, int& size, int input);
 /* Read the arguments */
 int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k, int& L, char*& outputFile);
 

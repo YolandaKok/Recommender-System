@@ -8,6 +8,7 @@ class Hashtable {
     int size;
     F *f_hash;
   public:
+    
 };
 
 #endif

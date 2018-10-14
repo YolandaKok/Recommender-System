@@ -18,7 +18,7 @@
 
 using namespace std;
 /* Read the dataset file */
-int readInput(const char filename[], const char seperator[], const char delimiter[], int k) {
+vector<Point*> readInput(const char filename[], const char seperator[], const char delimiter[], int k, int& size, int input) {
   /* Initialize random seed */
   srand (time(NULL));
   FILE *fp = NULL;
@@ -57,6 +57,9 @@ int readInput(const char filename[], const char seperator[], const char delimite
    points.push_back(point);
   }
 
+  if(input)
+    size = points.size();
+
   //H *h = new H(128, 4, 0.0, 1.0);
   //cout << h->hashForPoint(points.at(1)) << endl;
   //H *h1 = new H(128, 4, 0.0, 1.0);
@@ -72,7 +75,7 @@ int readInput(const char filename[], const char seperator[], const char delimite
   //delete f;
 
   //cout << h_array[0]->hashForPoint(points.at(1)) << endl;
-  cout << f->hashForPoint(points.size(), points.at(1)) << " f" << endl;
+  cout << f->hashForPoint(size, points.at(1)) << " f" << endl;
   //cout.precision(18);
   //cout << "t " << h->getT() << endl;
   //cout << "t " << h1->getT() << endl;
@@ -89,12 +92,12 @@ int readInput(const char filename[], const char seperator[], const char delimite
   //cout << points.at(0)->innerProduct(points.at(1)) << endl;
   //cout << points.at(9999)->getDimension() << endl;
   //points.at(9999)->print();
-  for( i = 0; i < points.size(); i++ ) {
+  /*for( i = 0; i < points.size(); i++ ) {
     delete points.at(i);
-  }
+  }*/
   free(delimiters);
   free(name);
-  return true;
+  return points;
 }
 
 /* Read the arguments */

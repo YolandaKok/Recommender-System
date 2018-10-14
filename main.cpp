@@ -7,12 +7,17 @@
 
 int main(int argc, char* argv[]) {
   char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
-  int k, L;
+  int k, L, size;
   /* Read the input file */
   readArgs(argv, argc, inputFile, queryFile, k, L, outputFile);
   /* Create the exact KNN algorithm */
-  readInput(inputFile, " ", "\n", k);
-  //printf("%s %s %s %d %d \n", inputFile, queryFile, outputFile, k, L);
+  vector<Point*> input;
+  input = readInput(inputFile, " ", "\n", k, size, 1);
+
+  vector<Point*> query;
+  query = readInput(queryFile, " ", "\n", k, size, 0);
+
   free(inputFile);free(queryFile);free(outputFile);
+  
   return 1;
 }
