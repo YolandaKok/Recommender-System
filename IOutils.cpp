@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "ExactKnn.h"
+#include "H.h"
 
 using namespace std;
 /* Read the dataset file */
@@ -54,25 +55,20 @@ int readInput(const char filename[], const char seperator[], const char delimite
    points.push_back(point);
   }
 
+  H *h = new H(128, 4, 0.0, 1.0);
+  cout << h->hashForPoint(points.at(1)) << endl;
+  H *h1 = new H(128, 4, 0.0, 1.0);
+  cout << h1->hashForPoint(points.at(1)) << endl;
+  H *h2 = new H(128, 4, 0.0, 1.0);
+  cout << h2->hashForPoint(points.at(1)) << endl;
   // I have to do it with malloc because we have k elements
-  int *h_array;
-  int hash_value, j;
-  h_array = (int*)malloc(sizeof(int) * k);
   /* Get the hash value for every point */
   /* Keep the k hash function values into an array */
-  for( i = 0; i < points.size(); i++ ) {
-    for( j = 0; j < k; j++ ) {
-      h_array[j] = h(points.at(i));
-    }
-    //cout << f(k, points.size(), h_array) << endl;
-    /* Now compute the f value */
-    hash_value = f(k, points.size(), h_array);
     /* That's the key for the hashtable */
     /* Create a hashtable to keep them */
-    vector<list<Point>> hashtable;
-  }
+  //vector<list<Point>> hashtable;
 
-  ExactKNN(points.at(33), points);
+  //ExactKNN(points.at(33), points);
 
   //cout << points.at(0)->innerProduct(points.at(1)) << endl;
   //cout << points.at(9999)->getDimension() << endl;
@@ -82,7 +78,6 @@ int readInput(const char filename[], const char seperator[], const char delimite
   }
   free(delimiters);
   free(name);
-  free(h_array);
   return true;
 }
 
