@@ -12,7 +12,9 @@ H.o: H.cpp
 	g++ -std=c++11 -c H.cpp
 F.o: F.cpp
 	g++ -std=c++11 -c F.cpp
-all: main.o IOutils.o Point.o Hashutils.o ExactKnn.o H.o F.o
-	g++ -std=c++11 -o lsh main.o IOutils.o Point.o Hashutils.o ExactKnn.o H.o F.o
+Hashtable.o: Hashtable.cpp
+	g++ -std=c++11 -c Hashtable.cpp
+all: main.o IOutils.o Point.o Hashutils.o ExactKnn.o H.o F.o Hashtable.o
+	g++ -std=c++11 -o lsh main.o IOutils.o Point.o Hashutils.o ExactKnn.o H.o F.o Hashtable.o
 clean:
 	rm -f *.o lsh

@@ -4,6 +4,7 @@
 #include <random>
 #include "IOutils.h"
 #include "Hashutils.h"
+#include "Hashtable.h"
 
 int main(int argc, char* argv[]) {
   char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
@@ -17,7 +18,9 @@ int main(int argc, char* argv[]) {
   vector<Point*> query;
   query = readInput(queryFile, " ", "\n", k, size, 0);
 
+  Hashtable *hashtable = new Hashtable(size, query.at(0), k);
+
   free(inputFile);free(queryFile);free(outputFile);
-  
+
   return 1;
 }
