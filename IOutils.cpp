@@ -9,7 +9,6 @@
 #include <list>
 #include "IOutils.h"
 #include "Point.h"
-#include "Hashutils.h"
 #include <stdlib.h>
 #include <time.h>
 #include "ExactKnn.h"
@@ -49,7 +48,7 @@ vector<Point*> readInput(const char filename[], const char seperator[], const ch
       //printf( "%s\n", token );
       /* Make token a double */
       /* Create an array of points */
-      point->addCoord(atoi(token));
+      point->addCoord(atof(token));
       token = strtok(NULL, delimiters);
    }
    //point->print();

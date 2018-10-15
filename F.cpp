@@ -31,7 +31,7 @@ void F::generateRk() {
 }
 
 int F::hashForPoint(int tablesize, Point* p) {
-  this->tablesize = tablesize / 2;
+  this->tablesize = tablesize / 4;
   long long int M = (long long int)pow(2.0, 32.0) - 5, mod, sum = 0;
 
   for(int i = 0; i < this->k; i++) {
@@ -47,6 +47,10 @@ void F::printRk() {
   for( int i = 0; i < this->k; i++ )
     cout << this->Rk[i] << " ";
   cout << endl;
+}
+
+Point* F::getV() {
+  return this->h_functions[1]->getV();
 }
 
 F::~F() {

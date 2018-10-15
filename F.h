@@ -14,6 +14,7 @@ class F {
     void generateRk();
     int hashForPoint(int tablesize, Point *p);
     void printRk();
+    Point* getV();
     ~F();
 };
 
