@@ -6,10 +6,11 @@
 #include <utility>
 #include <ctime>
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
-double ExactKNN(Point* p, vector<Point*> input) {
+double ExactKNN(Point* p, vector<Point*> input, ofstream& output) {
   double distance = 0.0, final_distance;
   int id = 0;
   /* Initialize time */
@@ -31,4 +32,7 @@ double ExactKNN(Point* p, vector<Point*> input) {
   cout << float( clock () - begin_time ) /  CLOCKS_PER_SEC << " time" << endl;
   cout << "Final distance" << final_distance << endl;
   cout << id << endl;
+  output << "Nearest Neighbor: " << id << endl;
+  output << "distanceTrue: " << final_distance << endl;
+  output << "tTrue: " << double( clock () - begin_time ) /  CLOCKS_PER_SEC  << endl << endl;
 }

@@ -4,10 +4,11 @@
 #include "Point.h"
 #include <iostream>
 #include <ctime>
+#include<tuple>
 
 using namespace std;
 
-Hashtable::Hashtable(int size, Point *p, int k) {
+Hashtable::Hashtable(int size, int k) {
   /* Make it a parameter */
   this->size = size / 4;
   this->hashtable.reserve(this->size);
@@ -54,7 +55,9 @@ int Hashtable::hash_for_query(Point *query) {
   return this->f_hash->hashForPoint(this->size, query);
 }
 
-bool Hashtable::find_nearest_neighbor(Point *query) {
+tuple<int,double,double> Hashtable::find_nearest_neighbor(Point *query) {
+  /* Distance and Time */
+  tuple<int, double, double> results;
   const clock_t begin_time = clock();
   clock_t interval;
   int hash = hash_for_query(query);
@@ -69,7 +72,9 @@ bool Hashtable::find_nearest_neighbor(Point *query) {
   }
   cout << "Final distance lsh" << final_distance << endl;
   cout << "Lsh id" << id << endl;
-  cout << float( clock () - begin_time ) /  CLOCKS_PER_SEC << " time" << endl;
+  cout << double( clock () - begin_time ) /  CLOCKS_PER_SEC << " time" << endl;
+  results = make_tuple(id, final_distance, double( clock () - begin_time ) /  CLOCKS_PER_SEC);
+  return results;
 }
 
 Hashtable::~Hashtable() {
