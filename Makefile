@@ -8,13 +8,21 @@ ExactKnn.o: ExactKnn.cpp
 	g++ -std=c++11 -c ExactKnn.cpp
 H.o: H.cpp
 	g++ -std=c++11 -c H.cpp
+H_euclidean.o: H_euclidean.cpp
+	g++ -std=c++11 -c H_euclidean.cpp
+H_cosine.o: H_cosine.cpp
+	g++ -std=c++11 -c H_cosine.cpp
 F.o: F.cpp
 	g++ -std=c++11 -c F.cpp
+F_euclidean.o: F_euclidean.cpp
+	g++ -std=c++11 -c F_euclidean.cpp
+F_cosine.o: F_cosine.cpp
+	g++ -std=c++11 -c F_cosine.cpp
 Lsh.o: Lsh.cpp
 	g++ -std=c++11 -c Lsh.cpp
 Hashtable.o: Hashtable.cpp
 	g++ -std=c++11 -c Hashtable.cpp
-all: main.o IOutils.o Point.o ExactKnn.o H.o F.o Hashtable.o Lsh.o
-	g++ -std=c++11 -o lsh main.o IOutils.o Point.o ExactKnn.o H.o F.o Hashtable.o Lsh.o
+all: main.o IOutils.o Point.o ExactKnn.o H.o F.o Hashtable.o Lsh.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o
+	g++ -std=c++11 -o lsh main.o IOutils.o Point.o ExactKnn.o H.o F.o Hashtable.o Lsh.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o
 clean:
 	rm -f *.o lsh

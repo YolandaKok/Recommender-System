@@ -4,15 +4,17 @@
 #include "F.h"
 #include <list>
 #include <vector>
+#include <string>
 
 class Hashtable {
   private:
     vector<list<Point*>*> hashtable;
     int size;
     F *f_hash;
+    string type;
   public:
     /* Constructor */
-    Hashtable(int size, int k);
+    Hashtable(int size, int k, string lsh_family);
     /* Insert point into the hashtable */
     int insert(Point *p);
     bool empty_list(int bucket_number);

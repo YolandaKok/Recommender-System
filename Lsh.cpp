@@ -6,19 +6,30 @@
 #include <utility>
 #include <tuple>
 #include "ExactKnn.h"
+#include <cmath>
 
 using namespace std;
 
 /* Constructor for LSH */
-LSH::LSH(int L, int size, int k, vector<Point*> points) {
+LSH::LSH(int L, int size, int k, vector<Point*> points, string lsh_family) {
   int i, j;
+
+  string type1("euclidean");
+  string type2("cosine");
   this->L = L;
-  this->size = size;
   this->k = k;
+  if(type1.compare(lsh_family) == 0) {
+    this->size = size / 4;
+  }
+  if(type2.compare(lsh_family) == 0) {
+    this->size = (int)pow(2.0, k);
+    cout << "size cosine " << this->size << endl;
+  }
+
   this->tables = (Hashtable**)malloc(sizeof(Hashtable*) * L);
   /* Open a file */
   for(i = 0; i < L; i++) {
-    this->tables[i] = new Hashtable(size, k);
+    this->tables[i] = new Hashtable(this->size, k, lsh_family);
   }
   /* Insert the points to every hashtable */
   for(i = 0; i < L; i++)

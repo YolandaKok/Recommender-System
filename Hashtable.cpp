@@ -5,24 +5,37 @@
 #include <iostream>
 #include <ctime>
 #include<tuple>
+#include "F_euclidean.h"
+#include "F_cosine.h"
+#include "F.h"
+#include <string>
 
 using namespace std;
 
-Hashtable::Hashtable(int size, int k) {
+Hashtable::Hashtable(int size, int k, string lsh_family) {
+  string type1("euclidean");
+  string type2("cosine");
+  this->type = lsh_family;
+  if(type1.compare(lsh_family) == 0) {
+    /* Initialize f */
+    this->f_hash = new F_euclidean(k, size);
+  }
+  if(type2.compare(lsh_family) == 0) {
+    /* Initialize f */
+    this->f_hash = new F_cosine(k, size);
+  }
   /* Make it a parameter */
-  this->size = size / 4;
+  this->size = size;
   this->hashtable.reserve(this->size);
   /* Initialize the hashtable */
   for(int i = 0; i < this->size; i++)
     this->hashtable.push_back(new list<Point*>);
-  /* Initialize f */
-  this->f_hash = new F(k);
   //this->hashtable.at(0)->push_back(p);
 }
 
 int Hashtable::insert(Point *p) {
   int bucket_number;
-  bucket_number = this->f_hash->hashForPoint(this->size, p);
+  bucket_number = this->f_hash->hashForPoint( p);
   this->hashtable.at(bucket_number)->push_back(p);
   return 1;
 }
@@ -52,7 +65,7 @@ void Hashtable::points_per_bucket() {
 }
 
 int Hashtable::hash_for_query(Point *query) {
-  return this->f_hash->hashForPoint(this->size, query);
+  return this->f_hash->hashForPoint(query);
 }
 
 tuple<int,double,double> Hashtable::find_nearest_neighbor(Point *query) {
@@ -64,7 +77,12 @@ tuple<int,double,double> Hashtable::find_nearest_neighbor(Point *query) {
   int id = 0;
   double final_distance = 10000.0, distance;
   for (std::list<Point*>::const_iterator iterator = this->hashtable.at(hash)->begin(), end = this->hashtable.at(hash)->end(); iterator != end; ++iterator) {
-    distance = query->euclidean((*iterator));
+    if(this->type.compare("euclidean") == 0) {
+      distance = query->euclidean((*iterator));
+    }
+    else {
+      distance = query->cosine((*iterator));
+    }
     if(distance < final_distance) {
       final_distance = distance;
       id = (*iterator)->getId();

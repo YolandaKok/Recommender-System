@@ -6,15 +6,18 @@
 class F {
   private:
     H** h_functions;
-    int* Rk;
+    //int* Rk;
     int k;
-    int tablesize;
+    //int tablesize;
   public:
     F(int k);
-    void generateRk();
-    int hashForPoint(int tablesize, Point *p);
-    void printRk();
-    Point* getV();
+    //void generateRk();
+    virtual int hashForPoint(Point *p);
+    int getK();
+    H* getH(int i);
+    void setH(H* h, int i);
+    //void printRk();
+    //Point* getV();
     ~F();
 };
 

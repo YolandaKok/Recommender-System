@@ -69,12 +69,12 @@ vector<Point*> readInput(const char filename[], const char seperator[], const ch
   //h_array[1] = h1;
   //h_array[2] = h2;
 
-  F *f = new F(k);
+  //F *f = new F(k);
   //f->printRk();
   //delete f;
 
   //cout << h_array[0]->hashForPoint(points.at(1)) << endl;
-  cout << f->hashForPoint(size, points.at(1)) << " f" << endl;
+  //cout << f->hashForPoint(size, points.at(1)) << " f" << endl;
   //cout.precision(18);
   //cout << "t " << h->getT() << endl;
   //cout << "t " << h1->getT() << endl;

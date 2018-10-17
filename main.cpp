@@ -25,24 +25,23 @@ int main(int argc, char* argv[]) {
   ofstream myfile;
   myfile.open("output.txt");
 
-  LSH *lsh = new LSH(L, size, k, input);
-  lsh->find_nearest_neighbor(query.at(0), myfile, input);
-  lsh->find_nearest_neighbor(query.at(1), myfile, input);
-  lsh->find_nearest_neighbor(query.at(2), myfile, input);
-  lsh->find_nearest_neighbor(query.at(3), myfile, input);
+  LSH *lsh = new LSH(L, size, k, input, "cosine");
+  cout << query.size() << endl;
+  for(int i = 0; i < query.size(); i++)
+    lsh->find_nearest_neighbor(query.at(i), myfile, input);
 
   //cout << query.at(29)->getId() << endl;
   delete lsh;
   myfile.close();
   //input.at(0)->print();
 
-  Hashtable *hashtable = new Hashtable(size, k);
+  /*Hashtable *hashtable = new Hashtable(size, k);
   for(int i = 0; i < input.size(); i++ ) {
     hashtable->insert(input.at(i));
-  }
+  }*/
 
   //hashtable->traverse(152);
-  hashtable->points_per_bucket();
+  //hashtable->points_per_bucket();
   //cout << hashtable->hash_for_query(query.at(0)) << endl;
   //cout << query.at(0)->getDimension() << endl;
   //ExactKNN(query.at(0), input);

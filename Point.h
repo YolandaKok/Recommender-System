@@ -23,6 +23,7 @@ class Point {
     double innerProduct(Point *p);
     /* Euclidean distance */
     double euclidean(Point *p);
+    double cosine(Point *p);
     ~Point();
 };
 

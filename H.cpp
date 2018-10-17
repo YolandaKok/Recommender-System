@@ -9,21 +9,17 @@
 using namespace std;
 
 /* Constructor of the class H */
-H::H(int dimension, int w, double mean, double variance) {
+H::H(int dimension, double mean, double variance) {
   /* Generate V value for the hash function */
   this->v = generateV(dimension, mean, variance);
   /* Generate t value for the hash function */
-  this->t = generateT(0.0, 4.0);
-  this->w = w;
-  /* Generate Rk and save the values */
-
+  //this->t = generateT(0.0, 4.0);
+  //this->w = w;
 }
 
 /* Create function for Point p */
 int H::hashForPoint(Point* p) {
-  int result;
-  result = abs(floor(((p->innerProduct(this->v) + this->t) / this->w)));
-  return result;
+  
 }
 
 Point* H::generateV(int dimension, double mean, double variance) {
@@ -37,12 +33,11 @@ Point* H::generateV(int dimension, double mean, double variance) {
   for ( int i = 0; i < dimension; ++i ) {
     number = distribution(generator);
     p->addCoord(number);
-    //cout << number << endl;
   }
   return p;
 }
 
-double H::generateT(double mean, double variance) {
+/*double H::generateT(double mean, double variance) {
   random_device rd;
   default_random_engine generator(rd());
   uniform_real_distribution<double> distribution(mean, variance);
@@ -51,12 +46,12 @@ double H::generateT(double mean, double variance) {
 
 double H::getT() {
   return this->t;
-}
+}*/
 
 Point*& H::getV() {
   return this->v;
 }
 
-H::~H() {
+/*H::~H() {
   delete this->v;
-}
+}*/

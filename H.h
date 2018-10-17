@@ -5,17 +5,17 @@
 class H {
   private:
     Point* v;
-    double t;
-    int w;
+    //double t;
+    //int w;
   public:
-    H(int dimension, int w, double mean, double variance);
+    H(int dimension, double mean, double variance);
     Point* generateV(int dimension, double mean, double variance);
-    double generateT(double mean, double variance);
-    int hashForPoint(Point* p);
+    //double generateT(double mean, double variance);
+    virtual int hashForPoint(Point* p);
     /* Getters */
     Point*& getV();
-    double getT();
-    ~H();
+    //double getT();
+    //~H();
 };
 
 #endif
