@@ -4,11 +4,12 @@
 #include "Point.h"
 #include <iostream>
 #include <ctime>
-#include<tuple>
+#include <tuple>
 #include "F_euclidean.h"
 #include "F_cosine.h"
 #include "F.h"
 #include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -33,9 +34,26 @@ Hashtable::Hashtable(int size, int k, string lsh_family) {
   //this->hashtable.at(0)->push_back(p);
 }
 
+int Hashtable::getSize() {
+  return this->size;
+}
+
+Hashtable::Hashtable(int k) {
+  this->size = (int)pow(2.0, k);
+  /* Initialize f */
+  this->f_hash = new F_euclidean(k, size);
+  /* Make it a parameter */
+
+  this->hashtable.reserve(this->size);
+  /* Initialize the hashtable */
+  for(int i = 0; i < this->size; i++)
+    this->hashtable.push_back(new list<Point*>);
+  //this->hashtable.at(0)->push_back(p);
+}
+
 int Hashtable::insert(Point *p) {
   int bucket_number;
-  bucket_number = this->f_hash->hashForPoint( p);
+  bucket_number = this->f_hash->hashForPoint(p);
   this->hashtable.at(bucket_number)->push_back(p);
   return 1;
 }

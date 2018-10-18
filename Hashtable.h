@@ -15,6 +15,7 @@ class Hashtable {
   public:
     /* Constructor */
     Hashtable(int size, int k, string lsh_family);
+    Hashtable(int k);
     /* Insert point into the hashtable */
     int insert(Point *p);
     bool empty_list(int bucket_number);
@@ -24,6 +25,7 @@ class Hashtable {
     tuple<int,double,double> find_nearest_neighbor(Point *query);
     /* Traverse the array and find the number of points in each bucket */
     void points_per_bucket();
+    int getSize();
     /* Calculate f value: bucket */
     ~Hashtable();
 };
