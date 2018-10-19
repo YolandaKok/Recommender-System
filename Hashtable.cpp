@@ -10,6 +10,7 @@
 #include "F.h"
 #include <string>
 #include <cmath>
+#include "F_hypercube.h"
 
 using namespace std;
 
@@ -46,7 +47,7 @@ int Hashtable::getK() {
 Hashtable::Hashtable(int k) {
   this->size = (int)pow(2.0, k);
   /* Initialize f */
-  this->f_hash = new F_euclidean(k, size);
+  this->f_hash = new F_hypercube(k, size);
   /* Make it a parameter */
   this->k = k;
   this->hashtable.reserve(this->size);
@@ -115,9 +116,6 @@ tuple<int,double,double> Hashtable::find_nearest_neighbor(Point *query) {
       id = (*iterator)->getId();
     }
   }
-  cout << "Final distance lsh" << final_distance << endl;
-  cout << "Lsh id" << id << endl;
-  cout << double( clock () - begin_time ) /  CLOCKS_PER_SEC << " time" << endl;
   results = make_tuple(id, final_distance, double( clock () - begin_time ) /  CLOCKS_PER_SEC);
   return results;
 }

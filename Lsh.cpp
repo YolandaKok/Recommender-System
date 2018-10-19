@@ -68,6 +68,10 @@ void LSH::find_nearest_neighbor(Point *query, ofstream& output, vector<Point*> p
   ExactKNN(query, points, output);
 }
 
+void LSH::bucket() {
+   this->tables[0]->points_per_bucket();
+}
+
 LSH::~LSH() {
   cout << "Delete lsh" << endl;
   free(this->tables);

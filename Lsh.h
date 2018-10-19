@@ -13,6 +13,7 @@ class LSH {
   public:
     LSH(int L, int size, int k, vector<Point*> points, string lsh_family = "euclidean");
     void find_nearest_neighbor(Point *query, ofstream& output, vector<Point*> points);
+    void bucket();
     ~LSH();
 };
 

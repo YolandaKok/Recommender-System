@@ -4,6 +4,7 @@
 #include "Point.h"
 #include <string>
 #include <cmath>
+#include <bitset>
 
 using namespace std;
 
@@ -14,26 +15,27 @@ Hypercube::Hypercube(int k, int probes, int M):Hashtable(k) {
 }
 
 /* Value of h function */
-int Hypercube::insert(Point *p) {
-  int bucket_number;
-  bucket_number = this->hashForPoint(p);
-  this->hashtable.at(bucket_number)->push_back(p);
-  return 1;
+int Hypercube::insert_point(Point *p) {
+  insert(p);
 }
 
-
-int Hypercube::hashForPoint(Point *p) {
-  F* f = getF();
-  H* h;
-  int hash, i, sum = 0;
-
-  for(i = getK() - 1; i >= 0; i--) {
-    h = f->getH(i);
-    hash = h->hashForPoint(p);
-    hash = hash % 2;
-    sum += (int)pow(2.0, i) * hash;
+void Hypercube::findNearest(Point *query) {
+  int hash = hash_for_query(query);
+  int k = getK();
+  int result, i;
+  cout << hash << endl;
+  char* str = (char*)malloc(sizeof(char) * k);
+  for(i = 0; i < k; i++) {
+    result = hash % 2;
+    hash = hash / 2;
+    cout << "result" << result << endl;
+    cout << "hash" << hash << endl;
+    str[k-1-i] = result;
   }
-  return sum;
+  cout << str[0] << endl;
+  free(str);
+  /* Find the hamming distance and check into these buckets */
+
 }
 
 Hypercube::~Hypercube() {

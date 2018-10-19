@@ -25,12 +25,11 @@ int main(int argc, char* argv[]) {
   ofstream myfile;
   myfile.open("output.txt");
 
-  LSH *lsh = new LSH(L, size, k, input, "cosine");
+  LSH *lsh = new LSH(L, size, k, input, "euclidean");
   cout << query.size() << endl;
   for(int i = 0; i < query.size(); i++)
     lsh->find_nearest_neighbor(query.at(i), myfile, input);
 
-  //cout << query.at(29)->getId() << endl;
   delete lsh;
   myfile.close();
   //input.at(0)->print();

@@ -1,3 +1,6 @@
+#ifndef __F_EUCLIDEAN__
+#define __F_EUCLIDEAN__
+
 #include <iostream>
 #include "F.h"
 #include "H.h"
@@ -12,3 +15,5 @@ class F_euclidean: public F {
     void generateRk(int k);
     ~F_euclidean();
 };
+
+#endif

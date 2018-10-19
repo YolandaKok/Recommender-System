@@ -10,8 +10,9 @@ class Hypercube: public Hashtable {
   public:
     Hypercube(int k = 3, int probes = 2, int M = 10);
     int hashForPoint(Point *p);
-    int insert(Point *p);
+    int insert_point(Point *p);
     void find_nearest_neighbor(Point *p);
+    void findNearest(Point *query); 
     ~Hypercube();
 };
 
