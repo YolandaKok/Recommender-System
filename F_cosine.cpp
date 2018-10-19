@@ -17,11 +17,12 @@ int F_cosine::hashForPoint(Point *p) {
   int i;
   int z;
   int sum = 0;
-  for(i = 0; i < getK(); i++) {
+  for(i = getK() - 1; i >= 0; i--) {
     sum += (int)pow(2.0, i) * getH(i)->hashForPoint(p);
   }
   return sum;
 }
 
 F_cosine::~F_cosine() {
+  
 }

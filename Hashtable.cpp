@@ -16,6 +16,7 @@ using namespace std;
 Hashtable::Hashtable(int size, int k, string lsh_family) {
   string type1("euclidean");
   string type2("cosine");
+  this->k = k;
   this->type = lsh_family;
   if(type1.compare(lsh_family) == 0) {
     /* Initialize f */
@@ -38,12 +39,16 @@ int Hashtable::getSize() {
   return this->size;
 }
 
+int Hashtable::getK() {
+  return this->k;
+}
+
 Hashtable::Hashtable(int k) {
   this->size = (int)pow(2.0, k);
   /* Initialize f */
   this->f_hash = new F_euclidean(k, size);
   /* Make it a parameter */
-
+  this->k = k;
   this->hashtable.reserve(this->size);
   /* Initialize the hashtable */
   for(int i = 0; i < this->size; i++)
@@ -84,6 +89,10 @@ void Hashtable::points_per_bucket() {
 
 int Hashtable::hash_for_query(Point *query) {
   return this->f_hash->hashForPoint(query);
+}
+
+F* Hashtable::getF() {
+  return this->f_hash;
 }
 
 tuple<int,double,double> Hashtable::find_nearest_neighbor(Point *query) {

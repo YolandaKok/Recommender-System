@@ -12,6 +12,7 @@ class Hashtable {
     int size;
     F *f_hash;
     string type;
+    int k;
   public:
     /* Constructor */
     Hashtable(int size, int k, string lsh_family);
@@ -26,6 +27,8 @@ class Hashtable {
     /* Traverse the array and find the number of points in each bucket */
     void points_per_bucket();
     int getSize();
+    F* getF();
+    int getK();
     /* Calculate f value: bucket */
     ~Hashtable();
 };
