@@ -40,19 +40,24 @@ void Hypercube::findNearest(Point *query) {
   cout << str1 << " str1" << endl;
   // Call the nearest neighbor function
   bucket_number = stoi(str1, nullptr, 2);
-  count_M++;
+  find(bucket_number, query, count_M, M);
+  cout << count_M << endl;
   // Look at the first probe
   probes_count++;
   int count = 1;
   vector<string> strs;
   do {
+    if(count_M == M)
+      break;
     strs.clear();
     magic(str1, k - 1, count, strs);
     for(int j = 0; j < strs.size(); j++) {
       probes_count++;
       /* Found the bucket number */
       bucket_number = stoi(strs.at(j), nullptr, 2);
-      
+      find(bucket_number, query, count_M, M);
+      /* Find the M points */
+      //find(bucket_number, query, count_M, M);
       if(probes_count > this->probes)
         break;
       cout << strs.at(j) << " " << "lala";

@@ -5,6 +5,7 @@
 #include <list>
 #include <vector>
 #include <string>
+#include <tuple>
 
 class Hashtable {
   private:
@@ -20,7 +21,7 @@ class Hashtable {
     /* Insert point into the hashtable */
     int insert(Point *p);
     bool empty_list(int bucket_number);
-    bool find(int bucket_number);
+    vector<tuple<int, double>> find(int bucket_number, Point*& q, int& count_M, int M_total);
     int hash_for_query(Point *query);
     /* Find bucket for query point */
     tuple<int,double,double> find_nearest_neighbor(Point *query);

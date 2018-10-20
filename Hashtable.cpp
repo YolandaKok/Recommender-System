@@ -70,13 +70,21 @@ bool Hashtable::empty_list(int bucket_number) {
   return false;
 }
 
-bool Hashtable::find(int bucket_number) {
+vector<tuple<int, double>> Hashtable::find(int bucket_number, Point*& q, int& count_M, int M_total) {
+  /* Create a vector of tuples */
+  vector<tuple<int, double>> neighbors;
+  double distance;
   if(empty_list(bucket_number))
-    return false;
+    return neighbors;
   for (std::list<Point*>::const_iterator iterator = this->hashtable.at(bucket_number)->begin(), end = this->hashtable.at(bucket_number)->end(); iterator != end; ++iterator) {
-    (*iterator)->print();
+    distance = (*iterator)->euclidean(q);
+    cout << (*iterator)->euclidean(q) << endl;
+    count_M++;
+    neighbors.push_back(make_tuple((*iterator)->getId(), distance));
+    if(count_M == M_total)
+      return neighbors;
   }  //*iterator->getId();
-  return true;
+  return neighbors;
 }
 
 void Hashtable::points_per_bucket() {
