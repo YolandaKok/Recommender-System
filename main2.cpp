@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-  Hypercube *hypercube = new Hypercube();
+  Hypercube *hypercube = new Hypercube(3, 4, 10);
   Point* p = new Point();
   p->addCoord(10);
   p->addCoord(43);

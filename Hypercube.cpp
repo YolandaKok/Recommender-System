@@ -25,44 +25,74 @@ int Hypercube::insert_point(Point *p) {
 void Hypercube::findNearest(Point *query) {
   int hash = hash_for_query(query);
   int k = getK();
-  int result, i;
+  int result, i, bucket_number;
   char z;
-  cout << hash << endl;
-  char *str = (char*)malloc(3);
+  char *str = (char*)malloc(k);
+  int count_M = 0, probes_count = 0;
   string str1;
   str1.resize(k);
   for(i = 0; i < k; i++) {
     result = hash % 2;
     hash = hash / 2;
-    cout << "result" << result << endl;
-    cout << "hash" << hash << endl;
-
+    /* Calculate the input string */
     str1[k-i-1] = result + '0';
   }
-  cout << str1.at(0) << str1.at(1) << str1.at(2) << "Str" << endl;
+  cout << str1 << " str1" << endl;
+  // Call the nearest neighbor function
+  bucket_number = stoi(str1, nullptr, 2);
+  count_M++;
+  // Look at the first probe
+  probes_count++;
+  int count = 1;
+  vector<string> strs;
+  do {
+    strs.clear();
+    magic(str1, k - 1, count, strs);
+    for(int j = 0; j < strs.size(); j++) {
+      probes_count++;
+      /* Found the bucket number */
+      bucket_number = stoi(strs.at(j), nullptr, 2);
+      
+      if(probes_count > this->probes)
+        break;
+      cout << strs.at(j) << " " << "lala";
+    }
+    count++;
+  } while(this->probes >= probes_count);
 
-  for (i = 1 ; i <= 3 ; ++i) {
-    printf("Computing for distance %d\n", i);
-    magic(str1, k - 1, i);
+  /*for (i = 0 ; i < this->probes; ++i) {
+    if(this->M > count_M) {
+
+    }
+    strs.clear();
+    printf("Computing for distance %d\n", i + 1);
+    magic(str1, k - 1, i + 1, strs);
+    number = stoi(str1, nullptr, 2);
+    count_M++;
   }
   printf("----------------\n");
-  //cout << str[0] << str[1] << str[2] <<endl;
+  */
+  //cout << strs.at(0) << endl; //" " << strs.at(1) << " " << strs.at(2) << " " << endl;
   /* Find the hamming distance and check into these buckets */
-
 }
 
-void Hypercube::magic(string& str, int i, int changesLeft) {
+/* Find Nearest Neighbor into the bucket */
+
+
+vector<string>& Hypercube::magic(string& str, int i, int changesLeft, vector<string>& strs) {
         if (changesLeft == 0) {
           cout << str << endl;
-          return;
+          strs.push_back(str);
+          /* Hypercube */
+          return strs;
         }
-        if (i < 0) return;
+        if (i < 0) return strs;
         // flip current bit
         str[i] = str[i] == '0' ? '1' : '0';
-        magic(str, i-1, changesLeft-1);
+        magic(str, i-1, changesLeft-1, strs);
         // or don't flip it (flip it again to undo)
         str[i] = str[i] == '0' ? '1' : '0';
-        magic(str, i-1, changesLeft);
+        magic(str, i-1, changesLeft, strs);
 }
 
 Hypercube::~Hypercube() {

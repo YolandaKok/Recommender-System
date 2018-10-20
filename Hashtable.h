@@ -20,7 +20,7 @@ class Hashtable {
     /* Insert point into the hashtable */
     int insert(Point *p);
     bool empty_list(int bucket_number);
-    bool traverse(int bucket_number);
+    bool find(int bucket_number);
     int hash_for_query(Point *query);
     /* Find bucket for query point */
     tuple<int,double,double> find_nearest_neighbor(Point *query);

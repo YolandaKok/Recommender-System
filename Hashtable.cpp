@@ -70,7 +70,7 @@ bool Hashtable::empty_list(int bucket_number) {
   return false;
 }
 
-bool Hashtable::traverse(int bucket_number) {
+bool Hashtable::find(int bucket_number) {
   if(empty_list(bucket_number))
     return false;
   for (std::list<Point*>::const_iterator iterator = this->hashtable.at(bucket_number)->begin(), end = this->hashtable.at(bucket_number)->end(); iterator != end; ++iterator) {
