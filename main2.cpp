@@ -1,11 +1,13 @@
 #include <iostream>
 #include "Hypercube.h"
 #include "IOutils.h"
+#include "ExactKnn.h"
+#include <fstream>
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
-  Hypercube *hypercube = new Hypercube(11, 20, 100);
+  Hypercube *hypercube = new Hypercube(11, 40, 10);
   char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
   int k, L, size;
   int i;
@@ -20,9 +22,11 @@ int main(int argc, char* argv[]) {
 
   vector<Point*> query;
   query = readInput("query_small", " ", "\n", k, size, 0);
-
-  hypercube->findNearest(query.at(0));
-
+  ofstream myfile;
+  myfile.open("output.txt");
+  ExactKNN(query.at(1), input, myfile);
+  hypercube->findNearest(query.at(1));
+  myfile.close();
   delete hypercube;
   return 1;
 }

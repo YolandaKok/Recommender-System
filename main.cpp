@@ -13,14 +13,17 @@
 int main(int argc, char* argv[]) {
   char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
   int k, L, size;
+  double R = 0.0;
   /* Read the input file */
   readArgs(argv, argc, inputFile, queryFile, k, L, outputFile);
   /* Create the exact KNN algorithm */
   vector<Point*> input;
-  input = readInput(inputFile, " ", "\n", k, size, 1);
+  input = readInput(inputFile, " ", "\n", k, size, 1, R);
 
   vector<Point*> query;
-  query = readInput(queryFile, " ", "\n", k, size, 0);
+  query = readInput(queryFile, " ", "\n", k, size, 0, R);
+
+  cout << R << " lala" << endl;
 
   ofstream myfile;
   myfile.open("output.txt");

@@ -17,7 +17,7 @@
 
 using namespace std;
 /* Read the dataset file */
-vector<Point*> readInput(const char filename[], const char seperator[], const char delimiter[], int k, int& size, int input) {
+vector<Point*> readInput(const char filename[], const char seperator[], const char delimiter[], int k, int& size, int input, double& R) {
   /* Initialize random seed */
   srand (time(NULL));
   FILE *fp = NULL;
@@ -38,9 +38,18 @@ vector<Point*> readInput(const char filename[], const char seperator[], const ch
 
   /* Set the id for the point */
   int i = 0;
+  int flag = 0;
   /* Read line by line */
   while (fgets(line, LINE_SIZE, fp)) {
     token = strtok(line, delimiters);
+    cout << token << "token" << endl;
+    if(!strcmp(token, "Radius:")) {
+      token = strtok(NULL, delimiters);
+      cout << token << endl;
+      R = atof(token);
+      flag = 1;
+    }
+    if(flag == 0) {
     /* Create a Point */
     Point *point = new Point();
     point->setId(i);
@@ -53,47 +62,13 @@ vector<Point*> readInput(const char filename[], const char seperator[], const ch
    }
    //point->print();
    i++;
-   points.push_back(point);
+   points.push_back(point);}
+   flag = 0;
   }
 
   if(input)
     size = points.size();
 
-  //H *h = new H(128, 4, 0.0, 1.0);
-  //cout << h->hashForPoint(points.at(1)) << endl;
-  //H *h1 = new H(128, 4, 0.0, 1.0);
-  //cout << h1->hashForPoint(points.at(1)) << endl;
-  //H *h2 = new H(128, 4, 0.0, 1.0);
-  //H** h_array = (H**) malloc(sizeof(H*) * 3);
-  //h_array[0] = h;
-  //h_array[1] = h1;
-  //h_array[2] = h2;
-
-  //F *f = new F(k);
-  //f->printRk();
-  //delete f;
-
-  //cout << h_array[0]->hashForPoint(points.at(1)) << endl;
-  //cout << f->hashForPoint(size, points.at(1)) << " f" << endl;
-  //cout.precision(18);
-  //cout << "t " << h->getT() << endl;
-  //cout << "t " << h1->getT() << endl;
-  //cout << "t " << h2->getT() << endl;
-  // I have to do it with malloc because we have k elements
-  /* Get the hash value for every point */
-  /* Keep the k hash function values into an array */
-    /* That's the key for the hashtable */
-    /* Create a hashtable to keep them */
-  //vector<list<Point>> hashtable;
-
-  //ExactKNN(points.at(33), points);
-
-  //cout << points.at(0)->innerProduct(points.at(1)) << endl;
-  //cout << points.at(9999)->getDimension() << endl;
-  //points.at(9999)->print();
-  /*for( i = 0; i < points.size(); i++ ) {
-    delete points.at(i);
-  }*/
   free(delimiters);
   free(name);
   return points;

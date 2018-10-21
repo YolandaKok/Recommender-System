@@ -40,7 +40,9 @@ void Hypercube::findNearest(Point *query) {
   cout << str1 << " str1" << endl;
   // Call the nearest neighbor function
   bucket_number = stoi(str1, nullptr, 2);
-  find(bucket_number, query, count_M, M);
+  vector<tuple<int,double>> results, results2, ab;
+  results = find(bucket_number, query, count_M, M);
+  //cout << get<0>(results.at()) << "xoxo" << endl;
   cout << count_M << endl;
   // Look at the first probe
   probes_count++;
@@ -55,35 +57,41 @@ void Hypercube::findNearest(Point *query) {
       probes_count++;
       /* Found the bucket number */
       bucket_number = stoi(strs.at(j), nullptr, 2);
-      find(bucket_number, query, count_M, M);
+      results2 = find(bucket_number, query, count_M, M);
+      for(int i = 0; i < results2.size(); i++) {
+        results.push_back(results2.at(i));
+      }
       /* Find the M points */
       //find(bucket_number, query, count_M, M);
       if(probes_count > this->probes)
         break;
-      cout << strs.at(j) << " " << "lala";
+      //cout << strs.at(j) << " " << "lala";
     }
     count++;
   } while(this->probes >= probes_count);
 
-  /*for (i = 0 ; i < this->probes; ++i) {
-    if(this->M > count_M) {
+  for(int i = 0; i < results.size(); i++)
+    cout << get<0>(results.at(i)) << "size" << results.size() << endl;
+  /* Find the smallest distance */
+  smallestDistance(results);
+  /* Find with nn the smallest distance */
+  /* Write it to a file */
+}
 
+tuple<int, double, double> Hypercube::smallestDistance(vector<tuple<int,double>>& input) {
+  int id = get<0>(input.at(0));
+  double distance = get<1>(input.at(0)), final_distance;
+  for(int i = 1; i < input.size(); i++) {
+    final_distance = get<1>(input.at(i));
+    if(final_distance < distance) {
+      id = get<0>(input.at(i));
+      distance = final_distance;
     }
-    strs.clear();
-    printf("Computing for distance %d\n", i + 1);
-    magic(str1, k - 1, i + 1, strs);
-    number = stoi(str1, nullptr, 2);
-    count_M++;
   }
-  printf("----------------\n");
-  */
-  //cout << strs.at(0) << endl; //" " << strs.at(1) << " " << strs.at(2) << " " << endl;
-  /* Find the hamming distance and check into these buckets */
+  cout << distance << "distance" << endl;
 }
 
 /* Find Nearest Neighbor into the bucket */
-
-
 vector<string>& Hypercube::magic(string& str, int i, int changesLeft, vector<string>& strs) {
         if (changesLeft == 0) {
           cout << str << endl;
