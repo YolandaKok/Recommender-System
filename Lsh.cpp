@@ -38,12 +38,15 @@ LSH::LSH(int L, int size, int k, vector<Point*> points, string lsh_family) {
 }
 
 /* Find Nearest Neighbor in every hashtable */
-void LSH::find_nearest_neighbor(Point *query, ofstream& output, vector<Point*> points) {
+void LSH::find_nearest_neighbor(Point *query, ofstream& output, vector<Point*> points, int R) {
   int i;
   static double mean_time_lsh = 0.0;
   static int count = 0;
   count++;
-  output << "item " << query->getId() << endl;
+  /* Check if R = 0 Approximate NN */
+  
+  /* Else Range Search */
+
   /* Vector of tuples */
   vector<tuple<int,double,double>> results;
   tuple<int, double, double> result;
