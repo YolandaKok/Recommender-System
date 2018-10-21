@@ -8,7 +8,7 @@ using namespace std;
 
 H_euclidean::H_euclidean(int w, int dimension, double mean, double variance):H(dimension, mean, variance) {
   this->t = generateT(0.0, 4.0);
-  this->w = 10;
+  this->w = 300;
 }
 
 int H_euclidean::hashForPoint(Point *p) {

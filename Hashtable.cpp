@@ -4,6 +4,7 @@
 #include "Point.h"
 #include <iostream>
 #include <ctime>
+#include <fstream>
 #include <tuple>
 #include "F_euclidean.h"
 #include "F_cosine.h"
@@ -126,6 +127,25 @@ tuple<int,double,double> Hashtable::find_nearest_neighbor(Point *query) {
   }
   results = make_tuple(id, final_distance, double( clock () - begin_time ) /  CLOCKS_PER_SEC);
   return results;
+}
+
+
+vector<int> Hashtable::rangeSearch(Point* query, double R, ofstream& output) {
+  int hash = hash_for_query(query);
+  vector<int> ids;
+  double distance;
+  for (std::list<Point*>::const_iterator iterator = this->hashtable.at(hash)->begin(), end = this->hashtable.at(hash)->end(); iterator != end; ++iterator) {
+    if(this->type.compare("euclidean") == 0) {
+      distance = query->euclidean((*iterator));
+    }
+    else {
+      distance = query->cosine((*iterator));
+    }
+    if(distance < R) {
+      ids.push_back((*iterator)->getId());
+    }
+  }
+  return ids;
 }
 
 Hashtable::~Hashtable() {

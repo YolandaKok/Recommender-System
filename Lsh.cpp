@@ -38,15 +38,37 @@ LSH::LSH(int L, int size, int k, vector<Point*> points, string lsh_family) {
 }
 
 /* Find Nearest Neighbor in every hashtable */
-void LSH::find_nearest_neighbor(Point *query, ofstream& output, vector<Point*> points, int R) {
+void LSH::find_nearest_neighbor(Point *query, ofstream& output, vector<Point*> points, double R) {
   int i;
   static double mean_time_lsh = 0.0;
   static int count = 0;
   count++;
+  vector<tuple<int,double,double>> neighbors;
+  vector<int> ids;
+  vector<int> ids_new;
+  int flag = 0;
+  output << "Query: Item" << query->getId() << endl;
+  output << "R-nearest Neighbors: " << endl;
   /* Check if R = 0 Approximate NN */
-  
-  /* Else Range Search */
-
+  if(R > 0.0) {
+    for(i = 0; i < this->L; i++) {
+      ids = this->tables[i]->rangeSearch(query, R, output);
+      for(int z = 0; z < ids.size(); z++) {
+        for(int j = 0; j < ids_new.size(); j++) {
+          if(ids.at(z) == ids_new.at(j)) {
+            flag = 1;
+          }
+        }
+        if(flag == 0)
+          ids_new.push_back(ids.at(z));
+        flag = 0;
+      }
+      ids.clear();
+    }
+  }
+  for(int w = 0; w < ids_new.size(); w++) {
+    output << "Item " << ids_new.at(w) << endl;
+  }
   /* Vector of tuples */
   vector<tuple<int,double,double>> results;
   tuple<int, double, double> result;
@@ -67,8 +89,7 @@ void LSH::find_nearest_neighbor(Point *query, ofstream& output, vector<Point*> p
       time_ = get<2>(results.at(i));
     }
   }
-  output << "R-near neighbors" << endl;
-  output << "item " << id << endl;
+  output << "Nearest neighbor: " << id << endl;
   output << "distanceLSH " <<  distance << endl;
   output << "tLSH " <<  time_ << endl;
   mean_time_lsh += time_;

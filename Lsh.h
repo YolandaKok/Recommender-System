@@ -12,7 +12,7 @@ class LSH {
     Hashtable **tables;
   public:
     LSH(int L, int size, int k, vector<Point*> points, string lsh_family = "euclidean");
-    void find_nearest_neighbor(Point *query, ofstream& output, vector<Point*> points, int R);
+    void find_nearest_neighbor(Point *query, ofstream& output, vector<Point*> points, double R);
     void bucket();
     ~LSH();
 };
