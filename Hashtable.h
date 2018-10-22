@@ -18,7 +18,7 @@ class Hashtable {
   public:
     /* Constructor */
     Hashtable(int size, int k, string lsh_family);
-    Hashtable(int k);
+    Hashtable(int k, string lsh_family = "euclidean");
     /* Insert point into the hashtable */
     int insert(Point *p);
     bool empty_list(int bucket_number);

@@ -46,7 +46,8 @@ int Hashtable::getK() {
   return this->k;
 }
 
-Hashtable::Hashtable(int k) {
+Hashtable::Hashtable(int k, string lsh_family) {
+  this->type = lsh_family;
   this->size = (int)pow(2.0, k);
   /* Initialize f */
   this->f_hash = new F_hypercube(k, size);
@@ -80,7 +81,7 @@ vector<tuple<int, double>> Hashtable::find(int bucket_number, Point*& q, int& co
     return neighbors;
   for (std::list<Point*>::const_iterator iterator = this->hashtable.at(bucket_number)->begin(), end = this->hashtable.at(bucket_number)->end(); iterator != end; ++iterator) {
     distance = (*iterator)->euclidean(q);
-    cout << (*iterator)->euclidean(q) << endl;
+    //cout << (*iterator)->euclidean(q) << endl;
     //count_M++;
     neighbors.push_back(make_tuple((*iterator)->getId(), distance));
     /*if(count_M == M_total)
