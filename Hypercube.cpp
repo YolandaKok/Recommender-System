@@ -43,7 +43,7 @@ void Hypercube::findNearest(Point *query) {
   vector<tuple<int,double>> results, results2, ab;
   results = find(bucket_number, query, count_M, M);
   //cout << get<0>(results.at()) << "xoxo" << endl;
-  cout << count_M << endl;
+  //cout << count_M << endl;
   // Look at the first probe
   probes_count++;
   int count = 1;

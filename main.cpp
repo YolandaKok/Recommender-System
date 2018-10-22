@@ -23,15 +23,12 @@ int main(int argc, char* argv[]) {
   vector<Point*> query;
   query = readInput(queryFile, " ", "\n", k, size, 0, R);
 
-  cout << R << " lala" << endl;
-
   ofstream myfile;
-  myfile.open("output.txt");
+  myfile.open(outputFile);
 
-  LSH *lsh = new LSH(L, size, k, input, "cosine");
-  cout << query.size() << endl;
+  LSH *lsh = new LSH(L, size, k, input);
   for(int i = 0; i < query.size(); i++)
-    lsh->find_nearest_neighbor(query.at(i), myfile, input, R);
+    lsh->find_nearest_neighbor(query.at(i), myfile, query.size(), R);
 
   delete lsh;
   myfile.close();

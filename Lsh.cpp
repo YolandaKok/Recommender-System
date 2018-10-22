@@ -38,10 +38,12 @@ LSH::LSH(int L, int size, int k, vector<Point*> points, string lsh_family) {
 }
 
 /* Find Nearest Neighbor in every hashtable */
-void LSH::find_nearest_neighbor(Point *query, ofstream& output, vector<Point*> points, double R) {
+void LSH::find_nearest_neighbor(Point *query, ofstream& output, int size, double R) {
   int i;
   static double mean_time_lsh = 0.0;
   static int count = 0;
+  static double mean_distance = 0.0, final_mean_distance;
+  double real_distance;
   count++;
   vector<tuple<int,double,double>> neighbors;
   vector<int> ids;
@@ -93,9 +95,16 @@ void LSH::find_nearest_neighbor(Point *query, ofstream& output, vector<Point*> p
   output << "distanceLSH " <<  distance << endl;
   output << "tLSH " <<  time_ << endl;
   mean_time_lsh += time_;
-  ExactKNN(query, points, output);
-  if(count == 99)
-    output << "Mean Lsh " << mean_time_lsh / 100.0 << endl;
+  real_distance = this->tables[0]->exactNN(query, output);
+  /* Print Mean Max Distance */
+  final_mean_distance = distance / real_distance;
+  if(final_mean_distance > mean_distance) {
+    mean_distance = final_mean_distance;
+  }
+  if(count == size) {
+      cout << "Max approximation: " << mean_distance << endl;
+      cout << "Mean time for approximate NN: " << mean_time_lsh / size << endl;
+  }
 }
 
 void LSH::bucket() {
@@ -103,7 +112,5 @@ void LSH::bucket() {
 }
 
 LSH::~LSH() {
-  cout << "Delete lsh" << endl;
   free(this->tables);
-
 }

@@ -3,6 +3,7 @@
 #include <list>
 #include "Point.h"
 #include <iostream>
+#include <fstream>
 #include <ctime>
 #include <fstream>
 #include <tuple>
@@ -80,10 +81,10 @@ vector<tuple<int, double>> Hashtable::find(int bucket_number, Point*& q, int& co
   for (std::list<Point*>::const_iterator iterator = this->hashtable.at(bucket_number)->begin(), end = this->hashtable.at(bucket_number)->end(); iterator != end; ++iterator) {
     distance = (*iterator)->euclidean(q);
     cout << (*iterator)->euclidean(q) << endl;
-    count_M++;
+    //count_M++;
     neighbors.push_back(make_tuple((*iterator)->getId(), distance));
-    if(count_M == M_total)
-      return neighbors;
+    /*if(count_M == M_total)
+      return neighbors;*/
   }  //*iterator->getId();
   return neighbors;
 }
@@ -95,6 +96,39 @@ void Hashtable::points_per_bucket() {
       cout << (*iterator)->getId() << endl;
     }
   }
+}
+
+double Hashtable::exactNN(Point*& q, ofstream& output) {
+  double distance, final_distance;
+  int id = 0;
+  const clock_t begin_time = clock();
+  clock_t interval;
+  id = this->hashtable.at(0)->front()->getId();
+  if(this->type.compare("euclidean") == 0) {
+    final_distance = this->hashtable.at(0)->front()->euclidean(q);
+  }
+  else {
+    final_distance = this->hashtable.at(0)->front()->cosine(q);
+  }
+
+  for(int i = 0; i < this->size; i++) {
+    for (std::list<Point*>::const_iterator iterator = this->hashtable.at(i)->begin(), end = this->hashtable.at(i)->end(); iterator != end; ++iterator) {
+      if(this->type.compare("euclidean") == 0) {
+        distance = (*iterator)->euclidean(q);
+      }
+      else {
+        distance = (*iterator)->cosine(q);
+      }
+      if(distance < final_distance) {
+        final_distance = distance;
+        id = (*iterator)->getId();
+      }
+    }
+  }
+  output << "Real Nearest Neighbor: " << id << endl;
+  output << "distanceTrue: " << final_distance << endl;
+  output << "tTrue: " << double( clock () - begin_time ) /  CLOCKS_PER_SEC  << endl << endl;
+  return final_distance;
 }
 
 int Hashtable::hash_for_query(Point *query) {

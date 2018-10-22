@@ -11,17 +11,18 @@ int main(int argc, char* argv[]) {
   char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
   int k, L, size;
   int i;
+  double R = 0.0;
   /* Read the input file */
   //readArgs(argv, argc, inputFile, queryFile, k, L, outputFile);
   /* Create the exact KNN algorithm */
   vector<Point*> input;
-  input = readInput("input_small", " ", "\n", k, size, 1);
+  input = readInput("input_small", " ", "\n", k, size, 1, R);
 
   for(i = 0; i < input.size(); i++)
     hypercube->insert_point(input.at(i));
 
   vector<Point*> query;
-  query = readInput("query_small", " ", "\n", k, size, 0);
+  query = readInput("query_small", " ", "\n", k, size, 0, R);
   ofstream myfile;
   myfile.open("output.txt");
   ExactKNN(query.at(1), input, myfile);

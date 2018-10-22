@@ -27,6 +27,7 @@ class Hashtable {
     /* Find bucket for query point */
     tuple<int,double,double> find_nearest_neighbor(Point *query);
     vector<int> rangeSearch(Point* q, double R, ofstream& output);
+    double exactNN(Point*& q, ofstream& output);
     /* Traverse the array and find the number of points in each bucket */
     void points_per_bucket();
     int getSize();

@@ -42,10 +42,8 @@ vector<Point*> readInput(const char filename[], const char seperator[], const ch
   /* Read line by line */
   while (fgets(line, LINE_SIZE, fp)) {
     token = strtok(line, delimiters);
-    cout << token << "token" << endl;
     if(!strcmp(token, "Radius:")) {
       token = strtok(NULL, delimiters);
-      cout << token << endl;
       R = atof(token);
       flag = 1;
     }
@@ -89,7 +87,6 @@ int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k
         else if(!strcmp(argv[i], "-q")) {
           queryFile = (char*)malloc(strlen(argv[i+1]) + 1);
           strcpy(queryFile, argv[i+1]);
-          printf("%s\n", queryFile);
         }
         else if(!strcmp(argv[i], "-k")) {
           k = atoi(argv[i+1]);
