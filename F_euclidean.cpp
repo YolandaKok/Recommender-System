@@ -26,7 +26,7 @@ void F_euclidean::generateRk(int k) {
   double number;
   this->Rk = (int*) malloc(sizeof(int) * getK());
   for(i = 0; i < getK(); i++)
-    this->Rk[i] = rand() % 100000;
+    this->Rk[i] = rand() % 10000;
 }
 
 int F_euclidean::hashForPoint(Point *p) {
