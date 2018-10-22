@@ -95,7 +95,7 @@ void LSH::find_nearest_neighbor(Point *query, ofstream& output, int size, double
   output << "distanceLSH " <<  distance << endl;
   output << "tLSH " <<  time_ << endl;
   mean_time_lsh += time_;
-  //real_distance = this->tables[0]->exactNN(query, output);
+  real_distance = this->tables[0]->exactNN(query, output);
   /* Print Mean Max Distance */
   final_mean_distance = distance / real_distance;
   if(final_mean_distance > mean_distance) {

@@ -3,6 +3,7 @@
 #include <random>
 #include "F_euclidean.h"
 #include "H_euclidean.h"
+#include <ctime>
 using namespace std;
 
 F_euclidean::F_euclidean(int k, int tablesize):F(k) {
@@ -17,6 +18,7 @@ F_euclidean::F_euclidean(int k, int tablesize):F(k) {
 
 /* Generate Rk values for the euclidean F */
 void F_euclidean::generateRk(int k) {
+  srand(time(NULL));
   int i;
   random_device rd;  //Will be used to obtain a seed for the random number engine
   default_random_engine generator(rd());
@@ -24,7 +26,7 @@ void F_euclidean::generateRk(int k) {
   double number;
   this->Rk = (int*) malloc(sizeof(int) * getK());
   for(i = 0; i < getK(); i++)
-    this->Rk[i] = abs(floor(distribution(generator)));
+    this->Rk[i] = rand() % 100000;
 }
 
 int F_euclidean::hashForPoint(Point *p) {
@@ -33,9 +35,10 @@ int F_euclidean::hashForPoint(Point *p) {
   for(int i = 0; i < getK(); i++) {
     sum += (getH(i)->hashForPoint(p) * this->Rk[i]) % M;
   }
-
+  //cout << "SUM" << sum << endl;
   sum = sum % M;
   sum = sum % this->tablesize;
+
   return sum;
 }
 

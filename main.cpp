@@ -26,9 +26,14 @@ int main(int argc, char* argv[]) {
   ofstream myfile;
   myfile.open(outputFile);
 
-  LSH *lsh = new LSH(L, size, k, input);
+
+
+  LSH *lsh = new LSH(L, size, k, input, "cosine");
+  lsh->bucket();
   for(int i = 0; i < query.size(); i++)
     lsh->find_nearest_neighbor(query.at(i), myfile, query.size(), R);
+
+
 
   delete lsh;
   myfile.close();

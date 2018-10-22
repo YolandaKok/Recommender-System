@@ -14,6 +14,7 @@ H_euclidean::H_euclidean(int w, int dimension, double mean, double variance):H(d
 int H_euclidean::hashForPoint(Point *p) {
   int result;
   result = abs(floor(((p->innerProduct(getV()) + this->t) / this->w)));
+  //cout << result << " RESULT" << endl;
   return result;
 }
 
