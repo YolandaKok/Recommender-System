@@ -55,6 +55,7 @@ void LSH::find_nearest_neighbor(Point *query, ofstream& output, int size, double
   if(R > 0.0) {
     for(i = 0; i < this->L; i++) {
       ids = this->tables[i]->rangeSearch(query, R, output);
+      /* Make it another function */
       for(int z = 0; z < ids.size(); z++) {
         for(int j = 0; j < ids_new.size(); j++) {
           if(ids.at(z) == ids_new.at(j)) {

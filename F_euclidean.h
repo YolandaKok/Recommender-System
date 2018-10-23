@@ -13,6 +13,7 @@ class F_euclidean: public F {
     F_euclidean(int k, int tablesize);
     int hashForPoint(Point *p);
     void generateRk(int k);
+    long long int modulo(long long int x, long long y);
     ~F_euclidean();
 };
 

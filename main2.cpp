@@ -7,13 +7,13 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-  Hypercube *hypercube = new Hypercube(11, 60, 10);
+  Hypercube *hypercube = new Hypercube(11, 50, 10);
   char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
   int k, L, size;
   int i;
   double R = 0.0;
   /* Read the input file */
-  //readArgs(argv, argc, inputFile, queryFile, k, L, outputFile);
+  readArgs(argv, argc, inputFile, queryFile, k, L, outputFile);
   /* Create the exact KNN algorithm */
   vector<Point*> input;
   input = readInput("input_small", " ", "\n", k, size, 1, R);
@@ -23,11 +23,12 @@ int main(int argc, char* argv[]) {
 
   vector<Point*> query;
   query = readInput("query_small", " ", "\n", k, size, 0, R);
+  cout << R << endl;
   ofstream myfile;
-  myfile.open("output.txt");
+  myfile.open("output_cube.txt");
 
   for(i = 0; i < query.size(); i++)
-    hypercube->findNearest(query.at(i), query.size());
+    hypercube->findNearest(query.at(i), query.size(), myfile);
   //ExactKNN(query.at(1), input, myfile);
   //hypercube->findNearest(query.at(1), query.size());
   myfile.close();

@@ -22,7 +22,7 @@ int Hypercube::insert_point(Point *p) {
   insert(p);
 }
 
-void Hypercube::findNearest(Point *query, int size) {
+void Hypercube::findNearest(Point *query, int size, ofstream& output) {
   int hash = hash_for_query(query);
   int k = getK();
   int result, i, bucket_number;
@@ -41,10 +41,12 @@ void Hypercube::findNearest(Point *query, int size) {
     /* Calculate the input string */
     str1[k-i-1] = result + '0';
   }
+  output << "Query: Item" << query->getId() << endl;
   //cout << str1 << " str1" << endl;
   // Call the nearest neighbor function
   bucket_number = stoi(str1, nullptr, 2);
   vector<tuple<int,double>> results, results2, ab;
+  /* Start Counting Time */
   results = find(bucket_number, query, count_M, M);
   //cout << get<0>(results.at()) << "xoxo" << endl;
   //cout << count_M << endl;
@@ -57,7 +59,7 @@ void Hypercube::findNearest(Point *query, int size) {
     /*if(count_M == M)
       break;*/
     strs.clear();
-    cout << "For " << count << endl;
+    //cout << "For " << count << endl;
     magic(str1, k - 1, count, strs);
     for(int j = 0; j < strs.size(); j++) {
       probes_count++;
@@ -76,17 +78,17 @@ void Hypercube::findNearest(Point *query, int size) {
     count++;
   } while(this->probes >= probes_count);
 
-  cout << probes_count << "Count" << endl;
+  //cout << probes_count << "Count" << endl;
 
   double smallest, nnDistance, max_approximation;
   static double final_max_approximation = 0.0;
   /* Find the smallest distance */
-  smallest = smallestDistance(results);
+  smallest = smallestDistance(results, output);
   time_ = double( clock () - begin_time ) /  CLOCKS_PER_SEC;
+  output << "tCube: " << time_ << endl;
   mean_time_lsh += time_;
 
   //cout << smallest << " SMALLEST" << endl;
-  ofstream output;
   /* Find the nearest neighbor */
   nnDistance = exactNN(query, output);
   //cout << "NN DISTANCE " << nnDistance << endl;
@@ -102,7 +104,7 @@ void Hypercube::findNearest(Point *query, int size) {
   /* Write it to a file */
 }
 
-double Hypercube::smallestDistance(vector<tuple<int,double>>& input) {
+double Hypercube::smallestDistance(vector<tuple<int,double>>& input, ofstream& output) {
   int id = get<0>(input.at(0));
   double distance = get<1>(input.at(0)), final_distance;
   for(int i = 1; i < input.size(); i++) {
@@ -112,13 +114,15 @@ double Hypercube::smallestDistance(vector<tuple<int,double>>& input) {
       distance = final_distance;
     }
   }
+  output << "Nearest Neighbor: " << id << endl;
+  output << "distanceCube: " << distance << endl;
   return distance;
 }
 
 /* Find Nearest Neighbor into the bucket */
 vector<string>& Hypercube::magic(string& str, int i, int changesLeft, vector<string>& strs) {
         if (changesLeft == 0) {
-          cout << str << endl;
+          //cout << str << endl;
           strs.push_back(str);
           /* Hypercube */
           return strs;

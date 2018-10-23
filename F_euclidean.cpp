@@ -33,13 +33,17 @@ int F_euclidean::hashForPoint(Point *p) {
   long long int M = (long long int)pow(2.0, 32.0) - 5, mod, sum = 0;
 
   for(int i = 0; i < getK(); i++) {
-    sum += (getH(i)->hashForPoint(p) * this->Rk[i]) % M;
+    sum += modulo((getH(i)->hashForPoint(p) * this->Rk[i]), M);
   }
   //cout << "SUM" << sum << endl;
-  sum = sum % M;
-  sum = sum % this->tablesize;
+  sum = modulo(sum, M);
+  sum = modulo(sum, this->tablesize);
 
   return sum;
+}
+
+long long int F_euclidean::modulo(long long int x, long long y) {
+  return (x % y + y) % y;
 }
 
 F_euclidean::~F_euclidean() {

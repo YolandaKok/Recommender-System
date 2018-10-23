@@ -14,7 +14,8 @@ int F_hypercube::hashForPoint(Point *p) {
   for(i = getK() - 1; i >= 0; i--) {
     h = getH(i);
     hash = h->hashForPoint(p);
-    hash = hash % 2;
+    hash = (hash % 2 + 2) % 2;
+    //hash = hash % 2;
     sum += (int)pow(2.0, i) * hash;
   }
   return sum;
