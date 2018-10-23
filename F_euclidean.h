@@ -14,6 +14,7 @@ class F_euclidean: public F {
     int hashForPoint(Point *p);
     void generateRk(int k);
     long long int modulo(long long int x, long long y);
+    int uniform_distribution(int rangeLow, int rangeHigh);
     ~F_euclidean();
 };
 

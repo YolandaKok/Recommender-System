@@ -14,6 +14,7 @@ H_euclidean::H_euclidean(int w, int dimension, double mean, double variance):H(d
 int H_euclidean::hashForPoint(Point *p) {
   int result;
   result = floor(((p->innerProduct(getV()) + this->t) / this->w));
+  //cout << result << endl;
   //cout << result << " RESULT" << endl;
   return result;
 }
@@ -22,6 +23,7 @@ double H_euclidean::generateT(double mean, double variance) {
   random_device rd;
   default_random_engine generator(rd());
   uniform_real_distribution<double> distribution(mean, variance);
+  //cout << distribution(generator) << endl;
   return distribution(generator);
 }
 

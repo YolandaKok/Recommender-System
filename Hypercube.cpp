@@ -12,7 +12,7 @@
 using namespace std;
 
 /* Constructor for the Hypercube */
-Hypercube::Hypercube(int k, int probes, int M):Hashtable(k) {
+Hypercube::Hypercube(int k, int probes, int M, string lsh_family):Hashtable(k, lsh_family) {
   this->probes = probes;
   this->M = M;
 }

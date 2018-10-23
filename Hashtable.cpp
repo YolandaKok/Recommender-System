@@ -80,7 +80,12 @@ vector<tuple<int, double>> Hashtable::find(int bucket_number, Point*& q, int& co
   if(empty_list(bucket_number))
     return neighbors;
   for (std::list<Point*>::const_iterator iterator = this->hashtable.at(bucket_number)->begin(), end = this->hashtable.at(bucket_number)->end(); iterator != end; ++iterator) {
-    distance = (*iterator)->euclidean(q);
+    if(this->type == "euclidean") {
+        distance = (*iterator)->euclidean(q);
+    }
+    else {
+        distance = (*iterator)->cosine(q);
+    }
     //cout << (*iterator)->euclidean(q) << endl;
     //count_M++;
     neighbors.push_back(make_tuple((*iterator)->getId(), distance));

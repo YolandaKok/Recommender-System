@@ -4,6 +4,8 @@
 #include "F_euclidean.h"
 #include "H_euclidean.h"
 #include <ctime>
+#include <functional>
+
 using namespace std;
 
 F_euclidean::F_euclidean(int k, int tablesize):F(k) {
@@ -26,7 +28,14 @@ void F_euclidean::generateRk(int k) {
   double number;
   this->Rk = (int*) malloc(sizeof(int) * getK());
   for(i = 0; i < getK(); i++)
-    this->Rk[i] = rand() % 10000;
+    this->Rk[i] = uniform_distribution(0, 100000);
+}
+
+int F_euclidean::uniform_distribution(int rangeLow, int rangeHigh) {
+    double myRand = rand()/(1.0 + RAND_MAX);
+    int range = rangeHigh - rangeLow + 1;
+    int myRand_scaled = (myRand * range) + rangeLow;
+    return myRand_scaled;
 }
 
 int F_euclidean::hashForPoint(Point *p) {
@@ -40,6 +49,15 @@ int F_euclidean::hashForPoint(Point *p) {
   sum = modulo(sum, this->tablesize);
 
   return sum;
+
+  /*int h1 = -3, h2 = 5, h3 = -105;
+  string H, str;
+  for(int i = 0; i < getK(); i++) {
+    H = to_string(getH(i)->hashForPoint(p));
+    str.append(H);
+  }
+  hash<string> str_hash;
+  return str_hash(str) % 2500;*/
 }
 
 long long int F_euclidean::modulo(long long int x, long long y) {

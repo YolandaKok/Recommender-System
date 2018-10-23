@@ -30,6 +30,7 @@ Point* H::generateV(int dimension, double mean, double variance) {
     number = distribution(generator);
     p->addCoord(number);
   }
+  //p->print();
   return p;
 }
 
