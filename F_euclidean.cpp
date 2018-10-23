@@ -20,7 +20,6 @@ F_euclidean::F_euclidean(int k, int tablesize):F(k) {
 
 /* Generate Rk values for the euclidean F */
 void F_euclidean::generateRk(int k) {
-  srand(time(NULL));
   int i;
   random_device rd;  //Will be used to obtain a seed for the random number engine
   default_random_engine generator(rd());
@@ -42,8 +41,10 @@ int F_euclidean::hashForPoint(Point *p) {
   long long int M = (long long int)pow(2.0, 32.0) - 5, mod, sum = 0;
 
   for(int i = 0; i < getK(); i++) {
+    //cout << "h[" << i << "] = " << getH(i)->hashForPoint(p) << " ";
     sum += modulo((getH(i)->hashForPoint(p) * this->Rk[i]), M);
   }
+  cout << endl;
   //cout << "SUM" << sum << endl;
   sum = modulo(sum, M);
   sum = modulo(sum, this->tablesize);

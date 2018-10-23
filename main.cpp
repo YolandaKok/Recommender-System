@@ -14,6 +14,7 @@ int main(int argc, char* argv[]) {
   char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
   int k, L, size;
   double R = 0.0;
+  srand(time(NULL));
   /* Read the input file */
   readArgs(argv, argc, inputFile, queryFile, k, L, outputFile);
   /* Create the exact KNN algorithm */

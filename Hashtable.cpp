@@ -155,7 +155,21 @@ tuple<int,double,double> Hashtable::find_nearest_neighbor(Point *query) {
   double final_distance = 10000.0, distance;
   for (std::list<Point*>::const_iterator iterator = this->hashtable.at(hash)->begin(), end = this->hashtable.at(hash)->end(); iterator != end; ++iterator) {
     if(this->type.compare("euclidean") == 0) {
-      distance = query->euclidean((*iterator));
+      int count = 0;
+      /* See H for query and for current point in the bucket */
+      for(int z = 0; z < this->k; z++) {
+        if(f_hash->getH(z)->hashForPoint(query) == f_hash->getH(z)->hashForPoint(*iterator))
+          count++;
+      }
+      if(count == this->k) {
+        cout << "OK" << endl;
+        distance = query->euclidean((*iterator));
+      }
+      else {
+        cout << "NOT OK" << endl;
+        //distance = 200000.0;
+      }
+
     }
     else {
       distance = query->cosine((*iterator));
