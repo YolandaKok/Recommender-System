@@ -7,7 +7,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-  Hypercube *hypercube = new Hypercube(8, 30, 10);
+  Hypercube *hypercube = new Hypercube(11, 60, 10);
   char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
   int k, L, size;
   int i;
