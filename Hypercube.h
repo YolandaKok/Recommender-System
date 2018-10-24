@@ -12,7 +12,7 @@ class Hypercube: public Hashtable {
     int hashForPoint(Point *p);
     int insert_point(Point *p);
     void find_nearest_neighbor(Point *p);
-    void findNearest(Point *query, int size, ofstream& output);
+    void findNearest(Point *query, int size, ofstream& output, double R);
     vector<string>& magic(string& str, int i, int changesLeft, vector<string>& strs);
     double smallestDistance(vector<tuple<int,double>>& input, ofstream& output);
     ~Hypercube();

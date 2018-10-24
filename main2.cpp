@@ -26,9 +26,10 @@ int main(int argc, char* argv[]) {
   query = readInput("query_small", " ", "\n", k, size, 0, R);
   ofstream myfile;
   myfile.open("output.txt");
+  cout << R << endl;
 
   for(i = 0; i < query.size(); i++)
-    hypercube->findNearest(query.at(i), query.size(), myfile);
+    hypercube->findNearest(query.at(i), query.size(), myfile, R);
   //ExactKNN(query.at(1), input, myfile);
   //hypercube->findNearest(query.at(1), query.size());
   myfile.close();

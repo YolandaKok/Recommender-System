@@ -22,7 +22,7 @@ int Hypercube::insert_point(Point *p) {
   insert(p);
 }
 
-void Hypercube::findNearest(Point *query, int size, ofstream& output) {
+void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) {
   int hash = hash_for_query(query);
   int k = getK();
   int result, i, bucket_number;
@@ -35,6 +35,7 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output) {
   count_size++;
   string str1;
   str1.resize(k);
+  //cout << R << endl;
   for(i = 0; i < k; i++) {
     result = hash % 2;
     hash = hash / 2;
@@ -87,7 +88,15 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output) {
   time_ = double( clock () - begin_time ) /  CLOCKS_PER_SEC;
   output << "tCube: " << time_ << endl;
   mean_time_lsh += time_;
-
+  /* Find R nearest neighbors for query */
+  if(R > 0.0) {
+    output << "Range Items: " << endl;
+    for(int z = 0; z < results.size(); z++) {
+      if(get<1>(results.at(z)) < R) {
+        output << "Item " << get<0>(results.at(z)) << endl;
+      }
+    }
+  }
   //cout << smallest << " SMALLEST" << endl;
   /* Find the nearest neighbor */
   nnDistance = exactNN(query, output);
