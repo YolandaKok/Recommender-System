@@ -112,6 +112,12 @@ void LSH::bucket() {
    this->tables[0]->points_per_bucket();
 }
 
+int LSH::structureSize() {
+  return this->L * this->tables[0]->structureSize();
+}
+
 LSH::~LSH() {
-  free(this->tables);
+  cout << "Delete lsh" << endl;
+  for(int i = 0; i < this->L; i++)
+    delete this->tables[i];
 }

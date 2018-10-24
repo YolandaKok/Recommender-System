@@ -26,6 +26,11 @@ void Point::print() {
   cout << endl;
 }
 
+/* Get the size of structure in Bytes */
+int Point::structureSize() {
+  return sizeof(class Point) + sizeof(vector<double>) + (sizeof(double) * coords.size());
+}
+
 /* Calculate the inner product between two points */
 double Point::innerProduct(Point *p) {
   return inner_product(this->coords.begin(), this->coords.end(), p->coords.begin(), 0.0);
@@ -74,8 +79,5 @@ double Point::cosine(Point *p) {
 
 /* Destructor of the Class Point */
 Point::~Point() {
-  /*while(!coords.empty()) {
-        delete coords.back();
-        coords.pop_back();
-    }*/
+  coords.clear();
 }

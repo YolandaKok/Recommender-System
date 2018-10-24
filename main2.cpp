@@ -7,7 +7,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-  Hypercube *hypercube = new Hypercube(11, 30, 10);
+  Hypercube *hypercube = new Hypercube(8, 25, 10);
   char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
   int k, L, size;
   int i;
@@ -26,7 +26,6 @@ int main(int argc, char* argv[]) {
   query = readInput("query_small", " ", "\n", k, size, 0, R);
   ofstream myfile;
   myfile.open("output.txt");
-  cout << R << endl;
 
   for(i = 0; i < query.size(); i++)
     hypercube->findNearest(query.at(i), query.size(), myfile, R);

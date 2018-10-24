@@ -33,6 +33,7 @@ class Hashtable {
     int getSize();
     F* getF();
     int getK();
+    int structureSize();
     /* Calculate f value: bucket */
     ~Hashtable();
 };

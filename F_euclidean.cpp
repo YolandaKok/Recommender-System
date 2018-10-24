@@ -44,21 +44,12 @@ int F_euclidean::hashForPoint(Point *p) {
     //cout << "h[" << i << "] = " << getH(i)->hashForPoint(p) << " ";
     sum += modulo((getH(i)->hashForPoint(p) * this->Rk[i]), M);
   }
-  cout << endl;
+  //cout << endl;
   //cout << "SUM" << sum << endl;
   sum = modulo(sum, M);
   sum = modulo(sum, this->tablesize);
 
   return sum;
-
-  /*int h1 = -3, h2 = 5, h3 = -105;
-  string H, str;
-  for(int i = 0; i < getK(); i++) {
-    H = to_string(getH(i)->hashForPoint(p));
-    str.append(H);
-  }
-  hash<string> str_hash;
-  return str_hash(str) % 2500;*/
 }
 
 long long int F_euclidean::modulo(long long int x, long long y) {

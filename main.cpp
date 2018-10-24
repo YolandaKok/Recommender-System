@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
     lsh->find_nearest_neighbor(query.at(i), myfile, query.size(), R);
 
 
-
+  cout << lsh->structureSize() << endl;
   delete lsh;
   myfile.close();
   //input.at(0)->print();
