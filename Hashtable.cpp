@@ -168,6 +168,7 @@ tuple<int,double,double> Hashtable::find_nearest_neighbor(Point *query) {
       else {
         //cout << "NOT OK" << endl;
         //distance = 200000.0;
+        distance = query->euclidean((*iterator));
       }
 
     }
@@ -203,8 +204,8 @@ vector<int> Hashtable::rangeSearch(Point* query, double R, ofstream& output) {
 }
 
 int Hashtable::structureSize() {
-  cout << sizeof(class Hashtable) + sizeof(list<Point*>*) * size + sizeof(Point*) * size * 4<< endl;
-  return sizeof(class Hashtable) + sizeof(list<Point*>*) * size + this->hashtable.at(0)->front()->structureSize( )* size * 4;
+  //cout << sizeof(class Hashtable) + sizeof(list<Point*>*) * size + sizeof(Point*) * size * 4<< endl;
+  return sizeof(class Hashtable) + sizeof(list<Point*>*) * size + this->hashtable.at(0)->front()->structureSize( ) * size * 4 + this->f_hash->structureSize();
 }
 
 Hashtable::~Hashtable() {
@@ -212,4 +213,5 @@ Hashtable::~Hashtable() {
   //for()
   for(int i = 0; i < this->size; i++)
     delete this->hashtable.at(i);
+  delete this->f_hash;
 }

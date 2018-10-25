@@ -14,10 +14,11 @@
 #include "ExactKnn.h"
 #include "H.h"
 #include "F.h"
+#include <string>
 
 using namespace std;
 /* Read the dataset file */
-vector<Point*> readInput(const char filename[], const char seperator[], const char delimiter[], int k, int& size, int input, double& R) {
+vector<Point*> readInput(const char filename[], const char seperator[], const char delimiter[], int k, int& size, int input, double& R, char metric[10]) {
   /* Initialize random seed */
   srand (time(NULL));
   FILE *fp = NULL;
@@ -47,6 +48,13 @@ vector<Point*> readInput(const char filename[], const char seperator[], const ch
       R = atof(token);
       flag = 1;
     }
+    if(!strcmp(token, "@metric")) {
+      token = strtok(NULL, delimiters);
+      strcpy(metric, token);
+      cout << metric << endl;
+      //metric = token;
+      flag = 1;
+    }
     if(flag == 0) {
     /* Create a Point */
     Point *point = new Point();
@@ -71,6 +79,7 @@ vector<Point*> readInput(const char filename[], const char seperator[], const ch
   free(name);
   return points;
 }
+
 
 /* Read the arguments */
 int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k, int& L, char*& outputFile) {

@@ -12,6 +12,7 @@ class F_cosine: public F {
   public:
     F_cosine(int k, int tablesize);
     int hashForPoint(Point *p);
+    int structureSize();
     ~F_cosine();
 };
 #endif

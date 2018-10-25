@@ -6,20 +6,23 @@
 
 using namespace std;
 
+extern default_random_engine generator;
+
 H_euclidean::H_euclidean(int w, int dimension, double mean, double variance):H(dimension, mean, variance) {
   this->t = generateT(0.0, 4.0);
-  this->w = 300;
+  //cout << this->t << endl;
+  this->w = 400;
 }
 
 int H_euclidean::hashForPoint(Point *p) {
   int result;
   result = floor(((p->innerProduct(getV()) + this->t) / this->w));
+  //cout << p->innerProduct(getV()) << endl;
+  //cout << p->innerProduct(getV()) << endl;
   return result;
 }
 
 double H_euclidean::generateT(double mean, double variance) {
-  random_device rd;
-  default_random_engine generator(rd());
   uniform_real_distribution<double> distribution(mean, variance);
   return distribution(generator);
 }
@@ -29,5 +32,4 @@ double H_euclidean::getT() {
 }
 
 H_euclidean::~H_euclidean() {
-
 }

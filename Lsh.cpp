@@ -7,13 +7,14 @@
 #include <tuple>
 #include "ExactKnn.h"
 #include <cmath>
+#include <random>
 
 using namespace std;
 
 /* Constructor for LSH */
 LSH::LSH(int L, int size, int k, vector<Point*> points, string lsh_family) {
   int i, j;
-
+  cout << lsh_family << endl;
   string type1("euclidean");
   string type2("cosine");
   this->L = L;
@@ -113,11 +114,12 @@ void LSH::bucket() {
 }
 
 int LSH::structureSize() {
-  return this->L * this->tables[0]->structureSize();
+  return sizeof(class LSH) + this->L * this->tables[0]->structureSize();
 }
 
 LSH::~LSH() {
   cout << "Delete lsh" << endl;
   for(int i = 0; i < this->L; i++)
     delete this->tables[i];
+  free(this->tables);
 }

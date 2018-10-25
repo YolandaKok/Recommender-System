@@ -11,6 +11,7 @@ class H {
     virtual int hashForPoint(Point* p);
     /* Getters */
     Point*& getV();
+    ~H();
 };
 
 #endif

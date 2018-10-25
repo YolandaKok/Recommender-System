@@ -8,52 +8,56 @@
 #include "ExactKnn.h"
 #include "Lsh.h"
 #include <fstream>
+#include <string>
+#include <cstring>
 
+random_device rd;
+default_random_engine generator(rd());
 
 int main(int argc, char* argv[]) {
   char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
   int k, L, size;
   double R = 0.0;
+  char metric[10];
+  strcpy(metric, "euclidean");
   srand(time(NULL));
+  string str2;
   /* Read the input file */
   readArgs(argv, argc, inputFile, queryFile, k, L, outputFile);
   /* Create the exact KNN algorithm */
   vector<Point*> input;
-  input = readInput(inputFile, " ", "\n", k, size, 1, R);
+  input = readInput(inputFile, " ", "\n", k, size, 1, R, metric);
 
   vector<Point*> query;
-  query = readInput(queryFile, " ", "\n", k, size, 0, R);
+  query = readInput(queryFile, " ", "\n", k, size, 0, R, metric);
 
   ofstream myfile;
   myfile.open(outputFile);
 
+  if(strncmp(metric, "euclidean", 9) == 0) {
+      str2 = "euclidean";
+  }
 
+  if(strncmp(metric, "cosine", 6) == 0) {
+      str2 = "cosine";
+  }
 
-  LSH *lsh = new LSH(L, size, k, input);
+  LSH *lsh = new LSH(L, size, k, input, str2);
   //lsh->bucket();
   for(int i = 0; i < query.size(); i++)
     lsh->find_nearest_neighbor(query.at(i), myfile, query.size(), R);
 
-
-  cout << lsh->structureSize() << endl;
+  cout << "Used: " << lsh->structureSize() / (1024 * 1024) << " MBs." << endl;
   delete lsh;
   myfile.close();
-  //input.at(0)->print();
 
-  /*Hashtable *hashtable = new Hashtable(size, k);
-  for(int i = 0; i < input.size(); i++ ) {
-    hashtable->insert(input.at(i));
-  }*/
+  for(int i = 0; i < query.size(); i++) {
+    delete query.at(i);
+  }
 
-  //hashtable->traverse(152);
-  //hashtable->points_per_bucket();
-  //cout << hashtable->hash_for_query(query.at(0)) << endl;
-  //cout << query.at(0)->getDimension() << endl;
-  //ExactKNN(query.at(0), input);
-  //hashtable->find_nearest_neighbor(query.at(0));
-  //F *f = new F(k);
-  //Point* p = f->getV();
-  //p->print();*/
+  for(int i = 0; i < input.size(); i++) {
+    delete input.at(i);
+  }
 
   free(inputFile);free(queryFile);free(outputFile);
 

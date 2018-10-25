@@ -8,6 +8,8 @@
 
 using namespace std;
 
+extern default_random_engine generator;
+
 /* Constructor of the class H */
 H::H(int dimension, double mean, double variance) {
   this->v = generateV(dimension, mean, variance);
@@ -21,19 +23,19 @@ int H::hashForPoint(Point* p) {
 Point* H::generateV(int dimension, double mean, double variance) {
   /* Create a Point */
   Point* p = new Point();
-  random_device rd;  //Will be used to obtain a seed for the random number engine
-  /* Generate the values for the Vector v using the normal distribution */
-  default_random_engine generator(rd());
-  normal_distribution<double> distribution(mean, variance);
+  normal_distribution<double> distribution(0.0, 1.0);
   double number;
   for ( int i = 0; i < dimension; ++i ) {
     number = distribution(generator);
     p->addCoord(number);
   }
-  //p->print();
   return p;
 }
 
 Point*& H::getV() {
   return this->v;
+}
+
+H::~H() {
+  delete this->v;
 }

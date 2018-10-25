@@ -24,10 +24,17 @@ void F::setH(H* h, int i) {
   this->h_functions[i] = h;
 }
 
+int F::structureSize() {
+  
+}
+
 int F::hashForPoint(Point* p) {
 
 }
 
 F::~F() {
   cout << "Deleted F function" << endl;
+  for(int i = 0; i < k; i++)
+    delete this->h_functions[i];
+  free(this->h_functions);
 }

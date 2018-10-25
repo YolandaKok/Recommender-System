@@ -12,6 +12,7 @@ class F {
     virtual int hashForPoint(Point *p);
     int getK();
     H* getH(int i);
+    virtual int structureSize();
     void setH(H* h, int i);
     ~F();
 };
