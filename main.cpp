@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
   }
 
   LSH *lsh = new LSH(L, size, k, input, str2);
-  //lsh->bucket();
+  lsh->bucket();
   for(int i = 0; i < query.size(); i++)
     lsh->find_nearest_neighbor(query.at(i), myfile, query.size(), R);
 

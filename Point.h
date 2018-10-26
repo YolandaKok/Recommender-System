@@ -3,6 +3,7 @@
 #include <vector>
 using namespace std;
 
+//template <typename T1><typename T2>
 class Point {
   private:
     /* The length of the point */

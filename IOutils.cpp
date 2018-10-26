@@ -58,12 +58,20 @@ vector<Point*> readInput(const char filename[], const char seperator[], const ch
     if(flag == 0) {
     /* Create a Point */
     Point *point = new Point();
-    point->setId(i);
+    //point->setId(i);
+    int k = 0;
     while( token != NULL ) {
-      //printf( "%s\n", token );
+      if(k == 0) {
+        point->setId(atoi(token));
+        k++;
+      }
+      else {
+        /* Make token a double */
+        point->addCoord(atof(token));
+      }
       /* Make token a double */
       /* Create an array of points */
-      point->addCoord(atof(token));
+      //point->addCoord(atof(token));
       token = strtok(NULL, delimiters);
    }
    //point->print();

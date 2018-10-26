@@ -11,7 +11,7 @@ F_hypercube::F_hypercube(int k, int tablesize): F_euclidean(k, tablesize) {
 int F_hypercube::hashForPoint(Point *p) {
   int hash, i, sum = 0;
   H *h;
-  for(i = getK() - 1; i >= 0; i--) {
+  for(i = 0; i < getK(); i++) {
     h = getH(i);
     hash = h->hashForPoint(p);
     hash = (hash % 2 + 2) % 2;
