@@ -19,11 +19,12 @@ int main(int argc, char* argv[]) {
   int k, L, size;
   double R = 0.0;
   char metric[10];
+  int M, probes;
   strcpy(metric, "euclidean");
   srand(time(NULL));
   string str2;
   /* Read the input file */
-  readArgs(argv, argc, inputFile, queryFile, k, L, outputFile);
+  readArgs(argv, argc, inputFile, queryFile, k, L, outputFile, M, probes);
   /* Create the exact KNN algorithm */
   vector<Point*> input;
   input = readInput(inputFile, " ", "\n", k, size, 1, R, metric);
@@ -42,7 +43,7 @@ int main(int argc, char* argv[]) {
       str2 = "cosine";
   }
 
-  LSH *lsh = new LSH(L, size, k, input, str2);
+  LSH *lsh = new LSH(L, size, k, input, str2, input.size());
   lsh->bucket();
   for(int i = 0; i < query.size(); i++)
     lsh->find_nearest_neighbor(query.at(i), myfile, query.size(), R);

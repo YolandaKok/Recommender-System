@@ -12,7 +12,7 @@
 using namespace std;
 
 /* Constructor for the Hypercube */
-Hypercube::Hypercube(int k, int probes, int M, string lsh_family):Hashtable(k, lsh_family) {
+Hypercube::Hypercube(int input_size, int k, int probes, int M, string lsh_family):Hashtable(k, input_size, lsh_family) {
   this->probes = probes;
   this->M = M;
 }
@@ -45,7 +45,7 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
   output << "Query: Item" << query->getId() << endl;
   // Call the nearest neighbor function
   bucket_number = stoi(str1, nullptr, 2);
-  cout << str1 << endl;
+  //cout << str1 << endl;
   vector<tuple<int,double>> results, results2, ab;
   /* Start Counting Time */
   results = find(bucket_number, query, count_M, M);
@@ -68,7 +68,7 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
         break;
       /* Found the bucket number */
       bucket_number = stoi(strs.at(j), nullptr, 2);
-      cout << strs.at(j) << endl;
+      //cout << strs.at(j) << endl;
       results2 = find(bucket_number, query, count_M, M);
       for(int i = 0; i < results2.size(); i++) {
         results.push_back(results2.at(i));
@@ -99,7 +99,7 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
       }
     }
   }
-  cout << "lolo" << endl;
+  //cout << "lolo" << endl;
   //cout << smallest << " SMALLEST" << endl;
   /* Find the nearest neighbor */
   nnDistance = exactNN(query, output);
@@ -146,6 +146,10 @@ vector<string>& Hypercube::magic(string& str, int i, int changesLeft, vector<str
         // or don't flip it (flip it again to undo)
         str[i] = str[i] == '0' ? '1' : '0';
         magic(str, i-1, changesLeft, strs);
+}
+
+int Hypercube::structureSizeCube() {
+  return sizeof(class Hypercube) + structureSize();
 }
 
 Hypercube::~Hypercube() {

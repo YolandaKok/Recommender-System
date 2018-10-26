@@ -90,9 +90,9 @@ vector<Point*> readInput(const char filename[], const char seperator[], const ch
 
 
 /* Read the arguments */
-int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k, int& L, char*& outputFile) {
+int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k, int& L, char*& outputFile, int& probes, int& M) {
   int i;
-  if(!strcmp(argv[0], "./lsh")) {
+  if(!strcmp(argv[0], "./cube") || !strcmp(argv[0], "./lsh")) {
       //printf("lsh \n");
       /* Read the arguments for the lsh */
       /* Code to handle the command line flags */
@@ -114,6 +114,12 @@ int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k
         else if(!strcmp(argv[i], "-o")) {
           outputFile = (char*)malloc(strlen(argv[i+1]) + 1);
           strcpy(outputFile, argv[i+1]);
+        }
+        else if(!strcmp(argv[i], "-probes")) {
+          probes = atoi(argv[i+1]);
+        }
+        else if(!strcmp(argv[i], "-M")) {
+          M = atoi(argv[i+1]);
         }
       }
   }

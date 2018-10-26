@@ -16,10 +16,11 @@
 
 using namespace std;
 
-Hashtable::Hashtable(int size, int k, string lsh_family) {
+Hashtable::Hashtable(int size, int k, string lsh_family, int input_size) {
   string type1("euclidean");
   string type2("cosine");
   this->k = k;
+  this->input_size = input_size;
   this->type = lsh_family;
   if(type1.compare(lsh_family) == 0) {
     /* Initialize f */
@@ -46,9 +47,10 @@ int Hashtable::getK() {
   return this->k;
 }
 
-Hashtable::Hashtable(int k, string lsh_family) {
+Hashtable::Hashtable(int k, int input_size, string lsh_family) {
   this->type = lsh_family;
   this->size = (int)pow(2.0, k);
+  this->input_size = input_size;
   /* Initialize f */
   this->f_hash = new F_hypercube(k, size);
   /* Make it a parameter */
@@ -204,8 +206,8 @@ vector<int> Hashtable::rangeSearch(Point* query, double R, ofstream& output) {
 }
 
 int Hashtable::structureSize() {
-  //cout << sizeof(class Hashtable) + sizeof(list<Point*>*) * size + sizeof(Point*) * size * 4<< endl;
-  return sizeof(class Hashtable) + sizeof(list<Point*>*) * size + this->hashtable.at(0)->front()->structureSize( ) * size * 4 + this->f_hash->structureSize();
+  cout << "Hypercube" << endl;
+  return sizeof(class Hashtable) + sizeof(list<Point*>*) * size + this->hashtable.at(0)->front()->structureSize( ) * input_size + this->f_hash->structureSize();
 }
 
 Hashtable::~Hashtable() {
