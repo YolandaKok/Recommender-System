@@ -12,7 +12,8 @@
 #include "F.h"
 #include <string>
 #include <cmath>
-#include "F_hypercube.h"
+#include "F_hypercube_euclidean.h"
+#include "F_hypercube_cosine.h"
 
 using namespace std;
 
@@ -48,11 +49,22 @@ int Hashtable::getK() {
 }
 
 Hashtable::Hashtable(int k, int input_size, string lsh_family) {
+  string type1("euclidean");
+  string type2("cosine");
   this->type = lsh_family;
   this->size = (int)pow(2.0, k);
   this->input_size = input_size;
+  if(type1.compare(lsh_family) == 0) {
+    /* Initialize f */
+    this->f_hash = new F_hypercube_euclidean(k, size);
+    cout << "eu" << endl;
+  }
+  if(type2.compare(lsh_family) == 0) {
+    /* Initialize f */
+    this->f_hash = new F_hypercube_cosine(k, size);
+    cout << "cos" << endl;
+  }
   /* Initialize f */
-  this->f_hash = new F_hypercube(k, size);
   /* Make it a parameter */
   this->k = k;
   this->hashtable.reserve(this->size);
@@ -65,6 +77,7 @@ Hashtable::Hashtable(int k, int input_size, string lsh_family) {
 int Hashtable::insert(Point *p) {
   int bucket_number;
   bucket_number = this->f_hash->hashForPoint(p);
+  cout << bucket_number << endl;
   this->hashtable.at(bucket_number)->push_back(p);
   return 1;
 }

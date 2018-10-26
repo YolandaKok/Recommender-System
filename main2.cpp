@@ -29,13 +29,9 @@ int main(int argc, char* argv[]) {
   vector<Point*> input;
   input = readInput(inputFile, " ", "\n", k, size, 1, R, metric);
 
-  Hypercube *hypercube = new Hypercube(input.size(), k, probes, M, metric);
-
-  for(i = 0; i < input.size(); i++)
-    hypercube->insert_point(input.at(i));
-
   vector<Point*> query;
   query = readInput(queryFile, " ", "\n", k, size, 0, R, metric);
+
   if(strncmp(metric, "euclidean", 9) == 0) {
       str2 = "euclidean";
   }
@@ -43,6 +39,13 @@ int main(int argc, char* argv[]) {
   if(strncmp(metric, "cosine", 6) == 0) {
       str2 = "cosine";
   }
+
+  Hypercube *hypercube = new Hypercube(input.size(), k, probes, M, str2);
+
+  for(i = 0; i < input.size(); i++)
+    hypercube->insert_point(input.at(i));
+
+
   ofstream myfile;
   myfile.open(outputFile);
   //hypercube->points_per_bucket();
@@ -52,7 +55,5 @@ int main(int argc, char* argv[]) {
   myfile.close();
   cout << hypercube->structureSizeCube() / (1024 * 1024) << endl;
   delete hypercube;
-    //cout << R << endl;
-    cout << metric << endl;
   return 1;
 }
