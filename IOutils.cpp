@@ -30,10 +30,10 @@ vector<Point*> readInput(const char filename[], const char seperator[], const ch
   delimiters = (char*)malloc(strlen(seperator) + strlen(delimiter) + 1);
   strcat(delimiters, seperator);
   strcat(delimiters, delimiter);
-  name = (char*)malloc(strlen(filename) + strlen("datasets/") + 1);
-  sprintf(name, "datasets/%s", filename);
+  //name = (char*)malloc(strlen(filename) + strlen("") + 1);
+  //sprintf(name, "%s", filename);
   /* Open the file */
-  fp = fopen(name,"r");
+  fp = fopen(filename,"r");
   if(fp == NULL)
     assert(fp != NULL);
 
