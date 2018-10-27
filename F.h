@@ -13,6 +13,7 @@ class F {
     int getK();
     H* getH(int i);
     virtual int structureSize();
+    virtual vector<int> getHFun(Point *p);
     void setH(H* h, int i);
     ~F();
 };

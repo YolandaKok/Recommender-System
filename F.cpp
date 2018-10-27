@@ -20,12 +20,16 @@ H* F::getH(int i) {
   return this->h_functions[i];
 }
 
+vector<int> F::getHFun(Point *p) {
+
+}
+
 void F::setH(H* h, int i) {
   this->h_functions[i] = h;
 }
 
 int F::structureSize() {
-  
+
 }
 
 int F::hashForPoint(Point* p) {

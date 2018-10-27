@@ -77,9 +77,20 @@ Hashtable::Hashtable(int k, int input_size, string lsh_family) {
 int Hashtable::insert(Point *p) {
   int bucket_number;
   bucket_number = this->f_hash->hashForPoint(p);
-  cout << bucket_number << endl;
+  //cout << bucket_number << endl;
   this->hashtable.at(bucket_number)->push_back(p);
   return 1;
+}
+
+int Hashtable::insert(Point *p, int bucket_number) {
+  this->hashtable.at(bucket_number)->push_back(p);
+  return 1;
+}
+
+vector<int> Hashtable::getHFunctions(Point *p) {
+  vector<int> hash;
+  hash = this->f_hash->getHFun(p);
+  return hash;
 }
 
 bool Hashtable::empty_list(int bucket_number) {
@@ -124,12 +135,12 @@ double Hashtable::exactNN(Point*& q, ofstream& output) {
   int id = 0;
   const clock_t begin_time = clock();
   clock_t interval;
-  id = this->hashtable.at(0)->front()->getId();
+  //id = this->hashtable.at(0)->front()->getId();
   if(this->type.compare("euclidean") == 0) {
-    final_distance = this->hashtable.at(0)->front()->euclidean(q);
+    final_distance = 10000;
   }
   else {
-    final_distance = this->hashtable.at(0)->front()->cosine(q);
+    final_distance = 10000;
   }
 
   for(int i = 0; i < this->size; i++) {
@@ -219,7 +230,6 @@ vector<int> Hashtable::rangeSearch(Point* query, double R, ofstream& output) {
 }
 
 int Hashtable::structureSize() {
-  cout << "Hypercube" << endl;
   return sizeof(class Hashtable) + sizeof(list<Point*>*) * size + this->hashtable.at(0)->front()->structureSize( ) * input_size + this->f_hash->structureSize();
 }
 

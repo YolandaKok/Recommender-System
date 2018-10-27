@@ -8,6 +8,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <map>
+#include <iterator>
 
 using namespace std;
 
@@ -19,11 +21,77 @@ Hypercube::Hypercube(int input_size, int k, int probes, int M, string lsh_family
 
 /* Value of h function */
 int Hypercube::insert_point(Point *p) {
-  insert(p);
+  map<int, int>::iterator it ;
+  int value;
+  int k = getK();
+  //string bucket_number;
+  //bitset<20> bucket_number;
+  vector<bool> bucket_number;
+  /* Get all the h functions */
+  vector<int> hash = getHFunctions(p);
+  for(int i = 0; i < getK(); i++) {
+    //cout << hash.at(i) << " ";
+    it = this->hash_values.find(hash.at(i));
+
+    if(it == this->hash_values.end()) {
+      //cout << "Key-value pair not present in map" << endl ;
+      value = rand() % 2;
+      bucket_number.push_back(value);
+      this->hash_values.insert(pair <int, int> (hash.at(i), value));
+    }
+    else {
+      /*cout << "Key-value pair present : "
+        << it->first << "->" << it->second << endl;*/
+        bucket_number.push_back(it->second);
+    }
+  }
+  //cout << endl;
+  //cout << bucket_number.at(0) << bucket_number.at(1) << bucket_number.at(2) << endl;
+  //cout << toInt(bucket_number) << endl;
+  //cout << bucket_number.to_ulong() << endl;
+  insert(p, toInt(bucket_number));
 }
 
+/* Convert a vector<bool> to int */
+int Hypercube::toInt(vector<bool> boolean) {
+  int decimal = 0;
+  for(int i = 0; i < getK(); i++) {
+    decimal += (int)pow(2.0, i) * boolean.at(getK()-i-1);
+  }
+  return decimal;
+}
+
+/* Return vector<bool> for getH from vector<int> */
+int Hypercube::hashValue(vector<int> elements) {
+  map<int, int>::iterator it;
+  vector<bool> number;
+  int final_number;
+
+  for(int i = 0; i < getK(); i++) {
+    //cout << hash.at(i) << " ";
+    it = this->hash_values.find(elements.at(i));
+
+    if(it == this->hash_values.end()) {
+      //cout << "Key-value pair not present in map" << endl ;
+      //value = rand() % 2;
+      number.push_back(0);
+      //this->hash_values.insert(pair <int, int> (hash.at(i), value));
+    }
+    else {
+      /*cout << "Key-value pair present : "
+        << it->first << "->" << it->second << endl;*/
+        number.push_back(it->second);
+    }
+  }
+  return toInt(number);
+}
+
+
 void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) {
-  int hash = hash_for_query(query);
+  //int hash = hash_for_query(query);
+  /* getHFunctions for query */
+  vector<int> hash_array = getHFunctions(query);
+  int hash = hashValue(hash_array);
   int k = getK();
   int result, i, bucket_number;
   char z;

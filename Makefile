@@ -20,17 +20,21 @@ F_cosine.o: F_cosine.cpp
 	g++ -std=c++11 -c F_cosine.cpp
 Lsh.o: Lsh.cpp
 	g++ -std=c++11 -c Lsh.cpp
+read.o: read.cpp
+	g++ -std=c++11 -c read.cpp
 Hashtable.o: Hashtable.cpp
 	g++ -std=c++11 -c Hashtable.cpp
 Hypercube.o: Hypercube.cpp
 	g++ -std=c++11 -c Hypercube.cpp
-F_hypercube.o: F_hypercube.cpp
-	g++ -std=c++11 -c F_hypercube.cpp
+F_hypercube_euclidean.o: F_hypercube_euclidean.cpp
+	g++ -std=c++11 -c F_hypercube_euclidean.cpp
+F_hypercube_cosine.o: F_hypercube_cosine.cpp
+	g++ -std=c++11 -c F_hypercube_cosine.cpp
 main2.o: main2.cpp
 	g++ -std=c++11 -c main2.cpp
-lsh: main.o IOutils.o Point.o ExactKnn.o H.o F.o Hashtable.o Lsh.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube.o
-	g++ -std=c++11 -o lsh main.o IOutils.o Point.o ExactKnn.o H.o F.o Hashtable.o Lsh.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube.o
-cube: main2.o Hypercube.o IOutils.o Point.o H.o F.o Hashtable.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube.o ExactKnn.o
-	g++ -std=c++11 -o cube main2.o Hypercube.o IOutils.o Point.o H.o F.o Hashtable.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube.o ExactKnn.o
+lsh: main.o IOutils.o Point.o ExactKnn.o H.o F.o Hashtable.o Lsh.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube_euclidean.o F_hypercube_cosine.o read.o
+	g++ -std=c++11 -o lsh main.o IOutils.o Point.o ExactKnn.o H.o F.o Hashtable.o Lsh.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube_euclidean.o F_hypercube_cosine.o read.o
+cube: main2.o Hypercube.o IOutils.o Point.o H.o F.o Hashtable.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube_euclidean.o ExactKnn.o F_hypercube_cosine.o read.o
+	g++ -std=c++11 -o cube main2.o Hypercube.o IOutils.o Point.o H.o F.o Hashtable.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube_euclidean.o ExactKnn.o F_hypercube_cosine.o read.o
 clean:
 	rm -f *.o lsh cube
