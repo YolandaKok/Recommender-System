@@ -17,22 +17,34 @@ using namespace std;
 Hypercube::Hypercube(int input_size, int k, int probes, int M, string lsh_family):Hashtable(k, input_size, lsh_family) {
   this->probes = probes;
   this->M = M;
+  this->lsh_family = lsh_family;
 }
 
 /* Value of h function */
 int Hypercube::insert_point(Point *p) {
   map<int, int>::iterator it ;
   int value;
+  vector<bool> bucket_number;
+  vector<int> hash;
   int k = getK();
+  string type1("euclidean");
+  string type2("cosine");
+  if(type2.compare(this->lsh_family) == 0) {
+    hash = getHFunctions(p);
+    for( int i = 0; i < getK(); i++ ) {
+      bucket_number.push_back(hash.at(i));
+    }
+  }
+  else {
   //string bucket_number;
   //bitset<20> bucket_number;
-  vector<bool> bucket_number;
+
   /* Get all the h functions */
-  vector<int> hash = getHFunctions(p);
+  hash = getHFunctions(p);
   for(int i = 0; i < getK(); i++) {
     //cout << hash.at(i) << " ";
     it = this->hash_values.find(hash.at(i));
-
+    //cout << hash.at(i) << endl;
     if(it == this->hash_values.end()) {
       //cout << "Key-value pair not present in map" << endl ;
       value = rand() % 2;
@@ -40,15 +52,15 @@ int Hypercube::insert_point(Point *p) {
       this->hash_values.insert(pair <int, int> (hash.at(i), value));
     }
     else {
-      /*cout << "Key-value pair present : "
-        << it->first << "->" << it->second << endl;*/
+        /*cout << "Key-value pair present : "*/
+        //cout << it->first << "->" << it->second << endl;
         bucket_number.push_back(it->second);
     }
   }
-  //cout << endl;
-  //cout << bucket_number.at(0) << bucket_number.at(1) << bucket_number.at(2) << endl;
+  }
+
   //cout << toInt(bucket_number) << endl;
-  //cout << bucket_number.to_ulong() << endl;
+
   insert(p, toInt(bucket_number));
 }
 

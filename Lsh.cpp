@@ -106,6 +106,10 @@ void LSH::find_nearest_neighbor(Point *query, ofstream& output, int size, double
   if(count == size) {
       cout << "Max approximation: " << mean_distance << endl;
       cout << "Mean time for approximate NN: " << mean_time_lsh / size << endl;
+      count = 0;
+      mean_distance = 0.0;
+      final_mean_distance = 0.0;
+      mean_time_lsh = 0.0;
   }
 }
 

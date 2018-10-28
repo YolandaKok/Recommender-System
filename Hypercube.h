@@ -9,6 +9,7 @@ class Hypercube: public Hashtable {
     map<int, int> hash_values; /* Map to keep the h functions */
     int probes; /* Number of the probes that we will examine */
     int M; /* Number of points that we will examine */
+    string lsh_family;
   public:
     Hypercube(int input_size, int k = 3, int probes = 2, int M = 10, string lsh_family="euclidean");
     int hashForPoint(Point *p);

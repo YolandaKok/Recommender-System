@@ -36,9 +36,6 @@ int main(int argc, char* argv[]) {
     else if(!strcmp(argv[i], "-k")) {
       k = atoi(argv[i+1]);
     }
-    else if(!strcmp(argv[i], "-L")) {
-      L = atoi(argv[i+1]);
-    }
     else if(!strcmp(argv[i], "-o")) {
       outputFile = (char*)malloc(strlen(argv[i+1]) + 1);
       strcpy(outputFile, argv[i+1]);
