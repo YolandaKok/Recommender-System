@@ -27,6 +27,8 @@ int F_cosine::hashForPoint(Point *p) {
   return sum;
 }
 
+F_cosine::
+
 F_cosine::~F_cosine() {
 
 }

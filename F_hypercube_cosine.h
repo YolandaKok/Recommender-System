@@ -7,6 +7,7 @@ class F_hypercube_cosine: public F_cosine {
   public:
     F_hypercube_cosine(int k, int size);
     //int hashForPoint(Point *p);
+    vector<int> getHFun(Point *p);
     ~F_hypercube_cosine();
 };
 
