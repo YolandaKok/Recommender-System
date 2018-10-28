@@ -51,19 +51,35 @@ int main(int argc, char* argv[]) {
     }
   }
 
+  char inputF[100];
+  char queryF[100];
+  char outputF[100];
+  if( inputFile == NULL ) {
+    cout << "Insert input dataset path: " << endl;
+    cin >> inputF ;
+    inputFile = (char*)malloc(strlen(inputF) + 1);
+    strcpy(inputFile, inputF);
+  }
+
   srand(time(NULL));
   /* Read the input file */
-  //readArgs(argv, argc, inputFile, queryFile, k, L, outputFile, M, probes);
-  cout << inputFile << endl;
   /* Create the exact KNN algorithm */
   vector<Point*> input;
   input = readInput(inputFile, " ", "\n", k, size, 1, R, metric);
-  //input = readFile(inputFile, R);
-
+  Hypercube *hypercube;
   vector<Point*> query;
-  query = readInput(queryFile, " ", "\n", k, size, 0, R, metric);
-  //query = readFile(queryFile, R);
+  string answer("yes");
+  int count = 0;
+  while(answer.compare("yes") == 0) {
+    if( queryFile == NULL ) {
+      cout << "Insert query path: " << endl;
+      cin >> queryF ;
+      queryFile = (char*)malloc(strlen(queryF) + 1);
+      strcpy(queryFile, queryF);
+    }
 
+
+    query = readInput(queryFile, " ", "\n", k, size, 0, R, metric);
 
     if(strncmp(metric, "euclidean", 9) == 0) {
         str2 = "euclidean";
@@ -72,20 +88,50 @@ int main(int argc, char* argv[]) {
     if(strncmp(metric, "cosine", 6) == 0) {
         str2 = "cosine";
     }
+    if(count == 0) {
+      hypercube = new Hypercube(input.size(), k, probes, M, str2);
 
-  Hypercube *hypercube = new Hypercube(input.size(), k, probes, M, str2);
+      for(i = 0; i < input.size(); i++)
+        hypercube->insert_point(input.at(i));
+    }
 
-  for(i = 0; i < input.size(); i++)
-    hypercube->insert_point(input.at(i));
+    if( outputFile == NULL ) {
+      cout << "Insert output path: " << endl;
+      cin >> outputF ;
+      outputFile = (char*)malloc(strlen(outputF) + 1);
+      strcpy(outputFile, outputF);
+    }
 
 
-  ofstream myfile;
-  myfile.open(outputFile);
-  //hypercube->points_per_bucket();
-  for(i = 0; i < query.size(); i++)
-    hypercube->findNearest(query.at(i), query.size(), myfile, R);
-  myfile.close();
-  cout << hypercube->structureSizeCube() / (1024 * 1024) << "MB" << endl;
+      ofstream myfile;
+      myfile.open(outputFile);
+      //hypercube->points_per_bucket();
+      for(i = 0; i < query.size(); i++)
+        hypercube->findNearest(query.at(i), query.size(), myfile, R);
+      myfile.close();
+      cout << "Do you want to insert more query files ? (yes, no)" << endl;
+      cout << endl;
+      cin >> answer;
+      free(outputFile);
+      outputFile = NULL;
+      free(queryFile);
+      queryFile = NULL;
+      count++;
+      /* Deallocate query */
+      for(int i = 0; i < query.size(); i++) {
+        delete query.at(i);
+      }
+  }
+
+  cout << "Hypercube Size: " << hypercube->structureSizeCube() / (1024 * 1024) << "MBs" << endl;
   delete hypercube;
+
+  for(int i = 0; i < input.size(); i++) {
+    delete input.at(i);
+  }
+
+  free(inputFile);
+
+
   return 1;
 }

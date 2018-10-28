@@ -180,7 +180,11 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
   if(count_size == size) {
       cout << "Max approximation: " << final_max_approximation << endl;
       cout << "tMean: " << mean_time_lsh/size << endl;
+      count_size = 0;
+      mean_time_lsh = 0.0;
+      final_max_approximation = 0.0;
   }
+  free(str);
   /* Write it to a file */
 }
 
