@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
   for(i = 0; i < query.size(); i++)
     hypercube->findNearest(query.at(i), query.size(), myfile, R);
   myfile.close();
-  //cout << hypercube->structureSizeCube() / (1024 * 1024) << endl;
+  cout << hypercube->structureSizeCube() / (1024 * 1024) << "MB" << endl;
   delete hypercube;
   return 1;
 }
