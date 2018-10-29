@@ -33,7 +33,7 @@ vector<Point*> readFile(char* file, double& R) {
         else {
           line.erase(0, pos + delimiter.length());
           if(count == 0) {
-            point->setId(stoi(token));
+            point->setId(token);
           }
           else {
             //cout << token << endl;;

@@ -1,13 +1,14 @@
 #ifndef __POINT__
 #define __POINT__
 #include <vector>
+#include <string>
 using namespace std;
 
 //template <typename T1><typename T2>
 class Point {
   private:
     /* The length of the point */
-    int id;
+    string id;
     int dimension;
     vector<double> coords;
   public:
@@ -16,8 +17,8 @@ class Point {
     /* Get Dimensions */
     int getDimension();
     /* Set Id */
-    void setId(int id);
-    int getId();
+    void setId(string id);
+    string getId();
     /* Show the list of the coords of the point */
     void print();
     /* Inner Product between two points */

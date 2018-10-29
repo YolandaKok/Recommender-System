@@ -27,18 +27,6 @@ int Hypercube::insert_point(Point *p) {
   vector<bool> bucket_number;
   vector<int> hash;
   int k = getK();
-  string type1("euclidean");
-  string type2("cosine");
-  if(type2.compare(this->lsh_family) == 0) {
-    hash = getHFunctions(p);
-    for( int i = 0; i < getK(); i++ ) {
-      bucket_number.push_back(hash.at(i));
-    }
-  }
-  else {
-  //string bucket_number;
-  //bitset<20> bucket_number;
-
   /* Get all the h functions */
   hash = getHFunctions(p);
   for(int i = 0; i < getK(); i++) {
@@ -57,9 +45,6 @@ int Hypercube::insert_point(Point *p) {
         bucket_number.push_back(it->second);
     }
   }
-  }
-
-  //cout << toInt(bucket_number) << endl;
 
   insert(p, toInt(bucket_number));
 }
@@ -100,7 +85,6 @@ int Hypercube::hashValue(vector<int> elements) {
 
 
 void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) {
-  //int hash = hash_for_query(query);
   /* getHFunctions for query */
   vector<int> hash_array = getHFunctions(query);
   int hash = hashValue(hash_array);
@@ -122,11 +106,11 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
     /* Calculate the input string */
     str1[k-i-1] = result + '0';
   }
-  output << "Query: Item" << query->getId() << endl;
+  output << "Query: Item " << query->getId() << endl;
   // Call the nearest neighbor function
   bucket_number = stoi(str1, nullptr, 2);
   //cout << str1 << endl;
-  vector<tuple<int,double>> results, results2, ab;
+  vector<tuple<string,double>> results, results2, ab;
   /* Start Counting Time */
   results = find(bucket_number, query, count_M, M);
   //cout << get<0>(results.at()) << "xoxo" << endl;
@@ -200,8 +184,8 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
   /* Write it to a file */
 }
 
-double Hypercube::smallestDistance(vector<tuple<int,double>>& input, ofstream& output) {
-  int id = get<0>(input.at(0));
+double Hypercube::smallestDistance(vector<tuple<string,double>>& input, ofstream& output) {
+  string id = get<0>(input.at(0));
   double distance = get<1>(input.at(0)), final_distance;
   for(int i = 1; i < input.size(); i++) {
     final_distance = get<1>(input.at(i));

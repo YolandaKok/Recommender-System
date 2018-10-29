@@ -46,11 +46,11 @@ void LSH::find_nearest_neighbor(Point *query, ofstream& output, int size, double
   static double mean_distance = 0.0, final_mean_distance;
   double real_distance;
   count++;
-  vector<tuple<int,double,double>> neighbors;
-  vector<int> ids;
-  vector<int> ids_new;
+  vector<tuple<string,double,double>> neighbors;
+  vector<string> ids;
+  vector<string> ids_new;
   int flag = 0;
-  output << "Query: Item" << query->getId() << endl;
+  output << "Query: Item " << query->getId() << endl;
   output << "R-nearest Neighbors: " << endl;
   /* Check if R = 0 Approximate NN */
   if(R > 0.0) {
@@ -74,15 +74,15 @@ void LSH::find_nearest_neighbor(Point *query, ofstream& output, int size, double
     output << "Item " << ids_new.at(w) << endl;
   }
   /* Vector of tuples */
-  vector<tuple<int,double,double>> results;
-  tuple<int, double, double> result;
+  vector<tuple<string,double,double>> results;
+  tuple<string, double, double> result;
   for(i = 0; i < this->L; i++) {
     result = this->tables[i]->find_nearest_neighbor(query);
     results.push_back(result);
   }
   /* Find the minimum */
   double distance, time_;
-  int id;
+  string id;
   id = get<0>(results.at(0));
   distance = get<1>(results.at(0));
   time_ = get<2>(results.at(0));

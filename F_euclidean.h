@@ -15,8 +15,8 @@ class F_euclidean: public F {
     void generateRk(int k);
     long long int modulo(long long int x, long long y);
     int uniform_distribution(int rangeLow, int rangeHigh);
-    int structureSize(); 
-    ~F_euclidean();
+    int structureSize();
+    virtual ~F_euclidean();
 };
 
 #endif

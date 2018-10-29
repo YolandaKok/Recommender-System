@@ -11,7 +11,6 @@ class LSH {
     int k;
     int size;
     Hashtable **tables;
-    //default_random_engine& generator;
   public:
     LSH(int L, int size, int k, vector<Point*> points,string lsh_family, int input_size);
     void find_nearest_neighbor(Point *query, ofstream& output, int size, double R);

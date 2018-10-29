@@ -12,7 +12,7 @@ using namespace std;
 
 double ExactKNN(Point* p, vector<Point*> input, ofstream& output) {
   double distance = 0.0, final_distance;
-  int id = 0;
+  string id;
   /* Initialize time */
   const clock_t begin_time = clock();
   clock_t interval;

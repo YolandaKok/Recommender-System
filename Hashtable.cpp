@@ -99,9 +99,9 @@ bool Hashtable::empty_list(int bucket_number) {
   return false;
 }
 
-vector<tuple<int, double>> Hashtable::find(int bucket_number, Point*& q, int& count_M, int M_total) {
+vector<tuple<string, double>> Hashtable::find(int bucket_number, Point*& q, int& count_M, int M_total) {
   /* Create a vector of tuples */
-  vector<tuple<int, double>> neighbors;
+  vector<tuple<string, double>> neighbors;
   double distance;
   if(empty_list(bucket_number))
     return neighbors;
@@ -132,7 +132,7 @@ void Hashtable::points_per_bucket() {
 
 double Hashtable::exactNN(Point*& q, ofstream& output) {
   double distance, final_distance;
-  int id = 0;
+  string id;
   const clock_t begin_time = clock();
   clock_t interval;
   //id = this->hashtable.at(0)->front()->getId();
@@ -171,13 +171,13 @@ F* Hashtable::getF() {
   return this->f_hash;
 }
 
-tuple<int,double,double> Hashtable::find_nearest_neighbor(Point *query) {
+tuple<string,double,double> Hashtable::find_nearest_neighbor(Point *query) {
   /* Distance and Time */
-  tuple<int, double, double> results;
+  tuple<string, double, double> results;
   const clock_t begin_time = clock();
   clock_t interval;
   int hash = hash_for_query(query);
-  int id = 0;
+  string id;
   double final_distance = 10000.0, distance;
   for (std::list<Point*>::const_iterator iterator = this->hashtable.at(hash)->begin(), end = this->hashtable.at(hash)->end(); iterator != end; ++iterator) {
     if(this->type.compare("euclidean") == 0) {
@@ -211,9 +211,9 @@ tuple<int,double,double> Hashtable::find_nearest_neighbor(Point *query) {
 }
 
 
-vector<int> Hashtable::rangeSearch(Point* query, double R, ofstream& output) {
+vector<string> Hashtable::rangeSearch(Point* query, double R, ofstream& output) {
   int hash = hash_for_query(query);
-  vector<int> ids;
+  vector<string> ids;
   double distance;
   for (std::list<Point*>::const_iterator iterator = this->hashtable.at(hash)->begin(), end = this->hashtable.at(hash)->end(); iterator != end; ++iterator) {
     if(this->type.compare("euclidean") == 0) {

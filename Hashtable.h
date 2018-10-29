@@ -25,13 +25,13 @@ class Hashtable {
     /* Insert if we have the bucket number */
     int insert(Point *p, int bucket_number);
     bool empty_list(int bucket_number);
-    vector<tuple<int, double>> find(int bucket_number, Point*& q, int& count_M, int M_total);
+    vector<tuple<string, double>> find(int bucket_number, Point*& q, int& count_M, int M_total);
     int hash_for_query(Point *query);
     /* Return h functions */
     vector<int> getHFunctions(Point *p);
     /* Find bucket for query point */
-    tuple<int,double,double> find_nearest_neighbor(Point *query);
-    vector<int> rangeSearch(Point* q, double R, ofstream& output);
+    tuple<string,double,double> find_nearest_neighbor(Point *query);
+    vector<string> rangeSearch(Point* q, double R, ofstream& output);
     double exactNN(Point*& q, ofstream& output);
     /* Traverse the array and find the number of points in each bucket */
     void points_per_bucket();

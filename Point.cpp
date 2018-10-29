@@ -38,11 +38,11 @@ double Point::innerProduct(Point *p) {
 
 /* Getters */
 /* Setters */
-void Point::setId(int id) {
+void Point::setId(string id) {
   this->id = id;
 }
 
-int Point::getId() {
+string Point::getId() {
   return this->id;
 }
 
