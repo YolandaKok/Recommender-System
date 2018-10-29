@@ -99,7 +99,6 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
   count_size++;
   string str1;
   str1.resize(k);
-  //cout << R << endl;
   for(i = 0; i < k; i++) {
     result = hash % 2;
     hash = hash / 2;
@@ -113,7 +112,6 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
   vector<tuple<string,double>> results, results2, ab;
   /* Start Counting Time */
   results = find(bucket_number, query, count_M, M);
-  //cout << get<0>(results.at()) << "xoxo" << endl;
   //cout << count_M << endl;
   // Look at the first probe
   clock_t begin_time = clock();
@@ -124,15 +122,13 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
     /*if(count_M == M)
       break;*/
     strs.clear();
-    //cout << "For " << count << endl;
-    magic(str1, k - 1, count, strs);
+    hamming(str1, k - 1, count, strs);
     for(int j = 0; j < strs.size(); j++) {
       probes_count++;
       if(probes_count > this->probes)
         break;
       /* Found the bucket number */
       bucket_number = stoi(strs.at(j), nullptr, 2);
-      //cout << strs.at(j) << endl;
       results2 = find(bucket_number, query, count_M, M);
       for(int i = 0; i < results2.size(); i++) {
         results.push_back(results2.at(i));
@@ -144,8 +140,6 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
     }
     count++;
   } while(this->probes >= probes_count);
-
-  //cout << probes_count << "Count" << endl;
 
   double smallest, nnDistance, max_approximation;
   static double final_max_approximation = 0.0;
@@ -163,11 +157,8 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
       }
     }
   }
-  //cout << "lolo" << endl;
-  //cout << smallest << " SMALLEST" << endl;
   /* Find the nearest neighbor */
   nnDistance = exactNN(query, output);
-  //cout << "NN DISTANCE " << nnDistance << endl;
   max_approximation = smallest / nnDistance;
   /* Find with nn the smallest distance */
   if(max_approximation > final_max_approximation) {
@@ -200,7 +191,7 @@ double Hypercube::smallestDistance(vector<tuple<string,double>>& input, ofstream
 }
 
 /* Find Nearest Neighbor into the bucket */
-vector<string>& Hypercube::magic(string& str, int i, int changesLeft, vector<string>& strs) {
+vector<string>& Hypercube::hamming(string& str, int i, int changesLeft, vector<string>& strs) {
         if (changesLeft == 0) {
           //cout << str << endl;
           strs.push_back(str);
@@ -210,13 +201,14 @@ vector<string>& Hypercube::magic(string& str, int i, int changesLeft, vector<str
         if (i < 0) return strs;
         // flip current bit
         str[i] = str[i] == '0' ? '1' : '0';
-        magic(str, i-1, changesLeft-1, strs);
+        hamming(str, i-1, changesLeft-1, strs);
         // or don't flip it (flip it again to undo)
         str[i] = str[i] == '0' ? '1' : '0';
-        magic(str, i-1, changesLeft, strs);
+        hamming(str, i-1, changesLeft, strs);
 }
 
 int Hypercube::structureSizeCube() {
+  cout << "Points" << getPointsSize() << endl;
   return sizeof(class Hypercube) + structureSize() + sizeof(hash_values) + hash_values.size() * sizeof(int) * 2 + getPointsSize();
 }
 

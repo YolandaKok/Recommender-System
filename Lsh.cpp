@@ -117,6 +117,7 @@ void LSH::bucket() {
 }
 
 int LSH::structureSize() {
+  cout << "Points" << this->tables[0]->getPointsSize() << endl;
   return sizeof(class LSH) + this->L * this->tables[0]->structureSize() + this->tables[0]->getPointsSize();
 }
 

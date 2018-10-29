@@ -174,7 +174,7 @@ F* Hashtable::getF() {
 tuple<string,double,double> Hashtable::find_nearest_neighbor(Point *query) {
   /* Distance and Time */
   tuple<string, double, double> results;
-  const clock_t begin_time = clock();
+  clock_t begin_time = clock();
   clock_t interval;
   int hash = hash_for_query(query);
   string id;

@@ -16,7 +16,7 @@ class Hypercube: public Hashtable {
     int insert_point(Point *p);
     void find_nearest_neighbor(Point *p);
     void findNearest(Point *query, int size, ofstream& output, double R);
-    vector<string>& magic(string& str, int i, int changesLeft, vector<string>& strs);
+    vector<string>& hamming(string& str, int i, int changesLeft, vector<string>& strs);
     double smallestDistance(vector<tuple<string,double>>& input, ofstream& output);
     int structureSizeCube();
     int toInt(vector<bool> boolean);
