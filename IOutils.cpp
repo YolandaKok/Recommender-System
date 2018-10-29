@@ -11,7 +11,6 @@
 #include "Point.h"
 #include <stdlib.h>
 #include <time.h>
-#include "ExactKnn.h"
 #include "H.h"
 #include "F.h"
 #include <string>
@@ -20,7 +19,6 @@ using namespace std;
 /* Read the dataset file */
 vector<Point*> readInput(const char filename[], const char seperator[], const char delimiter[], int k, int& size, int input, double& R, char metric[10]) {
   /* Initialize random seed */
-  //srand (time(NULL));
   FILE *fp = NULL;
   char line[LINE_SIZE];
   char *name = NULL, *token = NULL, *delimiters = NULL;

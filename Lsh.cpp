@@ -5,7 +5,6 @@
 #include <string>
 #include <utility>
 #include <tuple>
-#include "ExactKnn.h"
 #include <cmath>
 #include <random>
 
@@ -118,7 +117,7 @@ void LSH::bucket() {
 }
 
 int LSH::structureSize() {
-  return sizeof(class LSH) + this->L * this->tables[0]->structureSize();
+  return sizeof(class LSH) + this->L * this->tables[0]->structureSize() + this->tables[0]->getPointsSize();
 }
 
 LSH::~LSH() {

@@ -5,7 +5,6 @@
 #include "IOutils.h"
 #include "Hashtable.h"
 #include "F.h"
-#include "ExactKnn.h"
 #include "Lsh.h"
 #include <fstream>
 #include <string>
@@ -118,7 +117,7 @@ int main(int argc, char* argv[]) {
       }
   }
 
-  cout << "Used: " << lsh->structureSize() / (1024 * 1024) << " MBs." << endl;
+  cout << "Used: " << lsh->structureSize() << " bytes" << endl;
   delete lsh;
 
   for(int i = 0; i < input.size(); i++) {

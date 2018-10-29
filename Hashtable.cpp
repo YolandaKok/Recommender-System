@@ -230,6 +230,10 @@ vector<string> Hashtable::rangeSearch(Point* query, double R, ofstream& output) 
 }
 
 int Hashtable::structureSize() {
+  return sizeof(class Hashtable) + sizeof(list<Point*>*) * size + sizeof(Point*) * input_size + this->f_hash->structureSize();
+}
+
+int Hashtable::getPointsSize() {
   int i = 0;
   for(;;) {
     if(this->hashtable.at(i)->front() != NULL) {
@@ -237,7 +241,7 @@ int Hashtable::structureSize() {
     }
     i++;
   }
-  return sizeof(class Hashtable) + sizeof(list<Point*>*) * size + this->hashtable.at(i)->front()->structureSize( ) * input_size + this->f_hash->structureSize();
+  return this->hashtable.at(i)->front()->structureSize() * input_size;
 }
 
 Hashtable::~Hashtable() {

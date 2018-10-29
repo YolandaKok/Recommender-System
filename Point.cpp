@@ -28,7 +28,7 @@ void Point::print() {
 
 /* Get the size of structure in Bytes */
 int Point::structureSize() {
-  return sizeof(class Point) + sizeof(vector<double>) + (sizeof(double) * coords.size());
+  return sizeof(class Point) + (sizeof(double) * coords.size());
 }
 
 /* Calculate the inner product between two points */

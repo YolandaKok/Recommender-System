@@ -14,7 +14,7 @@ F_cosine::F_cosine(int k, int tablesize):F(k) {
 }
 
 int F_cosine::structureSize() {
-  return sizeof(class F_cosine);
+  return sizeof(class F_cosine) + sizeof(class H_cosine);
 }
 
 int F_cosine::hashForPoint(Point *p) {
@@ -26,8 +26,6 @@ int F_cosine::hashForPoint(Point *p) {
   }
   return sum;
 }
-
-F_cosine::
 
 F_cosine::~F_cosine() {
 

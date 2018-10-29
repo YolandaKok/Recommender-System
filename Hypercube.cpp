@@ -217,7 +217,7 @@ vector<string>& Hypercube::magic(string& str, int i, int changesLeft, vector<str
 }
 
 int Hypercube::structureSizeCube() {
-  return sizeof(class Hypercube) + structureSize() + sizeof(hash_values) + hash_values.size() * sizeof(int) * 2;
+  return sizeof(class Hypercube) + structureSize() + sizeof(hash_values) + hash_values.size() * sizeof(int) * 2 + getPointsSize();
 }
 
 Hypercube::~Hypercube() {

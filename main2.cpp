@@ -1,12 +1,10 @@
 #include <iostream>
 #include "Hypercube.h"
 #include "IOutils.h"
-#include "ExactKnn.h"
 #include <fstream>
 #include <cstring>
 #include <string>
 #include <random>
-#include "read.h"
 
 using namespace std;
 
@@ -120,7 +118,7 @@ int main(int argc, char* argv[]) {
       }
   }
 
-  cout << "Hypercube Size: " << hypercube->structureSizeCube() / (1024 * 1024) << "MBs" << endl;
+  cout << "Hypercube Size: " << hypercube->structureSizeCube() << " bytes" << endl;
   delete hypercube;
 
   for(int i = 0; i < input.size(); i++) {
