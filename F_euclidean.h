@@ -9,8 +9,9 @@ class F_euclidean: public F {
   private:
     int *Rk;
     int tablesize;
+    double dimension;
   public:
-    F_euclidean(int k, int tablesize);
+    F_euclidean(int k, int tablesize, double dimension);
     int hashForPoint(Point *p);
     void generateRk(int k);
     long long int modulo(long long int x, long long y);

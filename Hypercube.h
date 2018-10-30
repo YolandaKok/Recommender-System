@@ -10,8 +10,9 @@ class Hypercube: public Hashtable {
     int probes; /* Number of the probes that we will examine */
     int M; /* Number of points that we will examine */
     string lsh_family;
+    double dimension;
   public:
-    Hypercube(int input_size, int k = 3, int probes = 2, int M = 10, string lsh_family="euclidean");
+    Hypercube(int input_size, double dimension, int k = 3, int probes = 2, int M = 10, string lsh_family="euclidean");
     int hashForPoint(Point *p);
     int insert_point(Point *p);
     void find_nearest_neighbor(Point *p);

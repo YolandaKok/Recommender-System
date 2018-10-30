@@ -10,9 +10,10 @@ class LSH {
     int L;
     int k;
     int size;
+    double dimension;
     Hashtable **tables;
   public:
-    LSH(int L, int size, int k, vector<Point*> points,string lsh_family, int input_size);
+    LSH(int L, int size, int k, vector<Point*> points,string lsh_family, int input_size, double dimension);
     void find_nearest_neighbor(Point *query, ofstream& output, int size, double R);
     void bucket();
     int structureSize();

@@ -8,7 +8,7 @@ using namespace std;
 
 class H_cosine: public H {
   public:
-    H_cosine(int dimension, double mean, double variance);
+    H_cosine(double dimension, double mean, double variance);
     int hashForPoint(Point *p);
     ~H_cosine();
 };

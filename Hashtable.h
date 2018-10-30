@@ -16,10 +16,11 @@ class Hashtable {
     string type;
     int k;
     int input_size;
+    double dimension;
   public:
     /* Constructor */
-    Hashtable(int size, int k, string lsh_family, int input_size);
-    Hashtable(int k, int input_size, string lsh_family = "euclidean");
+    Hashtable(int size, int k, string lsh_family, int input_size, double dimension);
+    Hashtable(int k, int input_size, int dimension, string lsh_family = "euclidean");
     /* Insert point into the hashtable */
     int insert(Point *p);
     /* Insert if we have the bucket number */

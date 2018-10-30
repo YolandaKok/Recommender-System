@@ -9,7 +9,7 @@ class H_euclidean: public H {
     double t;
     int w;
   public:
-    H_euclidean(int w, int dimension, double mean, double variance);
+    H_euclidean(int w, double dimension, double mean, double variance);
     /* Redefine hashForPoint */
     int hashForPoint(Point *p);
     double generateT(double mean, double variance);

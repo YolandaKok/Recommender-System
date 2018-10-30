@@ -60,6 +60,7 @@ int main(int argc, char* argv[]) {
   /* Create the exact KNN algorithm */
   vector<Point*> input;
   input = readInput(inputFile, " ", "\n", k, size, 1, R, metric);
+  cout << input.at(0)->getDimension() << endl;
   vector<Point*> query;
   //query = readInput(queryFile, " ", "\n", k, size, 0, R, metric);
   string answer("yes");
@@ -86,7 +87,7 @@ int main(int argc, char* argv[]) {
         str2 = "cosine";
     }
     if(count == 0) {
-      lsh = new LSH(L, size, k, input, str2, input.size());
+      lsh = new LSH(L, size, k, input, str2, input.size(), input.at(0)->getDimension());
     }
 
     if( outputFile == NULL ) {

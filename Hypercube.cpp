@@ -14,10 +14,11 @@
 using namespace std;
 
 /* Constructor for the Hypercube */
-Hypercube::Hypercube(int input_size, int k, int probes, int M, string lsh_family):Hashtable(k, input_size, lsh_family) {
+Hypercube::Hypercube(int input_size, double dimension, int k, int probes, int M, string lsh_family):Hashtable(k, input_size, dimension, lsh_family) {
   this->probes = probes;
   this->M = M;
   this->lsh_family = lsh_family;
+  this->dimension = dimension;
 }
 
 /* Value of h function */

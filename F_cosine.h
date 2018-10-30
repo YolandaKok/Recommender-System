@@ -9,8 +9,9 @@
 class F_cosine: public F {
   private:
     int tablesize;
+    double dimension;
   public:
-    F_cosine(int k, int tablesize);
+    F_cosine(int k, int tablesize, double dimension);
     int hashForPoint(Point *p);
     int structureSize();
     ~F_cosine();

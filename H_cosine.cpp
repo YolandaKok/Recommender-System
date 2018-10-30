@@ -6,7 +6,7 @@
 
 using namespace std;
 
-H_cosine::H_cosine(int dimension, double mean, double variance):H(dimension, mean, variance) {
+H_cosine::H_cosine(double dimension, double mean, double variance):H(dimension, mean, variance) {
 
 }
 

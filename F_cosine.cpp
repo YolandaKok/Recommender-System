@@ -5,11 +5,12 @@
 #include "H_cosine.h"
 using namespace std;
 
-F_cosine::F_cosine(int k, int tablesize):F(k) {
+F_cosine::F_cosine(int k, int tablesize, double dimension):F(k, dimension) {
   this->tablesize = tablesize;
+  this->dimension = dimension;
   /* Create k H_euclidean functions */
   for( int i = 0; i < getK(); i++ ) {
-    setH((H_cosine*)new H_cosine(128, 0.0, 1.0), i);
+    setH((H_cosine*)new H_cosine(dimension, 0.0, 1.0), i);
   }
 }
 

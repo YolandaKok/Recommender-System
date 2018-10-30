@@ -15,7 +15,7 @@ Point::Point() {
 /* Add point into the Vector */
 void Point::addCoord(double coord) {
   coords.push_back(coord);
-  dimension = coords.size();
+  dimension = (double)coords.size();
 }
 
 /* Print data points */
@@ -46,7 +46,7 @@ string Point::getId() {
   return this->id;
 }
 
-int Point::getDimension() {
+double Point::getDimension() {
   return dimension;
 }
 

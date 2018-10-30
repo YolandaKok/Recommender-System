@@ -11,13 +11,14 @@
 using namespace std;
 
 /* Constructor for LSH */
-LSH::LSH(int L, int size, int k, vector<Point*> points, string lsh_family, int input_size) {
+LSH::LSH(int L, int size, int k, vector<Point*> points, string lsh_family, int input_size, double dimension) {
   int i, j;
   cout << lsh_family << endl;
   string type1("euclidean");
   string type2("cosine");
   this->L = L;
   this->k = k;
+  this->dimension = dimension;
   if(type1.compare(lsh_family) == 0) {
     this->size = size / 4;
   }
@@ -29,7 +30,7 @@ LSH::LSH(int L, int size, int k, vector<Point*> points, string lsh_family, int i
   this->tables = (Hashtable**)malloc(sizeof(Hashtable*) * L);
   /* Open a file */
   for(i = 0; i < L; i++) {
-    this->tables[i] = new Hashtable(this->size, k, lsh_family, input_size);
+    this->tables[i] = new Hashtable(this->size, k, lsh_family, input_size, dimension);
   }
   /* Insert the points to every hashtable */
   for(i = 0; i < L; i++)

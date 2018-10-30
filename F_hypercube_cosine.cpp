@@ -5,7 +5,7 @@
 
 using namespace std;
 
-F_hypercube_cosine::F_hypercube_cosine(int k, int tablesize): F_cosine(k, tablesize) {
+F_hypercube_cosine::F_hypercube_cosine(int k, int tablesize, double dimension): F_cosine(k, tablesize, dimension) {
 
 }
 

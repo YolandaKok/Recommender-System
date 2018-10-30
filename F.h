@@ -7,8 +7,9 @@ class F {
   private:
     H** h_functions;
     int k;
+    double dimension;
   public:
-    F(int k);
+    F(int k, double dimension);
     virtual int hashForPoint(Point *p);
     int getK();
     H* getH(int i);

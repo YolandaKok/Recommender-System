@@ -84,7 +84,7 @@ int main(int argc, char* argv[]) {
         str2 = "cosine";
     }
     if(count == 0) {
-      hypercube = new Hypercube(input.size(), k, probes, M, str2);
+      hypercube = new Hypercube(input.size(), input.at(0)->getDimension(), k, probes, M, str2);
 
       for(i = 0; i < input.size(); i++)
         hypercube->insert_point(input.at(i));

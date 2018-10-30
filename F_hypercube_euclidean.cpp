@@ -5,7 +5,7 @@
 
 using namespace std;
 
-F_hypercube_euclidean::F_hypercube_euclidean(int k, int tablesize): F_euclidean(k, tablesize) {
+F_hypercube_euclidean::F_hypercube_euclidean(int k, int tablesize, double dimension): F_euclidean(k, tablesize, dimension) {
 
 }
 

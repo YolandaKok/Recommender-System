@@ -6,10 +6,11 @@
 
 using namespace std;
 
-F::F(int k) {
+F::F(int k, double dimension) {
   /* Initialize the h functions */
   this->h_functions = (H**) malloc(sizeof(H*) * k);
   this->k = k;
+  this->dimension = dimension;
 }
 
 int F::getK() {
@@ -37,7 +38,6 @@ int F::hashForPoint(Point* p) {
 }
 
 F::~F() {
-  cout << "Deleted F function" << endl;
   for(int i = 0; i < k; i++)
     delete this->h_functions[i];
   free(this->h_functions);

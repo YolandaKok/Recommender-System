@@ -17,19 +17,20 @@
 
 using namespace std;
 
-Hashtable::Hashtable(int size, int k, string lsh_family, int input_size) {
+Hashtable::Hashtable(int size, int k, string lsh_family, int input_size, double dimension) {
   string type1("euclidean");
   string type2("cosine");
   this->k = k;
   this->input_size = input_size;
   this->type = lsh_family;
+  this->dimension = dimension;
   if(type1.compare(lsh_family) == 0) {
     /* Initialize f */
-    this->f_hash = new F_euclidean(k, size);
+    this->f_hash = new F_euclidean(k, size, dimension);
   }
   if(type2.compare(lsh_family) == 0) {
     /* Initialize f */
-    this->f_hash = new F_cosine(k, size);
+    this->f_hash = new F_cosine(k, size, dimension);
   }
   /* Make it a parameter */
   this->size = size;
@@ -48,20 +49,21 @@ int Hashtable::getK() {
   return this->k;
 }
 
-Hashtable::Hashtable(int k, int input_size, string lsh_family) {
+Hashtable::Hashtable(int k, int input_size, int dimension, string lsh_family) {
   string type1("euclidean");
   string type2("cosine");
+  this->dimension = dimension;
   this->type = lsh_family;
   this->size = (int)pow(2.0, k);
   this->input_size = input_size;
   if(type1.compare(lsh_family) == 0) {
     /* Initialize f */
-    this->f_hash = new F_hypercube_euclidean(k, size);
+    this->f_hash = new F_hypercube_euclidean(k, size, dimension);
     cout << "eu" << endl;
   }
   if(type2.compare(lsh_family) == 0) {
     /* Initialize f */
-    this->f_hash = new F_hypercube_cosine(k, size);
+    this->f_hash = new F_hypercube_cosine(k, size, dimension);
     cout << "cos" << endl;
   }
   /* Initialize f */
@@ -245,8 +247,6 @@ int Hashtable::getPointsSize() {
 }
 
 Hashtable::~Hashtable() {
-  cout << "Delete Hashtable" << endl;
-  //for()
   for(int i = 0; i < this->size; i++)
     delete this->hashtable.at(i);
   delete this->f_hash;

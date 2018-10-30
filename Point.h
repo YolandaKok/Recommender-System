@@ -15,7 +15,7 @@ class Point {
     Point();
     void addCoord(double coord);
     /* Get Dimensions */
-    int getDimension();
+    double getDimension();
     /* Set Id */
     void setId(string id);
     string getId();
