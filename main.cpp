@@ -109,6 +109,7 @@ int main(int argc, char* argv[]) {
       free(queryFile);
       queryFile = NULL;
       count++;
+      R = 0.0;
       /* Deallocate query */
       for(int i = 0; i < query.size(); i++) {
         delete query.at(i);
