@@ -31,18 +31,15 @@ int Hypercube::insert_point(Point *p) {
   /* Get all the h functions */
   hash = getHFunctions(p);
   for(int i = 0; i < getK(); i++) {
-    //cout << hash.at(i) << " ";
     it = this->hash_values.find(hash.at(i));
-    //cout << hash.at(i) << endl;
+    /* Check if h value is not into the map */
+    /* If it is not into the map find a random 0 or 1 */
     if(it == this->hash_values.end()) {
-      //cout << "Key-value pair not present in map" << endl ;
       value = rand() % 2;
       bucket_number.push_back(value);
       this->hash_values.insert(pair <int, int> (hash.at(i), value));
     }
     else {
-        /*cout << "Key-value pair present : "*/
-        //cout << it->first << "->" << it->second << endl;
         bucket_number.push_back(it->second);
     }
   }
@@ -66,18 +63,12 @@ int Hypercube::hashValue(vector<int> elements) {
   int final_number;
 
   for(int i = 0; i < getK(); i++) {
-    //cout << hash.at(i) << " ";
     it = this->hash_values.find(elements.at(i));
 
     if(it == this->hash_values.end()) {
-      //cout << "Key-value pair not present in map" << endl ;
-      //value = rand() % 2;
       number.push_back(0);
-      //this->hash_values.insert(pair <int, int> (hash.at(i), value));
     }
     else {
-      /*cout << "Key-value pair present : "
-        << it->first << "->" << it->second << endl;*/
         number.push_back(it->second);
     }
   }
@@ -100,6 +91,7 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
   count_size++;
   string str1;
   str1.resize(k);
+  /* From string to int */
   for(i = 0; i < k; i++) {
     result = hash % 2;
     hash = hash / 2;
@@ -173,7 +165,6 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
       final_max_approximation = 0.0;
   }
   free(str);
-  /* Write it to a file */
 }
 
 double Hypercube::smallestDistance(vector<tuple<string,double>>& input, ofstream& output) {
@@ -191,10 +182,9 @@ double Hypercube::smallestDistance(vector<tuple<string,double>>& input, ofstream
   return distance;
 }
 
-/* Find Nearest Neighbor into the bucket */
+/* Find all the strings with hamming distance k */
 vector<string>& Hypercube::hamming(string& str, int i, int changesLeft, vector<string>& strs) {
         if (changesLeft == 0) {
-          //cout << str << endl;
           strs.push_back(str);
           /* Hypercube */
           return strs;
@@ -208,6 +198,7 @@ vector<string>& Hypercube::hamming(string& str, int i, int changesLeft, vector<s
         hamming(str, i-1, changesLeft, strs);
 }
 
+/* Find the structure size */
 int Hypercube::structureSizeCube() {
   //cout << "Points " << getPointsSize() << " bytes" << endl;
   return sizeof(class Hypercube) + structureSize() + sizeof(hash_values) + hash_values.size() * sizeof(int) * 2 + getPointsSize();

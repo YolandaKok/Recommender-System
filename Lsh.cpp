@@ -24,7 +24,6 @@ LSH::LSH(int L, int size, int k, vector<Point*> points, string lsh_family, int i
   }
   if(type2.compare(lsh_family) == 0) {
     this->size = (int)pow(2.0, k);
-    //cout << "size cosine " << this->size << endl;
   }
 
   this->tables = (Hashtable**)malloc(sizeof(Hashtable*) * L);
@@ -57,6 +56,7 @@ void LSH::find_nearest_neighbor(Point *query, ofstream& output, int size, double
     for(i = 0; i < this->L; i++) {
       ids = this->tables[i]->rangeSearch(query, R, output);
       /* Make it another function */
+      /* Check for double ids into the rangeSearch */
       for(int z = 0; z < ids.size(); z++) {
         for(int j = 0; j < ids_new.size(); j++) {
           if(ids.at(z) == ids_new.at(j)) {

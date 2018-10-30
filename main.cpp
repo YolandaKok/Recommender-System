@@ -22,9 +22,7 @@ int main(int argc, char* argv[]) {
   strcpy(metric, "euclidean");
   srand(time(NULL));
   string str2;
-  /* Read the input file */
-  //readArgs(argv, argc, inputFile, queryFile, k, L, outputFile, M, probes);
-
+  /* Read the arguments from the command line */
   for(int i = 1; i < argc; i += 2) {
     if(!strcmp(argv[i], "-d")) {
       inputFile = (char*)malloc(strlen(argv[i+1]) + 1);
@@ -57,13 +55,11 @@ int main(int argc, char* argv[]) {
     strcpy(inputFile, inputF);
   }
 
-  /* Create the exact KNN algorithm */
+  /* Read Input file */
   vector<Point*> input;
   input = readInput(inputFile, " ", "\n", k, size, 1, R, metric);
 
-  //cout << input.at(0)->getDimension() << endl;
   vector<Point*> query;
-  //query = readInput(queryFile, " ", "\n", k, size, 0, R, metric);
   string answer("yes");
   int count = 0;
   LSH *lsh;
@@ -122,6 +118,7 @@ int main(int argc, char* argv[]) {
   cout << "Used: " << lsh->structureSize() << " bytes" << endl;
   delete lsh;
 
+  /* Deallocate input */
   for(int i = 0; i < input.size(); i++) {
     delete input.at(i);
   }

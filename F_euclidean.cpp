@@ -52,6 +52,7 @@ int F_euclidean::hashForPoint(Point *p) {
   return sum;
 }
 
+/* Used the definition of modulo for positive and negative number */
 long long int F_euclidean::modulo(long long int x, long long y) {
   return (x % y + y) % y;
 }
