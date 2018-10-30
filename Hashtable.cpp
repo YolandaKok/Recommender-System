@@ -59,12 +59,12 @@ Hashtable::Hashtable(int k, int input_size, int dimension, string lsh_family) {
   if(type1.compare(lsh_family) == 0) {
     /* Initialize f */
     this->f_hash = new F_hypercube_euclidean(k, size, dimension);
-    cout << "eu" << endl;
+    //cout << "eu" << endl;
   }
   if(type2.compare(lsh_family) == 0) {
     /* Initialize f */
     this->f_hash = new F_hypercube_cosine(k, size, dimension);
-    cout << "cos" << endl;
+    //cout << "cos" << endl;
   }
   /* Initialize f */
   /* Make it a parameter */

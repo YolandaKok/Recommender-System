@@ -24,7 +24,7 @@ LSH::LSH(int L, int size, int k, vector<Point*> points, string lsh_family, int i
   }
   if(type2.compare(lsh_family) == 0) {
     this->size = (int)pow(2.0, k);
-    cout << "size cosine " << this->size << endl;
+    //cout << "size cosine " << this->size << endl;
   }
 
   this->tables = (Hashtable**)malloc(sizeof(Hashtable*) * L);
@@ -118,7 +118,7 @@ void LSH::bucket() {
 }
 
 int LSH::structureSize() {
-  cout << "Points" << this->tables[0]->getPointsSize() << endl;
+  cout << "Points " << this->tables[0]->getPointsSize() << " bytes" << endl;
   return sizeof(class LSH) + this->L * this->tables[0]->structureSize() + this->tables[0]->getPointsSize();
 }
 
