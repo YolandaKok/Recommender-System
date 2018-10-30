@@ -9,16 +9,16 @@
 #include <fstream>
 #include <string>
 #include <cstring>
+#include <stdexcept>
 
 random_device rd;
 default_random_engine generator(rd());
 
 int main(int argc, char* argv[]) {
   char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
-  int k, L, size;
+  int k = 4, L = 5, size;
   double R = 0.0;
   char metric[10];
-  int M, probes;
   strcpy(metric, "euclidean");
   srand(time(NULL));
   string str2;
@@ -60,6 +60,7 @@ int main(int argc, char* argv[]) {
   /* Create the exact KNN algorithm */
   vector<Point*> input;
   input = readInput(inputFile, " ", "\n", k, size, 1, R, metric);
+
   //cout << input.at(0)->getDimension() << endl;
   vector<Point*> query;
   //query = readInput(queryFile, " ", "\n", k, size, 0, R, metric);

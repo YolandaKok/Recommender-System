@@ -13,8 +13,8 @@ default_random_engine generator(rd());
 
 int main(int argc, char* argv[]) {
   char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
-  int k, L, size;
-  int M, probes;
+  int k = 3, L, size;
+  int M = 10, probes = 2;
   int i;
   double R = 0.0;
   char metric[10];
