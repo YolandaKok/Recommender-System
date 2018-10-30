@@ -209,7 +209,7 @@ vector<string>& Hypercube::hamming(string& str, int i, int changesLeft, vector<s
 }
 
 int Hypercube::structureSizeCube() {
-  cout << "Points " << getPointsSize() << " bytes" << endl;
+  //cout << "Points " << getPointsSize() << " bytes" << endl;
   return sizeof(class Hypercube) + structureSize() + sizeof(hash_values) + hash_values.size() * sizeof(int) * 2 + getPointsSize();
 }
 
