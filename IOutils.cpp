@@ -11,7 +11,10 @@
 #include "Point.h"
 #include <stdlib.h>
 #include <time.h>
+#include <fstream>
+#include <string>
 #include "H.h"
+#include <sstream>
 #include "F.h"
 #include <string>
 
@@ -83,6 +86,60 @@ vector<Point*> readInput(const char filename[], const char seperator[], const ch
 
   free(delimiters);
   free(name);
+  return points;
+}
+
+
+/* New I/O read using C++ */
+vector<Point*> readFile(const char filename[], int k, int& size, int input, double& R, string& metric) {
+  string line;
+  string word;
+  vector<Point*> points;
+  ifstream myfile (filename);
+  int flag = 0;
+  int count = 0, countPoint = 0;
+  Point *point;
+  if (myfile.is_open())
+  {
+    while ( getline (myfile,line) )
+    {
+      /* Find the metric */
+      //cout << line << endl;
+      istringstream iss(line);
+      while(iss >> word) {
+       /* do stuff with word */
+       /* If it is input small find metric */
+          if(!word.compare("@metric")) {
+             iss >> word;
+             metric = word;
+           }
+          else if(!word.compare("Radius:")) {
+             iss >> word;
+             R = stod(word);
+          }
+          else {
+            flag = 1;
+            if(countPoint == 0) {
+              point = new Point();
+              //cout << word << endl;
+              point->setId(word);
+              countPoint++;
+            }
+            else {
+              point->addCoord(stoi(word));
+            }
+          }
+      }
+      if(flag) {
+        points.push_back(point);
+      }
+      count++;
+      countPoint = 0;
+    }
+    myfile.close();
+  }
+  if(input)
+    size = points.size();
   return points;
 }
 

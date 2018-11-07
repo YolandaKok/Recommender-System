@@ -9,11 +9,10 @@
 #include <vector>
 #include "Point.h"
 #include "IOutils.h"
-#include "Lsh.h"
 using namespace std;
 
-random_device rd;
-default_random_engine generator(rd());
+//random_device rd;
+//default_random_engine generator(rd());
 
 int main(int argc, char* argv[]) {
   char *inputFile = NULL, *queryFile = NULL, *outputFile = NULL;
@@ -70,7 +69,6 @@ int main(int argc, char* argv[]) {
   /* Read Input file */
   vector<Point*> input;
   input = readFile(inputFile, k, size, 1, R, metric);
-  cout << input.size() << endl;
 
   vector<Point*> query;
   string answer("yes");

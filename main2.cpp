@@ -17,10 +17,7 @@ int main(int argc, char* argv[]) {
   int M = 10, probes = 2;
   int i;
   double R = 0.0;
-  char metric[10];
-  //string metric("euclidean");
-  strcpy(metric, "euclidean");
-  string str2;
+  string metric("euclidean");
 
   for(int i = 1; i < argc; i += 2) {
     if(!strcmp(argv[i], "-d")) {
@@ -60,7 +57,7 @@ int main(int argc, char* argv[]) {
   /* Read the input file */
   /* Create the exact KNN algorithm */
   vector<Point*> input;
-  input = readInput(inputFile, " ", "\n", k, size, 1, R, metric);
+  input = readFile(inputFile, k, size, 1, R, metric);
   Hypercube *hypercube;
   vector<Point*> query;
   string answer("yes");
@@ -74,17 +71,10 @@ int main(int argc, char* argv[]) {
     }
 
 
-    query = readInput(queryFile, " ", "\n", k, size, 0, R, metric);
+    query = readFile(queryFile, k, size, 0, R, metric);
 
-    if(strncmp(metric, "euclidean", 9) == 0) {
-        str2 = "euclidean";
-    }
-
-    if(strncmp(metric, "cosine", 6) == 0) {
-        str2 = "cosine";
-    }
     if(count == 0) {
-      hypercube = new Hypercube(input.size(), input.at(0)->getDimension(), k, probes, M, str2);
+      hypercube = new Hypercube(input.size(), input.at(0)->getDimension(), k, probes, M, metric);
 
       for(i = 0; i < input.size(); i++)
         hypercube->insert_point(input.at(i));
