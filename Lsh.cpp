@@ -46,32 +46,10 @@ void LSH::find_nearest_neighbor(Point *query, ofstream& output, int size, double
   double real_distance;
   count++;
   vector<tuple<string,double,double>> neighbors;
-  vector<string> ids;
   vector<string> ids_new;
-  int flag = 0;
-  output << "Query: Item " << query->getId() << endl;
-  output << "R-nearest Neighbors: " << endl;
   /* Check if R = 0 Approximate NN */
   if(R > 0.0) {
-    for(i = 0; i < this->L; i++) {
-      ids = this->tables[i]->rangeSearch(query, R, output);
-      /* Make it another function */
-      /* Check for double ids into the rangeSearch */
-      for(int z = 0; z < ids.size(); z++) {
-        for(int j = 0; j < ids_new.size(); j++) {
-          if(ids.at(z) == ids_new.at(j)) {
-            flag = 1;
-          }
-        }
-        if(flag == 0)
-          ids_new.push_back(ids.at(z));
-        flag = 0;
-      }
-      ids.clear();
-    }
-  }
-  for(int w = 0; w < ids_new.size(); w++) {
-    output << "Item " << ids_new.at(w) << endl;
+    ids_new = rangeSearch(query, R, output);
   }
   /* Vector of tuples */
   vector<tuple<string,double,double>> results;
@@ -111,6 +89,38 @@ void LSH::find_nearest_neighbor(Point *query, ofstream& output, int size, double
       final_mean_distance = 0.0;
       mean_time_lsh = 0.0;
   }
+}
+
+vector<string> LSH::rangeSearch(Point *query, double R, ofstream& output) {
+  vector<string> ids;
+  vector<string> ids_new;
+  int flag = 0, i;
+
+  output << "Query: Item " << query->getId() << endl;
+  output << "R-nearest Neighbors: " << endl;
+
+  for(i = 0; i < this->L; i++) {
+    ids = this->tables[i]->rangeSearch(query, R, output);
+    /* Make it another function */
+    /* Check for double ids into the rangeSearch */
+    for(int z = 0; z < ids.size(); z++) {
+      for(int j = 0; j < ids_new.size(); j++) {
+        if(ids.at(z) == ids_new.at(j)) {
+          flag = 1;
+        }
+      }
+      if(flag == 0)
+        ids_new.push_back(ids.at(z));
+      flag = 0;
+    }
+    ids.clear();
+  }
+
+  for(int w = 0; w < ids_new.size(); w++) {
+    output << "Item " << ids_new.at(w) << endl;
+  }
+
+  return ids_new;
 }
 
 void LSH::bucket() {
