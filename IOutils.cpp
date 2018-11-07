@@ -109,42 +109,28 @@ vector<Point*> readFile(const char filename[], int k, int& size, int input, doub
       while(iss >> word) {
        /* do stuff with word */
        /* If it is input small find metric */
-       if(count == 0) {
-         if(flag) {
-           flag = 0;
-           //cout << "lala" << endl;
-           //cout << R << endl;
-           R = stod(word);
-         }
-         if(input == 1) {
-           if(!word.compare("euclidean")) {
-             metric = "euclidean";
+          if(!word.compare("@metric")) {
+             iss >> word;
+             metric = word;
            }
-           if(!word.compare("cosine")) {
-             metric = "cosine";
-           }
-         }
-         if(input == 0) {
-           if(!word.compare("Radius:")) {
-             flag = 1;
-           }
-         }
-       }
-       else {
-         /* Read the points of the file */
-         if(countPoint == 0) {
-           point = new Point();
-           //cout << word << endl;
-           point->setId(word);
-           countPoint++;
-         }
-         else {
-           point->addCoord(stoi(word));
-         }
-       }
-       //count = 1;
+          else if(!word.compare("Radius:")) {
+             iss >> word;
+             R = stod(word);
+          }
+          else {
+            flag = 1;
+            if(countPoint == 0) {
+              point = new Point();
+              //cout << word << endl;
+              point->setId(word);
+              countPoint++;
+            }
+            else {
+              point->addCoord(stoi(word));
+            }
+          }
       }
-      if(count != 0) {
+      if(flag) {
         points.push_back(point);
       }
       count++;
@@ -152,6 +138,8 @@ vector<Point*> readFile(const char filename[], int k, int& size, int input, doub
     }
     myfile.close();
   }
+  if(input)
+    size = points.size();
   return points;
 }
 
