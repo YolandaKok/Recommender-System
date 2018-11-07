@@ -9,5 +9,6 @@ using namespace std;
 vector<Point*> readInput(const char filename[], const char seperator[], const char delimiter[], int k, int& size, int input, double& R, char metric[10]);
 /* Read the arguments */
 int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k, int& L, char*& outputFile, int& probes, int& M);
-
+/* File input2 */
+vector<Point*> readFile(const char filename[], int k, int& size, int input, double& R, string& metric);
 #endif
