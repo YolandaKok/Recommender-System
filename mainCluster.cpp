@@ -53,16 +53,16 @@ int main(int argc, char* argv[]) {
     /* Read Input file */
     vector<Point*> input;
     input = readFile(inputFile, k, size, 1, R, metric);
-    cout << input.size() << endl;
 
     // Create Clustering Class
     Clustering *clustering = new Clustering(clusters, input);
-    clustering->randomSelection();
 
     /* Deallocate input */
     for(int i = 0; i < input.size(); i++) {
         delete input.at(i);
     }
+
+    delete clustering;
 
     free(inputFile); free(confFile); free(outputFile);
     return 1;
