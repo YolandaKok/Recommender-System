@@ -44,19 +44,6 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  /*vector<Point*> input;
-  input = readFile(inputFile, k, size, 1, R, metric);
-
-  vector<Point*> query;
-  query = readFile(queryFile, k, size, 0, R, metric);
-
-
-  cout << metric << endl;
-  cout << R << endl;
-  cout << query.at(0)->getId() << endl;
-  query.at(0)->print();
-  cout << query.size() << endl;
-*/
   char inputF[100];
   char queryF[100];
   char outputF[100];
