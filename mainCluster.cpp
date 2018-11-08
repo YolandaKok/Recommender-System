@@ -10,6 +10,8 @@
 #include "Point.h"
 #include "IOutils.h"
 #include "Lsh.h"
+#include "Clustering.h"
+
 using namespace std;
 
 random_device rd;
@@ -52,6 +54,10 @@ int main(int argc, char* argv[]) {
     vector<Point*> input;
     input = readFile(inputFile, k, size, 1, R, metric);
     cout << input.size() << endl;
+
+    // Create Clustering Class
+    Clustering *clustering = new Clustering(clusters, input);
+    clustering->randomSelection();
 
     /* Deallocate input */
     for(int i = 0; i < input.size(); i++) {
