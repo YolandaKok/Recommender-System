@@ -11,4 +11,6 @@ vector<Point*> readInput(const char filename[], const char seperator[], const ch
 int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k, int& L, char*& outputFile, int& probes, int& M);
 /* File input2 */
 vector<Point*> readFile(const char filename[], int k, int& size, int input, double& R, string& metric);
+/* Read Clusters conf file */
+int readConf(const char filename[], int& k, int& L, int& clusters);
 #endif
