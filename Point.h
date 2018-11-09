@@ -26,6 +26,7 @@ class Point {
     /* Euclidean distance */
     double euclidean(Point *p);
     double cosine(Point *p);
+    double norm2(Point *p);
     int structureSize();
     ~Point();
 };

@@ -63,6 +63,15 @@ double Point::euclidean(Point *p) {
   return result;
 }
 
+double Point::norm2(Point *p) {
+  double sum = 0.0, temp = 0.0;
+  for(int i = 0; i < this->coords.size(); i++) {
+    temp = (this->coords.at(i) - p->coords.at(i)) * (this->coords.at(i) - p->coords.at(i));
+    sum = sum + temp;
+  }
+  return sum;
+}
+
 /* Cosine distance */
 double Point::cosine(Point *p) {
   int i;

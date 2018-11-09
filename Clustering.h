@@ -22,6 +22,9 @@ class Clustering {
 
         // Update Algorithms
 
+        // Utils
+        double minimum(vector<double> elements);
+        double sum(vector<double> elements);
         ~Clustering();
 };
 
