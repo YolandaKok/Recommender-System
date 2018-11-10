@@ -2,6 +2,7 @@
 #define LSH_CLUSTERING_H
 
 #include "Point.h"
+#include "Initialization.h"
 
 class Clustering {
     private:
@@ -13,18 +14,18 @@ class Clustering {
         vector<Point*> dataset;
         // Centroids
         vector<Point*> centroids;
+        // Initialization
+        Initialization *initialization;
     public:
-        Clustering(int num_clusters, vector<Point*> dataset);
+        Clustering(int num_clusters, vector<Point*> dataset, string init);
         // Initialization Algorithms
-        void randomSelection();
-        void k_means_pp();
+
         // Assignment Algorithms
 
         // Update Algorithms
 
         // Utils
-        double minimum(vector<double> elements);
-        double sum(vector<double> elements);
+
         ~Clustering();
 };
 

@@ -10,6 +10,7 @@
 #include "Point.h"
 #include "IOutils.h"
 #include "Lsh.h"
+#include <tuple>
 #include "Clustering.h"
 
 using namespace std;
@@ -54,9 +55,14 @@ int main(int argc, char* argv[]) {
     vector<Point*> input;
     input = readFile(inputFile, k, size, 1, R, metric);
 
+    tuple<string, string> initialization("random_selection", "k-means++");
+    tuple<string, string, string> assignment("Lloyds", "RangeLSH", "RangeHypercube");
+    tuple<string, string> update("k-means", "PAM");
+    //cout << get<0>(initialization) << endl;
+
     // Create Clustering Class
-    Clustering *clustering = new Clustering(clusters, input);
-    clustering->k_means_pp();
+    Clustering *clustering = new Clustering(clusters, input, get<1>(initialization));
+    //clustering->k_means_pp();
     //clustering->randomSelection();
 
     /* Deallocate input */
