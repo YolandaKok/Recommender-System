@@ -12,6 +12,7 @@ class Point {
     int dimension;
     vector<double> coords;
     int cluster;
+    bool centroid;
   public:
     Point();
     void addCoord(double coord);
@@ -26,6 +27,8 @@ class Point {
     void print();
     /* Inner Product between two points */
     double innerProduct(Point *p);
+    bool isCentroid();
+    void setCentroid(bool centroid);
     /* Euclidean distance */
     double euclidean(Point *p);
     double cosine(Point *p);

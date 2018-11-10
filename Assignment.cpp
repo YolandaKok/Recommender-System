@@ -3,3 +3,7 @@
 //
 
 #include "Assignment.h"
+
+void Assignment::assignCentroids(vector<Point*> dataset, vector<Point*> centroids) {
+
+}

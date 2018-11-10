@@ -6,8 +6,11 @@
 #define LSH_ASSIGNMENT_H
 
 
-class Assignment {
+#include "Point.h"
 
+class Assignment {
+    public:
+        virtual void assignCentroids(vector<Point*> dataset, vector<Point*> centroids);
 };
 
 

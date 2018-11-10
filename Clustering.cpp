@@ -3,6 +3,7 @@
 #include "Clustering.h"
 #include "KmeansppInit.h"
 #include "RandomInit.h"
+#include "LloydsAssign.h"
 #include <algorithm>
 #include <numeric>
 #include <functional>
@@ -24,6 +25,11 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init) {
     for(int k = 0; k < this->centroids.size(); k++)
         cout << this->centroids.at(k)->getId() << " ";
     cout << endl;
+
+    LloydsAssign *loyds = new LloydsAssign();
+    loyds->assignCentroids(dataset, centroids);
+    delete loyds;
+
 }
 
 /* INITIALIZATION ALGORITHMS */

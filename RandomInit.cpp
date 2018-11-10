@@ -13,6 +13,7 @@ vector<Point*> RandomInit::findCentroids(vector<Point*> dataset, int clusters) {
     for( i = 0; i < clusters; i++ ) {
         index = rand() % dataset.size();
         centroids.push_back(dataset.at(index));
+        dataset.at(index)->setCentroid(true);
     }
     return centroids;
 }

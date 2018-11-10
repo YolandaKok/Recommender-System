@@ -31,6 +31,7 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
     cout << initial_centroid << endl;
     /* Put it into the centroids array */
     centroids.push_back(dataset.at(initial_centroid));
+    dataset.at(initial_centroid)->setCentroid(true);
     vector<double> cumsum;
     vector<double> distances;
     vector<double> min_distances;
@@ -70,6 +71,7 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
             if(cumsum.at(r) >= x) {
                 index = dataset.at(r)->getId();
                 centroids.push_back(dataset.at(r));
+                dataset.at(r)->setCentroid(true);
                 break;
             }
         }

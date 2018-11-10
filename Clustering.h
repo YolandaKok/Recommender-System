@@ -3,6 +3,7 @@
 
 #include "Point.h"
 #include "Initialization.h"
+#include "Assignment.h"
 
 class Clustering {
     private:
@@ -16,6 +17,8 @@ class Clustering {
         vector<Point*> centroids;
         // Initialization
         Initialization *initialization;
+        // Assignment
+        Assignment *assignment;
     public:
         Clustering(int num_clusters, vector<Point*> dataset, string init);
         // Initialization Algorithms

@@ -10,6 +10,7 @@ using namespace std;
 /* Constructor of the Class Point */
 Point::Point() {
   this->dimension = 0;
+  this->centroid = false;
 }
 
 /* Add point into the Vector */
@@ -97,4 +98,12 @@ void Point::setCluster(int cluster) {
 
 int Point::getCluster() {
     return this->cluster;
+}
+
+bool Point::isCentroid() {
+    return this->centroid;
+}
+
+void Point::setCentroid(bool centroid) {
+    this->centroid = centroid;
 }
