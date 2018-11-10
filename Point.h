@@ -11,6 +11,7 @@ class Point {
     string id;
     int dimension;
     vector<double> coords;
+    int cluster;
   public:
     Point();
     void addCoord(double coord);
@@ -19,6 +20,8 @@ class Point {
     /* Set Id */
     void setId(string id);
     string getId();
+    int getCluster();
+    void setCluster(int cluster);
     /* Show the list of the coords of the point */
     void print();
     /* Inner Product between two points */

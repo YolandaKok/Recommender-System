@@ -57,6 +57,7 @@ int main(int argc, char* argv[]) {
     // Create Clustering Class
     Clustering *clustering = new Clustering(clusters, input);
     clustering->k_means_pp();
+    //clustering->randomSelection();
 
     /* Deallocate input */
     for(int i = 0; i < input.size(); i++) {

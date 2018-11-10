@@ -90,3 +90,11 @@ double Point::cosine(Point *p) {
 Point::~Point() {
   coords.clear();
 }
+
+void Point::setCluster(int cluster) {
+    this->cluster = cluster;
+}
+
+int Point::getCluster() {
+    return this->cluster;
+}
