@@ -6,8 +6,12 @@
 #define LSH_UPDATE_H
 
 
-class Update {
+#include "Point.h"
+#include <vector>
 
+class Update {
+    public:
+        virtual vector<Point*> updateCentroids(vector<Point*> dataset, vector<Point*> centroids) = 0;
 };
 
 

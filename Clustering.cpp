@@ -35,5 +35,5 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init) {
 /* INITIALIZATION ALGORITHMS */
 
 Clustering::~Clustering() {
-    
+    delete this->initialization;
 }
