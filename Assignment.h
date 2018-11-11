@@ -10,7 +10,7 @@
 
 class Assignment {
     public:
-        virtual void assignCentroids(vector<Point*> dataset, vector<Point*> centroids);
+        virtual void assignCentroids(vector<Point*>& dataset, vector<Point*> centroids);
 };
 
 

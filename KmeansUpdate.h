@@ -10,7 +10,8 @@
 
 class KmeansUpdate: public Update {
     public:
-        vector<Point*> updateCentroids(vector<Point*> dataset, vector<Point*> centroids);
+        bool updateCentroids(vector<Point*>& dataset, vector<Point*>& centroids);
+        void initializePoint(int dimension, Point* p);
 };
 
 

@@ -11,7 +11,8 @@
 
 class Update {
     public:
-        virtual vector<Point*> updateCentroids(vector<Point*> dataset, vector<Point*> centroids) = 0;
+        virtual bool updateCentroids(vector<Point*>& dataset, vector<Point*>& centroids);
+        virtual ~Update();
 };
 
 

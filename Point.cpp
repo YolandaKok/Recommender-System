@@ -11,6 +11,24 @@ using namespace std;
 Point::Point() {
   this->dimension = 0;
   this->centroid = false;
+  this->initialCentroid = false;
+}
+
+bool Point::getInitialCentroid() {
+    return this->initialCentroid;
+}
+
+bool Point::equalCoords(Point *p) {
+    if(this->coords == p->coords) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+void Point::setInitialCentroid(bool initial) {
+    this->initialCentroid = initial;
 }
 
 /* Add point into the Vector */
@@ -35,6 +53,16 @@ int Point::structureSize() {
 /* Calculate the inner product between two points */
 double Point::innerProduct(Point *p) {
   return inner_product(this->coords.begin(), this->coords.end(), p->coords.begin(), 0.0);
+}
+
+void Point::sumVectors(Point* p) {
+    transform(this->coords.begin(), this->coords.end(), p->coords.begin(), this->coords.begin(), std::plus<double>());
+}
+
+void Point::divideVector(int divider) {
+    for(int i = 0; i < this->getDimension(); i++) {
+        this->coords.at(i) = (double)this->coords.at(i) / divider;
+    }
 }
 
 /* Getters */

@@ -4,6 +4,7 @@
 #include "Point.h"
 #include "Initialization.h"
 #include "Assignment.h"
+#include "Update.h"
 
 class Clustering {
     private:
@@ -19,10 +20,12 @@ class Clustering {
         Initialization *initialization;
         // Assignment
         Assignment *assignment;
+        // Update
+        Update *update;
     public:
-        Clustering(int num_clusters, vector<Point*> dataset, string init);
+        Clustering(int num_clusters, vector<Point*> dataset, string init, string assign, string update);
         // Initialization Algorithms
-
+        void findClusters();
         // Assignment Algorithms
 
         // Update Algorithms

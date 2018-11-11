@@ -13,6 +13,7 @@ class Point {
     vector<double> coords;
     int cluster;
     bool centroid;
+    bool initialCentroid;
   public:
     Point();
     void addCoord(double coord);
@@ -33,6 +34,11 @@ class Point {
     double euclidean(Point *p);
     double cosine(Point *p);
     double norm2(Point *p);
+    void sumVectors(Point* p);
+    void divideVector(int divider);
+    bool getInitialCentroid();
+    void setInitialCentroid(bool initial);
+    bool equalCoords(Point *p);
     int structureSize();
     ~Point();
 };

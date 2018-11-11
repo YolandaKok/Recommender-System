@@ -61,7 +61,8 @@ int main(int argc, char* argv[]) {
     //cout << get<0>(initialization) << endl;
 
     // Create Clustering Class
-    Clustering *clustering = new Clustering(clusters, input, get<1>(initialization));
+    Clustering *clustering = new Clustering(clusters, input, get<1>(initialization), get<0>(assignment), get<0>(update));
+    clustering->findClusters();
     //clustering->k_means_pp();
     //clustering->randomSelection();
 

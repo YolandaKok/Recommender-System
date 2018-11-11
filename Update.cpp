@@ -3,3 +3,12 @@
 //
 
 #include "Update.h"
+
+
+bool Update::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroids) {
+
+}
+
+Update::~Update() {
+
+}

@@ -8,7 +8,7 @@
 using namespace std;
 
 // Assignment step
-void LloydsAssign::assignCentroids(vector<Point*> dataset, vector<Point*> centroids) {
+void LloydsAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroids) {
     vector<double> distances_from_centroids;
     int index;
     // Find the nearest centroid
@@ -23,7 +23,7 @@ void LloydsAssign::assignCentroids(vector<Point*> dataset, vector<Point*> centro
         if(dataset.at(i)->isCentroid() == 0) {
             /* Find minimum */
             index = minimum_index(distances_from_centroids);
-            cout << index << endl;
+            //cout << index << endl;
             /* Assign to centroid */
             dataset.at(i)->setCluster(index);
         }

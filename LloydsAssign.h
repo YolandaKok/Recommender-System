@@ -10,7 +10,7 @@
 
 class LloydsAssign: public Assignment {
     public:
-        void assignCentroids(vector<Point*> dataset, vector<Point*> centroids);
+        void assignCentroids(vector<Point*>& dataset, vector<Point*> centroids);
         int minimum_index(vector<double> elements);
 };
 
