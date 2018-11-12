@@ -23,14 +23,20 @@ void LloydsAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centr
         if(dataset.at(i)->isCentroid() == 0) {
             /* Find minimum */
             index = minimum_index(distances_from_centroids);
-            //cout << index << endl;
             /* Assign to centroid */
             dataset.at(i)->setCluster(index);
+            /* Find the second best centroid */
+            if(distances_from_centroids.size() != 1) {
+                dataset.at(i)->setSecondBestCluster(findSecondMinimum(distances_from_centroids));
+                //cout << findSecondMinimum(distances_from_centroids) << endl;
+            }
         }
         distances_from_centroids.clear();
     }
     /* Now for every point i know in which cluster it belongs */
 }
+
+/* Find the index for first and second minimum distance */
 
 int LloydsAssign::minimum_index(vector<double> elements) {
     int index = 0;
@@ -43,4 +49,33 @@ int LloydsAssign::minimum_index(vector<double> elements) {
         }
     }
     return index;
+}
+
+int LloydsAssign::findSecondMinimum(vector<double> elements) {
+    int indexFirst = 0, indexSecond = 1;
+    double smallest = elements.at(0), second = elements.at(1), temp;
+    if(second < smallest) {
+        temp = smallest;
+        smallest = second;
+        second = temp;
+    }
+    for( int i = 2; i < elements.size(); i++ ) {
+        if(elements.at(i) < smallest) {
+            second = smallest;
+            smallest = elements.at(i);
+            indexFirst = i;
+        }
+        else {
+            if(elements.at(i) < second) {
+                second = elements.at(i);
+                indexSecond = i;
+            }
+        }
+    }
+
+    vector<int> indexes;
+    indexes.push_back(indexFirst);
+    indexes.push_back(indexSecond);
+
+    return indexes.at(1);
 }

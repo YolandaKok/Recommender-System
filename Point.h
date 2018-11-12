@@ -12,6 +12,7 @@ class Point {
     int dimension;
     vector<double> coords;
     int cluster;
+    int secondBestCluster;
     bool centroid;
     bool initialCentroid;
   public:
@@ -30,6 +31,8 @@ class Point {
     double innerProduct(Point *p);
     bool isCentroid();
     void setCentroid(bool centroid);
+    int getSecondBestCluster();
+    void setSecondBestCluster(int second);
     /* Euclidean distance */
     double euclidean(Point *p);
     double cosine(Point *p);

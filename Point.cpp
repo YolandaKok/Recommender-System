@@ -31,6 +31,16 @@ void Point::setInitialCentroid(bool initial) {
     this->initialCentroid = initial;
 }
 
+
+int Point::getSecondBestCluster() {
+    return this->secondBestCluster;
+}
+
+void Point::setSecondBestCluster(int second) {
+    this->secondBestCluster = second;
+}
+
+
 /* Add point into the Vector */
 void Point::addCoord(double coord) {
   coords.push_back(coord);

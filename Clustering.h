@@ -26,7 +26,8 @@ class Clustering {
         Clustering(int num_clusters, vector<Point*> dataset, string init, string assign, string update);
         // Initialization Algorithms
         void findClusters();
-        // Assignment Algorithms
+        void Silhouette();
+    // Assignment Algorithms
 
         // Update Algorithms
 

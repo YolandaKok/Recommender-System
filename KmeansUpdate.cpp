@@ -53,15 +53,15 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
         if(centroids.at(i)->equalCoords(old_centroids.at(i))) {
             count++;
         }
-            cout << "OLD" << endl;
+            /*cout << "OLD" << endl;
             old_centroids.at(i)->print();
             cout << "NEW" << endl;
             centroids.at(i)->print();
-            cout << "FINISH" << endl;
+            cout << "FINISH" << endl;*/
 
     }
 
-    cout << count << endl;
+    //cout << count << endl;
 
 
 
