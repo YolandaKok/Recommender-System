@@ -47,9 +47,10 @@ void LSH::find_nearest_neighbor(Point *query, ofstream& output, int size, double
   count++;
   vector<tuple<string,double,double>> neighbors;
   vector<string> ids_new;
+  vector<Point*> points_new;
   /* Check if R = 0 Approximate NN */
   if(R > 0.0) {
-    ids_new = rangeSearch(query, R, output);
+    points_new = rangeSearch(query, R, output);
   }
   /* Vector of tuples */
   vector<tuple<string,double,double>> results;
@@ -91,36 +92,37 @@ void LSH::find_nearest_neighbor(Point *query, ofstream& output, int size, double
   }
 }
 
-vector<string> LSH::rangeSearch(Point *query, double R, ofstream& output) {
+vector<Point*> LSH::rangeSearch(Point *query, double R, ofstream& output) {
   vector<string> ids;
   vector<string> ids_new;
   int flag = 0, i;
+  vector<Point*> points;
+  vector<Point*> points_new;
 
   output << "Query: Item " << query->getId() << endl;
   output << "R-nearest Neighbors: " << endl;
 
   for(i = 0; i < this->L; i++) {
-    ids = this->tables[i]->rangeSearch(query, R, output);
+    points = this->tables[i]->rangeSearch(query, R, output);
     /* Make it another function */
     /* Check for double ids into the rangeSearch */
-    for(int z = 0; z < ids.size(); z++) {
-      for(int j = 0; j < ids_new.size(); j++) {
-        if(ids.at(z) == ids_new.at(j)) {
+    for(int z = 0; z < points.size(); z++) {
+      for(int j = 0; j < points_new.size(); j++) {
+        if(points.at(z)->getId() == points_new.at(j)->getId()) {
           flag = 1;
         }
       }
       if(flag == 0)
-        ids_new.push_back(ids.at(z));
+        points_new.push_back(points.at(z));
       flag = 0;
     }
-    ids.clear();
+    points.clear();
   }
 
-  for(int w = 0; w < ids_new.size(); w++) {
-    output << "Item " << ids_new.at(w) << endl;
+  for(int w = 0; w < points_new.size(); w++) {
+    output << "Item " << points_new.at(w)->getId() << endl;
   }
-
-  return ids_new;
+  return points_new;
 }
 
 void LSH::bucket() {

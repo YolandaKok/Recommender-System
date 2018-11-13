@@ -213,10 +213,11 @@ tuple<string,double,double> Hashtable::find_nearest_neighbor(Point *query) {
 }
 
 
-vector<string> Hashtable::rangeSearch(Point* query, double R, ofstream& output) {
+vector<Point*> Hashtable::rangeSearch(Point* query, double R, ofstream& output) {
   int hash = hash_for_query(query);
   vector<string> ids;
   double distance;
+  vector<Point*> points;
   for (std::list<Point*>::const_iterator iterator = this->hashtable.at(hash)->begin(), end = this->hashtable.at(hash)->end(); iterator != end; ++iterator) {
     if(this->type.compare("euclidean") == 0) {
       distance = query->euclidean((*iterator));
@@ -226,9 +227,10 @@ vector<string> Hashtable::rangeSearch(Point* query, double R, ofstream& output) 
     }
     if(distance < R) {
       ids.push_back((*iterator)->getId());
+      points.push_back(*iterator);
     }
   }
-  return ids;
+  return points;
 }
 
 int Hashtable::structureSize() {
