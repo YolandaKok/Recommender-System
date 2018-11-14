@@ -106,7 +106,7 @@ vector<Point*> readFile(const char filename[], int k, int& size, int input, doub
       /* Find the metric */
       //cout << line << endl;
       istringstream iss(line);
-      while(iss >> word) {
+      while(getline(iss, word, ',')) {
        /* do stuff with word */
        /* If it is input small find metric */
           if(!word.compare("@metric")) {
@@ -126,7 +126,7 @@ vector<Point*> readFile(const char filename[], int k, int& size, int input, doub
               countPoint++;
             }
             else {
-              point->addCoord(stoi(word));
+              point->addCoord(stod(word));
             }
           }
       }
@@ -189,6 +189,7 @@ int readConf(const char filename[], int& k, int& L, int& clusters) {
   if (myfile.is_open()) {
     while (getline(myfile, line)) {
       /*  */
+      cout << line << endl;
       istringstream iss(line);
       while (iss >> word) {
         /* do stuff with word */
@@ -198,11 +199,11 @@ int readConf(const char filename[], int& k, int& L, int& clusters) {
           k = stoi(word);
         }
         else if (!word.compare("number_of_hash_tables:")) {
-          iss >> word;
-          L = stoi(word);
+            iss >> word;
+            L = stoi(word);
         }
         else if (!word.compare("number_of_clusters:")) {
-          iss >> word;
+            iss >> word;
           clusters = stoi(word);
         }
       }

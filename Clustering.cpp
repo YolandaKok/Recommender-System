@@ -54,7 +54,8 @@ void Clustering::findClusters() {
         this->assignment->assignCentroids(this->dataset, this->centroids);
         count++;
     }
-
+    cout << count << endl;
+    cout << "silhouette" << endl;
     Silhouette();
 
     /*cout << count << endl;
@@ -86,6 +87,12 @@ void Clustering::Silhouette() {
             clusters.at(dataset.at(z)->getCluster()).push_back(dataset.at(z));
         }
     }
+    cout << clusters.at(0).size() << endl;
+    cout << clusters.at(1).size() << endl;
+    cout << clusters.at(2).size() << endl;
+    cout << clusters.at(3).size() << endl;
+    cout << clusters.at(4).size() << endl;
+    cout << clusters.at(5).size() << endl;
 
     /* For every point in a cluster calculate the distance from all the other points */
     /* Find the average */
@@ -94,14 +101,13 @@ void Clustering::Silhouette() {
     double averageIntra = 0.0, averageNearest = 0.0;
     int initCluster, secondCluster;
     double average = 0.0;
-    double totalAverageInit = 0.0, totalAverageSecond = 0.0;
     for( int i = 0; i < dataset.size(); i++ ) {
 
         initCluster = dataset.at(i)->getCluster();
 
         for(int j = 0; j < clusters.at(initCluster).size(); j++) {
             /* Calculate Distance */
-            averageIntra += dataset.at(i)->euclidean(clusters.at(initCluster).at(j)) / clusters.at(initCluster).size();
+            averageIntra += dataset.at(i)->cosine(clusters.at(initCluster).at(j)) / clusters.at(initCluster).size();
         }
 
         /* Average for the second minimum cluster */
@@ -109,7 +115,7 @@ void Clustering::Silhouette() {
         //cout << secondCluster << endl;
         for(int j = 0; j < clusters.at(secondCluster).size(); j++) {
             /* Calculate Distance */
-            averageNearest += dataset.at(i)->euclidean(clusters.at(secondCluster).at(j)) / clusters.at(secondCluster).size();
+            averageNearest += dataset.at(i)->cosine(clusters.at(secondCluster).at(j)) / clusters.at(secondCluster).size();
         }
         //cout << "laa" << endl;
         //cout << averageIntra << endl;

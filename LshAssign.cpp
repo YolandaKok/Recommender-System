@@ -31,7 +31,6 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     double currentR = min / 2;
     /* Start of the Loop for range search */
 
-
 }
 
 double LshAssign::minimum(vector<double> elements) {

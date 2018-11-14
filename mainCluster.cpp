@@ -51,9 +51,14 @@ int main(int argc, char* argv[]) {
 
     /* Read Configuration File */
     readConf(confFile, k, L, clusters);
+    cout << k << endl;
+    cout << L << endl;
+    cout << clusters << endl;
     /* Read Input file */
     vector<Point*> input;
     input = readFile(inputFile, k, size, 1, R, metric);
+
+    //input.at(1)->print();
 
     tuple<string, string> initialization("random_selection", "k-means++");
     tuple<string, string, string> assignment("Lloyds", "RangeLSH", "RangeHypercube");
