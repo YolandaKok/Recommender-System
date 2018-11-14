@@ -15,6 +15,7 @@ class Point {
     int secondBestCluster;
     bool centroid;
     bool initialCentroid;
+    int iteration;
   public:
     Point();
     void addCoord(double coord);
@@ -25,6 +26,8 @@ class Point {
     string getId();
     int getCluster();
     void setCluster(int cluster);
+    int getIteration();
+    void setIteration(int iteration);
     /* Show the list of the coords of the point */
     void print();
     /* Inner Product between two points */
@@ -43,6 +46,7 @@ class Point {
     void setInitialCentroid(bool initial);
     bool equalCoords(Point *p);
     int structureSize();
+    double euclidean_squared(Point *p);
     ~Point();
 };
 

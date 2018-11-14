@@ -20,6 +20,7 @@ default_random_engine generator(rd());
 
 int main(int argc, char* argv[]) {
     char *inputFile = NULL, *confFile = NULL, *outputFile = NULL;
+    srand(time(NULL));
     /* k - number of hash functions */
     /* L number of hashtables */
     int k = 4, L = 5, size, clusters = 0;
@@ -66,7 +67,7 @@ int main(int argc, char* argv[]) {
     //cout << get<0>(initialization) << endl;
 
     // Create Clustering Class
-    Clustering *clustering = new Clustering(clusters, input, get<1>(initialization), get<0>(assignment), get<0>(update));
+    Clustering *clustering = new Clustering(clusters, input, get<1>(initialization), get<0>(assignment), get<0>(update), k, L, metric, size);
     clustering->findClusters();
     //clustering->k_means_pp();
     //clustering->randomSelection();

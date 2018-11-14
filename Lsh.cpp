@@ -99,8 +99,8 @@ vector<Point*> LSH::rangeSearch(Point *query, double R, ofstream& output) {
   vector<Point*> points;
   vector<Point*> points_new;
 
-  output << "Query: Item " << query->getId() << endl;
-  output << "R-nearest Neighbors: " << endl;
+  //output << "Query: Item " << query->getId() << endl;
+  //output << "R-nearest Neighbors: " << endl;
 
   for(i = 0; i < this->L; i++) {
     points = this->tables[i]->rangeSearch(query, R, output);

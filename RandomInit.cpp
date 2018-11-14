@@ -3,7 +3,9 @@
 //
 
 #include "RandomInit.h"
+#include <iostream>
 
+using namespace std;
 /* Select k random centroids for the clusters */
 vector<Point*> RandomInit::findCentroids(vector<Point*> dataset, int clusters) {
     vector<Point*> centroids;
@@ -15,6 +17,7 @@ vector<Point*> RandomInit::findCentroids(vector<Point*> dataset, int clusters) {
         centroids.push_back(dataset.at(index));
         dataset.at(index)->setCentroid(true);
         dataset.at(index)->setInitialCentroid(true);
+        cout << index << endl;
     }
     return centroids;
 }

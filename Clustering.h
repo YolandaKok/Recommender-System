@@ -23,7 +23,7 @@ class Clustering {
         // Update
         Update *update;
     public:
-        Clustering(int num_clusters, vector<Point*> dataset, string init, string assign, string update);
+        Clustering(int num_clusters, vector<Point*> dataset, string init, string assign, string update, int k, int L, string metric, int size);
         // Initialization Algorithms
         void findClusters();
         void Silhouette();

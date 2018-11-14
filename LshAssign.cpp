@@ -3,8 +3,20 @@
 //
 
 #include "LshAssign.h"
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+LshAssign::LshAssign(LSH *lsh) {
+    /* Pointer to the Lsh Structure */
+    this->lsh = lsh;
+}
 
 void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroids) {
+    for(int i = 0; i < dataset.size(); i++) {
+        dataset.at(i)->setIteration(0);
+    }
     vector<int> arr;
     for(int i = 0; i < centroids.size(); i++) {
         arr.push_back(i);
@@ -28,9 +40,26 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     }
     /* Calculate the R initial value */
     double min = minimum(distances);
-    double currentR = min / 2;
-    /* Start of the Loop for range search */
+    double currentR = min / 5;
+    ofstream myfile;
 
+    cout << currentR << "Current R" << endl;
+    vector<Point*> currentPoints;
+    /* Start of the Loop for range search */
+    for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < centroids.size(); j++) {
+            /* Return a vector of Point* */
+            currentPoints = this->lsh->rangeSearch(centroids.at(j), currentR, myfile);
+            cout << currentPoints.size() << endl;
+            for(int z = 0; z < currentPoints.size(); z++) {
+                if(currentPoints.at(z)->getIteration() == 0) {
+                    currentPoints.at(z)->setCluster(j);
+                }
+            }
+        }
+        currentPoints.clear();
+        currentR *= 2;
+    }
 }
 
 double LshAssign::minimum(vector<double> elements) {

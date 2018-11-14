@@ -40,6 +40,8 @@ Assignment.o: Assignment.cpp
 	g++ -std=c++11 -c Assignment.cpp
 LloydsAssign.o: LloydsAssign.cpp
 	g++ -std=c++11 -c LloydsAssign.cpp
+LshAssign.o: LshAssign.cpp
+	g++ -std=c++11 -c LshAssign.cpp
 Update.o: Update.cpp
 	g++ -std=c++11 -c Update.cpp
 KmeansUpdate.o: KmeansUpdate.cpp
@@ -50,7 +52,7 @@ lsh: main.o IOutils.o Point.o H.o F.o Hashtable.o Lsh.o F_euclidean.o H_euclidea
 	g++ -std=c++11 -o lsh main.o IOutils.o Point.o H.o F.o Hashtable.o Lsh.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube_euclidean.o F_hypercube_cosine.o
 cube: main2.o Hypercube.o IOutils.o Point.o H.o F.o Hashtable.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube_euclidean.o F_hypercube_cosine.o
 	g++ -std=c++11 -o cube main2.o Hypercube.o IOutils.o Point.o H.o F.o Hashtable.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube_euclidean.o F_hypercube_cosine.o
-cluster: mainCluster.o Point.o IOutils.o Clustering.o Initialization.o RandomInit.o KmeansppInit.o Update.o Assignment.o LloydsAssign.o KmeansUpdate.o
-	g++ -std=c++11 -o cluster mainCluster.o Point.o IOutils.o Clustering.o Initialization.o RandomInit.o KmeansppInit.o Update.o Assignment.o LloydsAssign.o KmeansUpdate.o
+cluster: mainCluster.o Point.o IOutils.o Clustering.o Initialization.o RandomInit.o KmeansppInit.o Update.o Assignment.o LloydsAssign.o KmeansUpdate.o LshAssign.o Lsh.o Hashtable.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F.o H.o F_hypercube_euclidean.o F_hypercube_cosine.o
+	g++ -std=c++11 -o cluster mainCluster.o Point.o IOutils.o Clustering.o Initialization.o RandomInit.o KmeansppInit.o Update.o Assignment.o LloydsAssign.o KmeansUpdate.o LshAssign.o Lsh.o Hashtable.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F.o H.o F_hypercube_euclidean.o F_hypercube_cosine.o
 clean:
 	rm -f *.o lsh cube cluster

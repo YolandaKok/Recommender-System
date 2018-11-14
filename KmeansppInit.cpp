@@ -5,6 +5,8 @@
 #include "KmeansppInit.h"
 #include <random>
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 extern default_random_engine generator;
 
@@ -25,7 +27,7 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
     /* Choose a centroid uniformly at random */
     uniform_int_distribution<> dis(0, dataset.size() - 1);
     uniform_real_distribution<> dist(0.0, 1.0);
-    int initial_centroid = dis(generator);
+    int initial_centroid = rand() % dataset.size();
     /* Removes the centroid from the dataset */
     remaining_elements.erase(remaining_elements.begin() + initial_centroid);
     //cout << initial_centroid << endl;
@@ -43,7 +45,7 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
         for( i = 0; i < dataset.size(); i++ ) {
             for( int j = 0; j < centroids.size(); j++ ) {
                 distances.push_back(dataset.at(i)->norm2(centroids.at(j)));
-                cout << dataset.at(i)->norm2(centroids.at(j)) << endl;
+                //cout << dataset.at(i)->norm2(centroids.at(j)) << endl;
             }
             /* Find the minimum */
             min_distances.push_back(minimum(distances));
@@ -52,7 +54,7 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
         }
         // Calculate the probability
         sum_distances = sum(min_distances);
-        cout << sum_distances<< endl;
+        //cout << sum_distances<< endl;
         /* Normalize it */
         for( int z = 0; z < min_distances.size(); z++ ) {
             min_distances[z] /= sum_distances;
@@ -71,11 +73,17 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
         for(int r = 0; r < cumsum.size(); r++) {
             //TODO: binary search
             if(cumsum.at(r) >= x) {
-                index = dataset.at(r)->getId();
-                centroids.push_back(dataset.at(r));
-                dataset.at(r)->setCentroid(true);
-                dataset.at(r)->setInitialCentroid(true);
-                break;
+                if(find(centroids.begin(), centroids.end(), dataset.at(r)) != centroids.end()) {
+                    break;
+                }
+                else {
+                    index = dataset.at(r)->getId();
+                    centroids.push_back(dataset.at(r));
+                    dataset.at(r)->setCentroid(true);
+                    dataset.at(r)->setInitialCentroid(true);
+                    break;
+                }
+
             }
         }
         min_distances.clear();

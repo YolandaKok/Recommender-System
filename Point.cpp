@@ -12,10 +12,19 @@ Point::Point() {
   this->dimension = 0;
   this->centroid = false;
   this->initialCentroid = false;
+  this->iteration = 0;
 }
 
 bool Point::getInitialCentroid() {
     return this->initialCentroid;
+}
+
+int Point::getIteration() {
+    return this->iteration;
+}
+
+void Point::setIteration(int iteration) {
+    this->iteration = iteration;
 }
 
 bool Point::equalCoords(Point *p) {
@@ -100,6 +109,19 @@ double Point::euclidean(Point *p) {
   }
   result = sqrt(sum);
   return result;
+}
+
+
+/* Euclidean distance metric */
+double Point::euclidean_squared(Point *p) {
+    double result = 0.0;
+    double sum = 0.0, temp = 0.0;
+    int i;
+    for (i = 0; i < this->coords.size(); i++) {
+        temp = (this->coords.at(i) - p->coords.at(i)) * (this->coords.at(i) - p->coords.at(i));
+        sum = sum + temp;
+    }
+    return sum;
 }
 
 double Point::norm2(Point *p) {

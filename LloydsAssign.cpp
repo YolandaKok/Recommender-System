@@ -13,26 +13,22 @@ void LloydsAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centr
     int index;
     // Find the nearest centroid
     for( int i = 0; i < dataset.size(); i++ ) {
-        cout << "POINT " << i << endl;
         for( int j = 0; j < centroids.size(); j++ ) {
             if(dataset.at(i)->isCentroid() == 0) {
                 /* Calculate distance for every centroid and find minimum */
-                distances_from_centroids.push_back(dataset.at(i)->cosine(centroids.at(j)));
-                cout << dataset.at(i)->cosine(centroids.at(j)) << endl;
+                distances_from_centroids.push_back(dataset.at(i)->euclidean_squared(centroids.at(j)));
                 // TODO: also for cosine distance
             }
         }
         if(dataset.at(i)->isCentroid() == 0) {
             /* Find minimum */
             index = minimum_index(distances_from_centroids);
-            cout << "MINIMUM " << index << endl;
             /* Assign to centroid */
             dataset.at(i)->setCluster(index);
             /* Find the second best centroid */
             if(distances_from_centroids.size() != 1) {
                 int second = findSecondMinimum(distances_from_centroids);
                 dataset.at(i)->setSecondBestCluster(second);
-                cout << "SECOND MIN " << second << endl;
                 //cout << findSecondMinimum(distances_from_centroids) << endl;
             }
         }
