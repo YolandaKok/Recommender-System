@@ -20,7 +20,6 @@ bool PAMUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroi
 
     for(int z = 0; z < dataset.size(); z++) {
         if(dataset.at(z)->isCentroid() == 0) {
-            //cout << dataset.at(z)->getCluster() << endl;
             clusters.at(dataset.at(z)->getCluster()).push_back(dataset.at(z));
         }
     }
@@ -28,12 +27,6 @@ bool PAMUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroi
     for(int i = 0; i < centroids.size(); i++) {
         clusters.at(i).push_back(centroids.at(i));
     }
-
-
-    /* Calculate the total dissimilarity for the old centroids */
-    /*for( int i = 0; i < centroids.size(); i++ ) {
-        for(int j = 0; j < clusters.at(i))
-    }*/
 
     vector<double> distances;
     double total_distance = 0.0;
@@ -45,7 +38,6 @@ bool PAMUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroi
             //distances.resize(clusters.at(i).size());
             for(int k = 0; k < clusters.at(i).size(); k++) {
                 /* Calculate euclidean squared distance */
-                //distances.push_back(clusters.at(i).at(j)->euclidean_squared(clusters.at(i).at(k)));
                 total_distance += clusters.at(i).at(j)->euclidean_squared(clusters.at(i).at(k));
             }
             distances.push_back(total_distance);
@@ -67,24 +59,6 @@ bool PAMUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroi
             count++;
         }
     }
-
-    /*cout << "First" << endl;
-    cout << centroids.at(0)->getId() << endl;
-    cout << endl;
-    cout << old_centroids.at(0)->getId() << endl;
-    cout << "First" << endl;
-
-    cout << "Second" << endl;
-    cout << centroids.at(1)->getId() << endl;
-    cout << endl;
-    cout << old_centroids.at(1)->getId() << endl;
-    cout << "Second" << endl;
-
-    cout << "Third" << endl;
-    cout << centroids.at(2)->getId() << endl;
-    cout << endl;
-    cout << old_centroids.at(2)->getId() << endl;
-    cout << "Third" << endl;*/
 
     if(count == centroids.size()) {
         return true;

@@ -8,7 +8,6 @@ using namespace std;
 bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroids) {
     /* Take the dimensions of a point */
     int dimension = dataset.at(0)->getDimension();
-    static int countIterations = 0;
     vector<Point*> old_centroids;
     old_centroids = centroids;
     // TODO: if it is not initial centroid deallocate the memory
@@ -53,17 +52,7 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
         if(centroids.at(i)->equalCoords(old_centroids.at(i))) {
             count++;
         }
-            /*cout << "OLD" << endl;
-            old_centroids.at(i)->print();
-            cout << "NEW" << endl;
-            centroids.at(i)->print();
-            cout << "FINISH" << endl;*/
-
     }
-
-    //cout << count << endl;
-
-
 
     for(int i = 0; i < old_centroids.size(); i++) {
         if(old_centroids.at(i)->getInitialCentroid()) {
@@ -72,20 +61,12 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
         }
     }
 
-    countIterations++;
     if(count == centroids.size()) {
         return true;
     }
     else {
         return false;
     }
-    /*if(countIterations < 50) {
-        return false;
-    }
-    else {
-        return true;
-    }*/
-
 }
 
 void KmeansUpdate::initializePoint(int dimension, Point* p) {

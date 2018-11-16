@@ -42,7 +42,6 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
     }
 
     this->centroids = initialization->findCentroids(this->dataset, this->num_clusters);
-    //this->assignment->assignCentroids(this->dataset, this->centroids);
 }
 
 /* Clustering until the centers are the same */
@@ -50,15 +49,9 @@ void Clustering::findClusters() {
     int count = 0;
     this->assignment->assignCentroids(this->dataset, this->centroids);
     while(!this->update->updateCentroids(this->dataset, this->centroids)) {
-        //this->update->updateCentroids(this->dataset, this->centroids);
         this->assignment->assignCentroids(this->dataset, this->centroids);
         count++;
-        /*if(count == 4) {
-            break;
-        }*/
-        cout << count << endl;
     }
-    cout << "lala" << endl;
     cout << count << endl;
     cout << "silhouette" << endl;
     Silhouette();
@@ -104,28 +97,6 @@ void Clustering::Silhouette() {
     }
 
     cout << "stotal " << average / clusters.size() << endl;
-
-/*
-    for( int i = 0; i < dataset.size(); i++ ) {
-
-        initCluster = dataset.at(i)->getCluster();
-
-        for(int j = 0; j < clusters.at(initCluster).size(); j++) {
-            averageIntra += dataset.at(i)->euclidean(clusters.at(initCluster).at(j)) / clusters.at(initCluster).size();
-        }
-
-        secondCluster = dataset.at(i)->getSecondBestCluster();
-
-        for(int j = 0; j < clusters.at(secondCluster).size(); j++) {
-
-            averageNearest += dataset.at(i)->euclidean(clusters.at(secondCluster).at(j)) / clusters.at(secondCluster).size();
-        }
-
-        average += (averageNearest - averageIntra) / max(averageNearest, averageIntra);
-        averageIntra = 0.0;
-        averageNearest = 0.0;
-    }
-    cout << average / dataset.size() << endl;*/
 }
 
 void Clustering::reinitialize() {
