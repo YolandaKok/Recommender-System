@@ -27,6 +27,7 @@ class Clustering {
         // Initialization Algorithms
         void findClusters();
         void Silhouette();
+        void reinitialize();
     // Assignment Algorithms
 
         // Update Algorithms

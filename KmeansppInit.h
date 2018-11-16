@@ -15,6 +15,7 @@ class KmeansppInit: public Initialization {
         vector<Point*>findCentroids(vector<Point*> dataset, int clusters);
         double minimum(vector<double> elements);
         double sum(vector<double> elements);
+        double maximum(vector<double> elements);
 };
 
 

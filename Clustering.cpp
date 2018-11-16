@@ -7,6 +7,7 @@
 #include "KmeansUpdate.h"
 #include "LshAssign.h"
 #include "Lsh.h"
+#include "PAMUpdate.h"
 #include <algorithm>
 #include <numeric>
 #include <functional>
@@ -36,6 +37,9 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
     if(!update.compare("k-means")) {
         this->update = new KmeansUpdate();
     }
+    else if(!update.compare("PAM")) {
+        this->update = new PAMUpdate();
+    }
 
     this->centroids = initialization->findCentroids(this->dataset, this->num_clusters);
     //this->assignment->assignCentroids(this->dataset, this->centroids);
@@ -49,7 +53,12 @@ void Clustering::findClusters() {
         //this->update->updateCentroids(this->dataset, this->centroids);
         this->assignment->assignCentroids(this->dataset, this->centroids);
         count++;
+        /*if(count == 4) {
+            break;
+        }*/
+        cout << count << endl;
     }
+    cout << "lala" << endl;
     cout << count << endl;
     cout << "silhouette" << endl;
     Silhouette();
@@ -67,12 +76,8 @@ void Clustering::Silhouette() {
             clusters.at(dataset.at(z)->getCluster()).push_back(dataset.at(z));
         }
     }
-    cout << clusters.at(0).size() << endl;
-    cout << clusters.at(1).size() << endl;
-    cout << clusters.at(2).size() << endl;
-    cout << clusters.at(3).size() << endl;
-    cout << clusters.at(4).size() << endl;
-    //cout << clusters.at(5).size() << endl;
+
+    /* Array with average */
 
     /* For every point in a cluster calculate the distance from all the other points */
     /* Find the average */
@@ -81,46 +86,27 @@ void Clustering::Silhouette() {
     double averageIntra = 0.0, averageNearest = 0.0, averageNearest1 = 0.0, averageNearest2 = 0.0, averageNearest3 = 0.0, averageNearest4 = 0.0;
     int initCluster, secondCluster;
     double average = 0.0;
-    for(int i = 0; i < clusters.at(0).size(); i++) {
-        secondCluster = clusters.at(0).at(i)->getSecondBestCluster();
-        for(int j = 0; j < clusters.at(0).size(); j++) {
-            averageIntra += clusters.at(0).at(i)->euclidean_squared(clusters.at(0).at(j)) / clusters.at(0).size();
-            //cout << clusters.at(0).at(i)->euclidean(clusters.at(0).at(j)) << endl;
+    for( int k = 0; k < clusters.size(); k++ ) {
+        for (int i = 0; i < clusters.at(k).size(); i++) {
+            secondCluster = clusters.at(k).at(i)->getSecondBestCluster();
+            for (int j = 0; j < clusters.at(k).size(); j++) {
+                averageIntra += clusters.at(k).at(i)->euclidean_squared(clusters.at(k).at(j)) / clusters.at(k).size();
+            }
+            for (int j = 0; j < clusters.at(secondCluster).size(); j++) {
+                averageNearest1 += clusters.at(k).at(i)->euclidean_squared(clusters.at(secondCluster).at(j)) / clusters.at(secondCluster).size();
+            }
         }
-        for(int j = 0; j < clusters.at(1).size(); j++) {
-            averageNearest1 += clusters.at(0).at(i)->euclidean_squared(clusters.at(1).at(j)) / clusters.at(1).size();
-        }
-
-
-        for(int j = 0; j < clusters.at(2).size(); j++) {
-            averageNearest2 += clusters.at(0).at(i)->euclidean_squared(clusters.at(2).at(j)) / clusters.at(2).size();
-            //cout << clusters.at(0).at(i)->euclidean_squared(clusters.at(2).at(j)) << endl;
-        }
-
-        for(int j = 0; j < clusters.at(3).size(); j++) {
-            averageNearest3 += clusters.at(0).at(i)->euclidean_squared(clusters.at(3).at(j)) / clusters.at(3).size();
-        }
-
-
-        for(int j = 0; j < clusters.at(4).size(); j++) {
-            averageNearest4 += clusters.at(0).at(i)->euclidean_squared(clusters.at(4).at(j)) / clusters.at(4).size();
-        }
-
+        cout << "Cluster " << k << " Silhouette" << endl;
+        cout << (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra) << endl;
+        average += (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra);
+        averageIntra = 0.0;
+        averageNearest1 = 0.0;
     }
 
-    cout << (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra) << endl;
-    cout << (averageNearest2 - averageIntra) / max(averageNearest2, averageIntra) << endl;
-    cout << (averageNearest3 - averageIntra) / max(averageNearest3, averageIntra) << endl;
-    cout << (averageNearest4 - averageIntra) / max(averageNearest4, averageIntra) << endl;
+    cout << "stotal " << average / clusters.size() << endl;
 
-
-    cout << clusters.at(1).size() << endl;
-    cout << clusters.at(2).size() << endl;
-    cout << clusters.at(3).size() << endl;
-    cout << clusters.at(4).size() << endl;
-
-
-    /*for( int i = 0; i < dataset.size(); i++ ) {
+/*
+    for( int i = 0; i < dataset.size(); i++ ) {
 
         initCluster = dataset.at(i)->getCluster();
 
@@ -140,6 +126,13 @@ void Clustering::Silhouette() {
         averageNearest = 0.0;
     }
     cout << average / dataset.size() << endl;*/
+}
+
+void Clustering::reinitialize() {
+    for(int i = 0; i < dataset.size(); i++) {
+        dataset.at(i)->setCentroid(false);
+        dataset.at(i)->setInitialCentroid(false);
+    }
 }
 
 

@@ -58,6 +58,7 @@ void Point::addCoord(double coord) {
 
 /* Print data points */
 void Point::print() {
+    //cout.precision(20);
   for (auto i = coords.begin(); i != coords.end(); ++i){
     cout << *i << " ";
   }

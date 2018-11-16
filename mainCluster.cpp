@@ -16,6 +16,8 @@
 using namespace std;
 
 random_device rd;
+mt19937 gen(rd());
+
 default_random_engine generator(rd());
 
 int main(int argc, char* argv[]) {
@@ -66,8 +68,9 @@ int main(int argc, char* argv[]) {
     tuple<string, string> update("k-means", "PAM");
     //cout << get<0>(initialization) << endl;
 
+    //input.at(0)->print();
     // Create Clustering Class
-    Clustering *clustering = new Clustering(clusters, input, get<1>(initialization), get<0>(assignment), get<0>(update), k, L, metric, size);
+    Clustering *clustering = new Clustering(clusters, input, get<1>(initialization), get<0>(assignment), get<1>(update), k, L, metric, size);
     clustering->findClusters();
     //clustering->k_means_pp();
     //clustering->randomSelection();

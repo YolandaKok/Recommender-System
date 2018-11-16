@@ -8,7 +8,7 @@
 #include <vector>
 #include <algorithm>
 
-extern default_random_engine generator;
+extern mt19937 gen;
 
 using namespace std;
 
@@ -27,7 +27,7 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
     /* Choose a centroid uniformly at random */
     uniform_int_distribution<> dis(0, dataset.size() - 1);
     uniform_real_distribution<> dist(0.0, 1.0);
-    int initial_centroid = rand() % dataset.size();
+    int initial_centroid = dis(gen);
     /* Removes the centroid from the dataset */
     remaining_elements.erase(remaining_elements.begin() + initial_centroid);
     //cout << initial_centroid << endl;
@@ -38,36 +38,36 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
     vector<double> cumsum;
     vector<double> distances;
     vector<double> min_distances;
+
     /* While we have not found all the centers */
     while(centroids.size() < num_clusters) {
         /* Calculate the distance of the centroids to the remaining dataset */
         /* min distance to some centroid, among t chosen centroids */
         for( i = 0; i < dataset.size(); i++ ) {
-            for( int j = 0; j < centroids.size(); j++ ) {
-                distances.push_back(dataset.at(i)->norm2(centroids.at(j)));
-                //cout << dataset.at(i)->norm2(centroids.at(j)) << endl;
+            if(dataset.at(i)->getInitialCentroid() == 0) {
+                for( int j = 0; j < centroids.size(); j++ ) {
+                    distances.push_back(dataset.at(i)->norm2(centroids.at(j)));
+                }
+                /* Find the minimum */
+                min_distances.push_back(minimum(distances));
+                distances.clear();
             }
-            /* Find the minimum */
-            min_distances.push_back(minimum(distances));
-            //cout << minimum(distances) << endl;
-            distances.clear();
         }
+        cout << "Min distances " << min_distances.size() << endl;
         // Calculate the probability
         sum_distances = sum(min_distances);
-        //cout << sum_distances<< endl;
+        double max = maximum(min_distances);
         /* Normalize it */
         for( int z = 0; z < min_distances.size(); z++ ) {
             min_distances[z] /= sum_distances;
-            //cout << min_distances[k] << endl;
         }
         /* Find the cumulative sum */
         cumsum.resize(min_distances.size());
+
         partial_sum(min_distances.begin(), min_distances.end(), cumsum.begin(), plus<double>());
-        double x = dist(generator);
+        cumsum.insert(cumsum.begin(), 0.0);
+        double x = dist(gen);
         cout << x << "R" << endl;
-        /*for(int i = 0; i < cumsum.size(); i++) {
-            cout << cumsum.at(i) << " ";
-        }*/
 
         /* Find the first index that cumsum is >= r  */
         for(int r = 0; r < cumsum.size(); r++) {
@@ -78,12 +78,12 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
                 }
                 else {
                     index = dataset.at(r)->getId();
+                    cout << index << endl;
                     centroids.push_back(dataset.at(r));
                     dataset.at(r)->setCentroid(true);
                     dataset.at(r)->setInitialCentroid(true);
                     break;
                 }
-
             }
         }
         min_distances.clear();
@@ -100,6 +100,16 @@ double KmeansppInit::minimum(vector<double> elements) {
             min = elements.at(i);
     }
     return min;
+}
+
+double KmeansppInit::maximum(vector<double> elements) {
+    double max = elements.at(0);
+    int i;
+    for( i = 1; i < elements.size(); i++ ) {
+        if(max < elements.at(i))
+            max = elements.at(i);
+    }
+    return max;
 }
 
 double KmeansppInit::sum(vector<double> elements) {
