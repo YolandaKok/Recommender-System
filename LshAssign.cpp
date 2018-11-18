@@ -36,29 +36,61 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     /* Calculate the distance for every centroid */
     for(int i = 0; i < results.size(); i++) {
         /* Calculate Distance */
-        distances.push_back(centroids.at(results.at(i).first)->euclidean(centroids.at(results.at(i).second)));
+        distances.push_back(centroids.at(results.at(i).first)->euclidean_squared(centroids.at(results.at(i).second)));
     }
     /* Calculate the R initial value */
     double min = minimum(distances);
-    double currentR = min / 5;
+    double currentR = min / 2;
     ofstream myfile;
 
     cout << currentR << "Current R" << endl;
     vector<Point*> currentPoints;
+    vector<double> distances2;
+    distances2.resize(centroids.size());
+    vector<int> *clusters;
     /* Start of the Loop for range search */
-    for(int i = 0; i < 3; i++) {
+    for(int i = 0; i < 2; i++) {
+        cout << "LOOP " << i << endl;
         for(int j = 0; j < centroids.size(); j++) {
             /* Return a vector of Point* */
             currentPoints = this->lsh->rangeSearch(centroids.at(j), currentR, myfile);
-            cout << currentPoints.size() << endl;
-            for(int z = 0; z < currentPoints.size(); z++) {
-                if(currentPoints.at(z)->getIteration() == 0) {
+            for( int z = 0; z < currentPoints.size(); z++ ) {
+                if(currentPoints.at(z)->getR() == 0.0) {
+                    currentPoints.at(z)->setR(currentR);
+                    currentPoints.at(z)->getClusters()->push_back(j);
                     currentPoints.at(z)->setCluster(j);
                 }
+                else if(currentPoints.at(z)->getR() == currentR) {
+                    /* if it exists */
+                    /* For every cluster that it exists calculate distance */
+                    clusters = currentPoints.at(z)->getClusters();
+                    for(int k = 0; k < clusters->size(); k++) {
+                        distances2.push_back(currentPoints.at(z)->euclidean(centroids.at(clusters->at(k))));
+                    }
+                    int index = minimum(distances2);
+                    currentPoints.at(z)->setCluster(clusters->at(index));
+                    distances2.clear();
+                }
             }
+            cout << " Current Points " << currentPoints.size() << endl;
+            currentPoints.empty();
         }
-        currentPoints.clear();
         currentR *= 2;
+    }
+
+    vector<double> remaining_distances;
+    for( int i = 0; i < dataset.size(); i++ ) {
+        if( dataset.at(i)->getR() == 0.0 ) {
+            /* Find the nearest centroid and assign it */
+            for( int j = 0; j < centroids.size(); j++ ) {
+                remaining_distances.push_back(centroids.at(j)->euclidean(dataset.at(i)));
+            }
+            int min_index = minimum(remaining_distances);
+            dataset.at(i)->setCluster(min_index);
+            remaining_distances.clear();
+        }
+        dataset.at(i)->setR(0.0);
+        dataset.at(i)->getClusters()->clear();
     }
 }
 

@@ -16,6 +16,12 @@ class Point {
     bool centroid;
     bool initialCentroid;
     int iteration;
+    /* R for LSH */
+    double R;
+    /* List of clusters for the same R */
+    vector<int> *clusters;
+    double nearestDistance;
+    double secondNearestDistance;
   public:
     Point();
     void addCoord(double coord);
@@ -36,8 +42,12 @@ class Point {
     void setCentroid(bool centroid);
     int getSecondBestCluster();
     void setSecondBestCluster(int second);
+    double getR();
+    void setR(double R);
+    vector<int>* getClusters();
     /* Euclidean distance */
     double euclidean(Point *p);
+    double manhattan(Point *p);
     double cosine(Point *p);
     double norm2(Point *p);
     void sumVectors(Point* p);
@@ -47,6 +57,10 @@ class Point {
     bool equalCoords(Point *p);
     int structureSize();
     double euclidean_squared(Point *p);
+    double getNearestDistance();
+    double getSecondNearestDistance();
+    void setNearestDistance(double nearestDistance);
+    void setSecondNearestDistance(double secondNearestDistance);
     ~Point();
 };
 

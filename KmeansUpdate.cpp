@@ -35,11 +35,8 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
         // initialize it with zeros
         initializePoint(dimension, new_center);
         for(int j = 0; j < clusters.at(i).size(); j++) {
-            if(!clusters.at(i).at(j)->isCentroid()) {
-                // Calculate the new centroid
-                new_center->sumVectors(clusters.at(i).at(j));
-            }
-                //cout << clusters.at(i).at(j)->getCluster() << endl;
+            // Calculate the new centroid
+            new_center->sumVectors(clusters.at(i).at(j));
         }
         new_center->divideVector(clusters.at(i).size());
         centroids.at(i) = new_center;
@@ -60,6 +57,8 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
             old_centroids.at(i)->setCentroid(false);
         }
     }
+
+    cout << "Count " << count << endl;
 
     if(count == centroids.size()) {
         return true;

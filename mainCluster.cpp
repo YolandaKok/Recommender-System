@@ -66,14 +66,9 @@ int main(int argc, char* argv[]) {
     tuple<string, string> initialization("random_selection", "k-means++");
     tuple<string, string, string> assignment("Lloyds", "RangeLSH", "RangeHypercube");
     tuple<string, string> update("k-means", "PAM");
-    //cout << get<0>(initialization) << endl;
 
-    //input.at(0)->print();
-    // Create Clustering Class
-    Clustering *clustering = new Clustering(clusters, input, get<1>(initialization), get<0>(assignment), get<1>(update), k, L, metric, size);
+    Clustering *clustering = new Clustering(clusters, input, get<1>(initialization), get<0>(assignment), get<0>(update), k, L, metric, size);
     clustering->findClusters();
-    //clustering->k_means_pp();
-    //clustering->randomSelection();
 
     /* Deallocate input */
     for(int i = 0; i < input.size(); i++) {

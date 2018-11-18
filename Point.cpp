@@ -13,6 +13,8 @@ Point::Point() {
   this->centroid = false;
   this->initialCentroid = false;
   this->iteration = 0;
+  this->R = 0.0;
+  this->clusters = new vector<int>;
 }
 
 bool Point::getInitialCentroid() {
@@ -125,6 +127,16 @@ double Point::euclidean_squared(Point *p) {
     return sum;
 }
 
+double Point::manhattan(Point *p) {
+    double result = 0.0;
+    double sum = 0.0, temp = 0.0;
+    for(int i = 0; i < this->coords.size(); i++) {
+        temp = abs(this->coords.at(i) - p->coords.at(i));
+        sum = sum + temp;
+    }
+    return sum;
+}
+
 double Point::norm2(Point *p) {
   double sum = 0.0, temp = 0.0;
   for(int i = 0; i < this->coords.size(); i++) {
@@ -151,6 +163,7 @@ double Point::cosine(Point *p) {
 /* Destructor of the Class Point */
 Point::~Point() {
   coords.clear();
+  delete this->clusters;
 }
 
 void Point::setCluster(int cluster) {
@@ -167,4 +180,32 @@ bool Point::isCentroid() {
 
 void Point::setCentroid(bool centroid) {
     this->centroid = centroid;
+}
+
+double Point::getR() {
+    return this->R;
+}
+
+void Point::setR(double R) {
+    this->R = R;
+}
+
+vector<int>* Point::getClusters() {
+    return this->clusters;
+}
+
+double Point::getNearestDistance() {
+    return this->nearestDistance;
+}
+
+double Point::getSecondNearestDistance() {
+    return this->secondNearestDistance;
+}
+
+void Point::setNearestDistance(double nearestDistance) {
+    this->nearestDistance = nearestDistance;
+}
+
+void Point::setSecondNearestDistance(double secondNearestDistance) {
+    this->secondNearestDistance = secondNearestDistance;
 }

@@ -120,7 +120,7 @@ vector<Point*> LSH::rangeSearch(Point *query, double R, ofstream& output) {
   }
 
   for(int w = 0; w < points_new.size(); w++) {
-    output << "Item " << points_new.at(w)->getId() << endl;
+    //output << "Item " << points_new.at(w)->getId() << endl;
   }
   return points_new;
 }

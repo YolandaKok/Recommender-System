@@ -27,7 +27,8 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
     /* Choose a centroid uniformly at random */
     uniform_int_distribution<> dis(0, dataset.size() - 1);
     uniform_real_distribution<> dist(0.0, 1.0);
-    int initial_centroid = dis(gen);
+    //int initial_centroid = dis(gen);
+    int initial_centroid = rand() % dataset.size();
     /* Removes the centroid from the dataset */
     remaining_elements.erase(remaining_elements.begin() + initial_centroid);
     //cout << initial_centroid << endl;
@@ -46,7 +47,7 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
         for( i = 0; i < dataset.size(); i++ ) {
             if(dataset.at(i)->getInitialCentroid() == 0) {
                 for( int j = 0; j < centroids.size(); j++ ) {
-                    distances.push_back(dataset.at(i)->norm2(centroids.at(j)));
+                    distances.push_back(dataset.at(i)->euclidean_squared(centroids.at(j)));
                 }
                 /* Find the minimum */
                 min_distances.push_back(minimum(distances));

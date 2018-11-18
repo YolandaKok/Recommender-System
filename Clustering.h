@@ -28,6 +28,7 @@ class Clustering {
         void findClusters();
         void Silhouette();
         void reinitialize();
+        int findSecondMinimum(vector<double> elements);
     // Assignment Algorithms
 
         // Update Algorithms
