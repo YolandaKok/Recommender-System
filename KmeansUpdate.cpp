@@ -58,7 +58,7 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
         }
     }
 
-    cout << "Count " << count << endl;
+    //cout << "Count " << count << endl;
 
     if(count == centroids.size()) {
         return true;

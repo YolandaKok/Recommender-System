@@ -18,16 +18,17 @@ KmeansppInit::KmeansppInit() {
 
 vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clusters) {
     int i;
-    string index;
+    int index;
     vector<Point*> centroids;
     double sum_distances;
     // Copy dataset by assignment
     vector<Point*> remaining_elements;
     remaining_elements = dataset;
     /* Choose a centroid uniformly at random */
-    uniform_int_distribution<> dis(0, dataset.size() - 1);
+    uniform_int_distribution<> dis(0, dataset.size());
     uniform_real_distribution<> dist(0.0, 1.0);
     //int initial_centroid = dis(gen);
+    /* Select the initial centroid */
     int initial_centroid = rand() % dataset.size();
     /* Removes the centroid from the dataset */
     remaining_elements.erase(remaining_elements.begin() + initial_centroid);
@@ -39,6 +40,7 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
     vector<double> cumsum;
     vector<double> distances;
     vector<double> min_distances;
+    vector<int> ids;
 
     /* While we have not found all the centers */
     while(centroids.size() < num_clusters) {
@@ -51,44 +53,43 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
                 }
                 /* Find the minimum */
                 min_distances.push_back(minimum(distances));
+                ids.push_back(i);
                 distances.clear();
             }
         }
         cout << "Min distances " << min_distances.size() << endl;
         // Calculate the probability
-        sum_distances = sum(min_distances);
+        //sum_distances = sum(min_distances);
         double max = maximum(min_distances);
         /* Normalize it */
-        for( int z = 0; z < min_distances.size(); z++ ) {
-            min_distances[z] /= sum_distances;
-        }
+
         /* Find the cumulative sum */
         cumsum.resize(min_distances.size());
 
         partial_sum(min_distances.begin(), min_distances.end(), cumsum.begin(), plus<double>());
         cumsum.insert(cumsum.begin(), 0.0);
-        double x = dist(gen);
+        for( int z = 0; z < cumsum.size(); z++ ) {
+            cumsum.at(z) /= sqrt(max);
+        }
+        uniform_real_distribution<> dist2(0.0, cumsum.at(cumsum.size() - 1));
+        double x = dist2(gen);
         cout << x << "R" << endl;
+        cout << "Min distances2 " << cumsum.at(cumsum.size() - 1) << endl;
 
         /* Find the first index that cumsum is >= r  */
         for(int r = 0; r < cumsum.size(); r++) {
             //TODO: binary search
             if(cumsum.at(r) >= x) {
-                if(find(centroids.begin(), centroids.end(), dataset.at(r)) != centroids.end()) {
-                    break;
-                }
-                else {
-                    index = dataset.at(r)->getId();
-                    cout << index << endl;
-                    centroids.push_back(dataset.at(r));
-                    dataset.at(r)->setCentroid(true);
-                    dataset.at(r)->setInitialCentroid(true);
-                    break;
-                }
+                index = ids.at(r);
+                centroids.push_back(dataset.at(index));
+                dataset.at(index)->setCentroid(true);
+                dataset.at(index)->setInitialCentroid(true);
+                break;
             }
         }
         min_distances.clear();
         cumsum.clear();
+        ids.clear();
     }
     return centroids;
 }

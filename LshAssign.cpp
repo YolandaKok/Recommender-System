@@ -8,9 +8,10 @@
 
 using namespace std;
 
-LshAssign::LshAssign(LSH *lsh) {
+LshAssign::LshAssign(LSH *lsh, Hypercube *cube) {
     /* Pointer to the Lsh Structure */
     this->lsh = lsh;
+    this->cube = cube;
 }
 
 void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroids) {
@@ -49,20 +50,20 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     distances2.resize(centroids.size());
     vector<int> *clusters;
     /* Start of the Loop for range search */
-    for(int i = 0; i < 2; i++) {
+    for(int i = 0; i < 10; i++) {
         cout << "LOOP " << i << endl;
         for(int j = 0; j < centroids.size(); j++) {
             /* Return a vector of Point* */
             currentPoints = this->lsh->rangeSearch(centroids.at(j), currentR, myfile);
+            //currentPoints = this->cube->rangeSearch(centroids.at(j), currentR, myfile);
             for( int z = 0; z < currentPoints.size(); z++ ) {
                 if(currentPoints.at(z)->getR() == 0.0) {
                     currentPoints.at(z)->setR(currentR);
                     currentPoints.at(z)->getClusters()->push_back(j);
                     currentPoints.at(z)->setCluster(j);
+                    currentPoints.at(z)->setIteration(j);
                 }
-                else if(currentPoints.at(z)->getR() == currentR) {
-                    /* if it exists */
-                    /* For every cluster that it exists calculate distance */
+                /*else if(currentPoints.at(z)->getR() == currentR && currentPoints.at(z)->getIteration() != j) {
                     clusters = currentPoints.at(z)->getClusters();
                     for(int k = 0; k < clusters->size(); k++) {
                         distances2.push_back(currentPoints.at(z)->euclidean(centroids.at(clusters->at(k))));
@@ -70,10 +71,13 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
                     int index = minimum(distances2);
                     currentPoints.at(z)->setCluster(clusters->at(index));
                     distances2.clear();
-                }
+                }*/
             }
-            cout << " Current Points " << currentPoints.size() << endl;
-            currentPoints.empty();
+            //cout << " Current Points " << currentPoints.size() << endl;
+            /*for(int k = 0; k < currentPoints.size(); k++) {
+                cout << currentPoints.at(k)->getId() << endl;
+            }*/
+            currentPoints.clear();
         }
         currentR *= 2;
     }

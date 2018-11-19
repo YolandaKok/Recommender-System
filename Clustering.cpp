@@ -7,6 +7,7 @@
 #include "KmeansUpdate.h"
 #include "LshAssign.h"
 #include "Lsh.h"
+#include "Hypercube.h"
 #include "PAMUpdate.h"
 #include <algorithm>
 #include <numeric>
@@ -30,8 +31,11 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
         this->assignment = new LloydsAssign();
     }
     else if(!assign.compare("RangeLSH")) {
+        //string metric = "cosine";
         LSH *lsh = new LSH(L, size, k, dataset, metric, dataset.size(), dataset.at(0)->getDimension());
-        this->assignment = new LshAssign(lsh);
+        Hypercube *cube = new Hypercube(size, dataset.at(0)->getDimension(), k, 8, 3, metric);
+        lsh->bucket();
+        this->assignment = new LshAssign(lsh, cube);
     }
 
     if(!update.compare("k-means")) {
@@ -52,8 +56,11 @@ void Clustering::findClusters() {
     while(!this->update->updateCentroids(this->dataset, this->centroids)) {
         this->assignment->assignCentroids(this->dataset, this->centroids);
         count++;
+        if(count > 10) {
+            break;
+        }
     }
-    cout << count << endl;
+    //cout << count << endl;
     cout << "silhouette" << endl;
     Silhouette();
 }
@@ -83,18 +90,18 @@ void Clustering::Silhouette() {
     vector<double> second_distances;
     for( int k = 0; k < clusters.size(); k++ ) {
         for (int i = 0; i < clusters.at(k).size(); i++) {
-            secondCluster = clusters.at(k).at(i)->getSecondBestCluster();
-             for(int z = 0; z < centroids.size(); z++) {
+            //secondCluster = clusters.at(k).at(i)->getSecondBestCluster();
+            for(int z = 0; z < centroids.size(); z++) {
                 second_distances.push_back(clusters.at(k).at(i)->euclidean_squared(centroids.at(z)));
             }
             secondCluster = findSecondMinimum(second_distances);
             for (int j = 0; j < clusters.at(k).size(); j++) {
-                //averageIntra += clusters.at(k).at(i)->euclidean_squared(clusters.at(k).at(j)) / clusters.at(k).size();
-                averageIntra += clusters.at(k).at(i)->getNearestDistance() / clusters.at(k).size();
+                averageIntra += clusters.at(k).at(i)->euclidean_squared(clusters.at(k).at(j)) / clusters.at(k).size();
+                //averageIntra += clusters.at(k).at(i)->getNearestDistance() / clusters.at(k).size();
             }
             for (int j = 0; j < clusters.at(secondCluster).size(); j++) {
-                //averageNearest1 += clusters.at(k).at(i)->euclidean_squared(clusters.at(secondCluster).at(j)) / clusters.at(secondCluster).size();
-                averageNearest1 += clusters.at(k).at(i)->getSecondNearestDistance() / clusters.at(secondCluster).size();
+                averageNearest1 += clusters.at(k).at(i)->euclidean_squared(clusters.at(secondCluster).at(j)) / clusters.at(secondCluster).size();
+                //averageNearest1 += clusters.at(k).at(i)->getSecondNearestDistance() / clusters.at(secondCluster).size();
             }
             second_distances.clear();
         }

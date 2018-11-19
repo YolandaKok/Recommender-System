@@ -124,11 +124,16 @@ vector<tuple<string, double>> Hashtable::find(int bucket_number, Point*& q, int&
 }
 
 void Hashtable::points_per_bucket() {
+    int count = 0;
   for(int i = 0; i < this->size; i++) {
     cout << "Bucket number: " << i << endl;
     for (std::list<Point*>::const_iterator iterator = this->hashtable.at(i)->begin(), end = this->hashtable.at(i)->end(); iterator != end; ++iterator) {
-      cout << (*iterator)->getId() << endl;
+      //cout << (*iterator)->getId() << endl;
+      count++;
     }
+    if(count > 0)
+        cout << count << endl;
+    count = 0;
   }
 }
 
