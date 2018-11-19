@@ -51,6 +51,8 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
         }
     }
 
+    cout << "Count" << count << endl;
+
     for(int i = 0; i < old_centroids.size(); i++) {
         if(old_centroids.at(i)->getInitialCentroid()) {
             old_centroids.at(i)->setInitialCentroid(false);

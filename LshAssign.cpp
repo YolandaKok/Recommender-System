@@ -37,7 +37,7 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     /* Calculate the distance for every centroid */
     for(int i = 0; i < results.size(); i++) {
         /* Calculate Distance */
-        distances.push_back(centroids.at(results.at(i).first)->euclidean_squared(centroids.at(results.at(i).second)));
+        distances.push_back(centroids.at(results.at(i).first)->euclidean(centroids.at(results.at(i).second)));
     }
     /* Calculate the R initial value */
     double min = minimum(distances);
@@ -82,9 +82,11 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
         currentR *= 2;
     }
 
+    int count = 0;
     vector<double> remaining_distances;
     for( int i = 0; i < dataset.size(); i++ ) {
         if( dataset.at(i)->getR() == 0.0 ) {
+            count++;
             /* Find the nearest centroid and assign it */
             for( int j = 0; j < centroids.size(); j++ ) {
                 remaining_distances.push_back(centroids.at(j)->euclidean(dataset.at(i)));
@@ -96,6 +98,7 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
         dataset.at(i)->setR(0.0);
         dataset.at(i)->getClusters()->clear();
     }
+    cout << "Unassigned " << count << endl;
 }
 
 double LshAssign::minimum(vector<double> elements) {

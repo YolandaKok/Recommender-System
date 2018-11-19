@@ -63,15 +63,36 @@ int main(int argc, char* argv[]) {
 
     //input.at(1)->print();
 
-    tuple<string, string> initialization("random_selection", "k-means++");
-    tuple<string, string, string> assignment("Lloyds", "RangeLSH", "RangeHypercube");
-    tuple<string, string> update("k-means", "PAM");
+    //tuple<string, string> initialization("random_selection", "k-means++");
+    //tuple<string, string, string> assignment("Lloyds", "RangeLSH", "RangeHypercube");
+    //tuple<string, string> update("k-means", "PAM");
 
+    vector<string> initialization = {"random_selection", "k-means++"};
+    vector<string> assignment = {"Lloyds", "RangeLSH", "RangeHypercube"};
+    vector<string> update = {"k-means", "PAM"};
+
+    ofstream myfile;
+    myfile.open(outputFile);
     Clustering *clustering;
-    clustering = new Clustering(clusters, input, get<0>(initialization), get<1>(assignment), get<0>(update), k, L, metric, size);
-    clustering->findClusters();
-        //clustering->reinitialize();
+    /*for( int i = 0; i < initialization.size(); i++ ) {
+        for(int j = 0; j < assignment.size() - 2; j++) {
+            for(int z = 0; z < update.size(); z++) {
+                clustering = new Clustering(clusters, input, initialization.at(i), assignment.at(j), update.at(z), k, L, metric, size);
+                clustering->findClusters();
+                vector<double> si = clustering->Silhouette();
+                clustering->print(si, outputFile, myfile);
+                clustering->reinitialize();
+            }
+        }
+    }*/
 
+    clustering = new Clustering(clusters, input, initialization.at(1), assignment.at(1), update.at(0), k, L, metric, size);
+    clustering->findClusters();
+    vector<double> si = clustering->Silhouette();
+    //clustering->print(si, outputFile, myfile);
+    //clustering->reinitialize();
+
+    myfile.close();
 
     /* Deallocate input */
     for(int i = 0; i < input.size(); i++) {

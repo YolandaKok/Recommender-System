@@ -20,7 +20,7 @@ LSH::LSH(int L, int size, int k, vector<Point*> points, string lsh_family, int i
   this->k = k;
   this->dimension = dimension;
   if(type1.compare(lsh_family) == 0) {
-    this->size = size / 25;
+    this->size = size / 250;
   }
   if(type2.compare(lsh_family) == 0) {
     this->size = (int)pow(2.0, k);

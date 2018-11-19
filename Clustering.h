@@ -5,6 +5,7 @@
 #include "Initialization.h"
 #include "Assignment.h"
 #include "Update.h"
+#include <fstream>
 
 class Clustering {
     private:
@@ -12,6 +13,11 @@ class Clustering {
         vector<vector<Point*>> clusters;
         // Num of clusters
         int num_clusters;
+        // metric
+        string metric;
+        string output;
+        // algorithms
+        vector<string> algorithms;
         // Input Points
         vector<Point*> dataset;
         // Centroids
@@ -24,12 +30,13 @@ class Clustering {
         Update *update;
     public:
         Clustering(int num_clusters, vector<Point*> dataset, string init, string assign, string update, int k, int L, string metric, int size);
+        vector<double> Silhouette();
         // Initialization Algorithms
         void findClusters();
-        void Silhouette();
         void reinitialize();
         int findSecondMinimum(vector<double> elements);
-    // Assignment Algorithms
+        void print(vector<double> si, string output, ofstream& myfile);
+        // Assignment Algorithms
 
         // Update Algorithms
 

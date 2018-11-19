@@ -12,6 +12,8 @@
 #include <algorithm>
 #include <numeric>
 #include <functional>
+#include <fstream>
+
 
 using namespace std;
 
@@ -20,15 +22,19 @@ extern default_random_engine generator;
 Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, string assign, string update, int k, int L, string metric, int size) {
     this->num_clusters = num_clusters;
     this->dataset = dataset;
+    this->metric = metric;
     if(!init.compare("random_selection")) {
         this->initialization = new RandomInit();
+        this->algorithms.push_back("Random Initialization");
     }
     else {
         this->initialization = new KmeansppInit();
+        this->algorithms.push_back("K-means++");
     }
 
     if(!assign.compare("Lloyds")) {
         this->assignment = new LloydsAssign();
+        this->algorithms.push_back("Lloyd's");
     }
     else if(!assign.compare("RangeLSH")) {
         //string metric = "cosine";
@@ -36,13 +42,16 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
         Hypercube *cube = new Hypercube(size, dataset.at(0)->getDimension(), k, 8, 3, metric);
         lsh->bucket();
         this->assignment = new LshAssign(lsh, cube);
+        this->algorithms.push_back("Range Search with LSH");
     }
 
     if(!update.compare("k-means")) {
         this->update = new KmeansUpdate();
+        this->algorithms.push_back("k-means");
     }
     else if(!update.compare("PAM")) {
         this->update = new PAMUpdate();
+        this->algorithms.push_back("PAM");
     }
 
     this->centroids = initialization->findCentroids(this->dataset, this->num_clusters);
@@ -56,17 +65,28 @@ void Clustering::findClusters() {
     while(!this->update->updateCentroids(this->dataset, this->centroids)) {
         this->assignment->assignCentroids(this->dataset, this->centroids);
         count++;
-        if(count > 10) {
+        cout << count << endl;
+        if(count > 5) {
             break;
         }
     }
     //cout << count << endl;
     cout << "silhouette" << endl;
-    Silhouette();
 }
 
 
-void Clustering::Silhouette() {
+void Clustering::print(vector<double> si, string output, ofstream& myfile) {
+    myfile << "Algorithm: " << algorithms.at(0) << " " << algorithms.at(1) << " " << algorithms.at(2) << endl;
+    myfile << "Metric: " << this->metric << endl;
+    myfile << "Silhouette: [";
+    for( int i = 0; i < si.size() - 1; i++ ) {
+        myfile << si.at(i) << ",";
+    }
+    myfile << si.at(si.size() - 1) << "]" << endl;
+    //myfile.close();
+}
+
+vector<double> Clustering::Silhouette() {
     /* Calculate clusters */
     vector<vector<Point*>> clusters;
     clusters.resize(centroids.size());
@@ -84,10 +104,11 @@ void Clustering::Silhouette() {
     /* Find the average */
     /* And the distance of this point to the second minimum cluster */
     /* average distance of sample i to the other samples of the cluster and the second best cluster */
-    double averageIntra = 0.0, averageNearest = 0.0, averageNearest1 = 0.0, averageNearest2 = 0.0, averageNearest3 = 0.0, averageNearest4 = 0.0;
+    double averageIntra = 0.0, averageNearest = 0.0, averageNearest1 = 0.0;
     int initCluster, secondCluster;
     double average = 0.0;
     vector<double> second_distances;
+    vector<double> si;
     for( int k = 0; k < clusters.size(); k++ ) {
         for (int i = 0; i < clusters.at(k).size(); i++) {
             //secondCluster = clusters.at(k).at(i)->getSecondBestCluster();
@@ -107,12 +128,16 @@ void Clustering::Silhouette() {
         }
         cout << "Cluster " << k << " Silhouette" << endl;
         cout << (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra) << endl;
+        si.push_back((averageNearest1 - averageIntra) / max(averageNearest1, averageIntra) );
         average += (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra);
         averageIntra = 0.0;
         averageNearest1 = 0.0;
     }
 
+    si.push_back(average / clusters.size());
     cout << "stotal " << average / clusters.size() << endl;
+
+    return si;
 }
 
 
@@ -144,7 +169,10 @@ void Clustering::reinitialize() {
     for(int i = 0; i < dataset.size(); i++) {
         dataset.at(i)->setCentroid(false);
         dataset.at(i)->setInitialCentroid(false);
+        dataset.at(i)->setR(0.0);
+        dataset.at(i)->getClusters()->clear();
     }
+    this->algorithms.clear();
 }
 
 
