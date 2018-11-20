@@ -16,7 +16,7 @@ void LloydsAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centr
         for( int j = 0; j < centroids.size(); j++ ) {
             if(dataset.at(i)->isCentroid() == 0) {
                 /* Calculate distance for every centroid and find minimum */
-                distances_from_centroids.push_back(dataset.at(i)->euclidean_squared(centroids.at(j)));
+                distances_from_centroids.push_back(dataset.at(i)->euclidean(centroids.at(j)));
                 // TODO: also for cosine distance
             }
         }

@@ -50,13 +50,17 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     distances2.resize(centroids.size());
     vector<int> *clusters;
     /* Start of the Loop for range search */
-    for(int i = 0; i < 10; i++) {
+    for(int i = 0; i < 5; i++) {
         cout << "LOOP " << i << endl;
         for(int j = 0; j < centroids.size(); j++) {
             /* Return a vector of Point* */
             currentPoints = this->lsh->rangeSearch(centroids.at(j), currentR, myfile);
+            cout << currentPoints.size() << " SIZE" << endl;
             //currentPoints = this->cube->rangeSearch(centroids.at(j), currentR, myfile);
             for( int z = 0; z < currentPoints.size(); z++ ) {
+                //cout << currentPoints.at(z)->euclidean(centroids.at(j)) << " distance from centroid" << endl;
+                // if it exists in assignedPoints
+                // Keep assigned points in another array
                 if(currentPoints.at(z)->getR() == 0.0) {
                     currentPoints.at(z)->setR(currentR);
                     currentPoints.at(z)->getClusters()->push_back(j);

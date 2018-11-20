@@ -66,7 +66,7 @@ void Clustering::findClusters() {
         this->assignment->assignCentroids(this->dataset, this->centroids);
         count++;
         cout << count << endl;
-        if(count > 5) {
+        if(count > 7) {
             break;
         }
     }
@@ -97,6 +97,10 @@ vector<double> Clustering::Silhouette() {
             clusters.at(dataset.at(z)->getCluster()).push_back(dataset.at(z));
         }
     }
+    for(int i = 0; i < clusters.size(); i++) {
+        cout << "SIZE of cluster " << i << endl;
+        cout << clusters.at(i).size() << endl;
+    }
 
     /* Array with average */
 
@@ -109,27 +113,35 @@ vector<double> Clustering::Silhouette() {
     double average = 0.0;
     vector<double> second_distances;
     vector<double> si;
+    double cluster_si;
     for( int k = 0; k < clusters.size(); k++ ) {
         for (int i = 0; i < clusters.at(k).size(); i++) {
             //secondCluster = clusters.at(k).at(i)->getSecondBestCluster();
             for(int z = 0; z < centroids.size(); z++) {
-                second_distances.push_back(clusters.at(k).at(i)->euclidean_squared(centroids.at(z)));
+                second_distances.push_back(clusters.at(k).at(i)->euclidean(centroids.at(z)));
             }
             secondCluster = findSecondMinimum(second_distances);
             for (int j = 0; j < clusters.at(k).size(); j++) {
-                averageIntra += clusters.at(k).at(i)->euclidean_squared(clusters.at(k).at(j)) / clusters.at(k).size();
+                averageIntra += clusters.at(k).at(i)->euclidean(clusters.at(k).at(j)) / clusters.at(k).size();
                 //averageIntra += clusters.at(k).at(i)->getNearestDistance() / clusters.at(k).size();
             }
             for (int j = 0; j < clusters.at(secondCluster).size(); j++) {
-                averageNearest1 += clusters.at(k).at(i)->euclidean_squared(clusters.at(secondCluster).at(j)) / clusters.at(secondCluster).size();
+                averageNearest1 += clusters.at(k).at(i)->euclidean(clusters.at(secondCluster).at(j)) / clusters.at(secondCluster).size();
                 //averageNearest1 += clusters.at(k).at(i)->getSecondNearestDistance() / clusters.at(secondCluster).size();
             }
             second_distances.clear();
         }
         cout << "Cluster " << k << " Silhouette" << endl;
         cout << (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra) << endl;
-        si.push_back((averageNearest1 - averageIntra) / max(averageNearest1, averageIntra) );
-        average += (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra);
+        cluster_si = (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra);
+        if( !isnan(cluster_si) ) {
+            si.push_back((averageNearest1 - averageIntra) / max(averageNearest1, averageIntra) );
+            average += (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra);
+        }
+        else {
+            si.push_back(0.0);
+        }
+
         averageIntra = 0.0;
         averageNearest1 = 0.0;
     }
