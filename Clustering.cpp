@@ -53,43 +53,27 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
         this->update = new PAMUpdate();
         this->algorithms.push_back("PAM");
     }
-
-    this->centroids = initialization->findCentroids(this->dataset, this->num_clusters);
-    //this->assignment->assignCentroids(this->dataset, this->centroids);
 }
 
 /* Clustering until the centers are the same */
 void Clustering::findClusters() {
+    clock_t begin_time = clock();
     int count = 0;
+    this->centroids = initialization->findCentroids(this->dataset, this->num_clusters);
     this->assignment->assignCentroids(this->dataset, this->centroids);
     while(!this->update->updateCentroids(this->dataset, this->centroids)) {
         this->assignment->assignCentroids(this->dataset, this->centroids);
         count++;
         cout << count << endl;
-        if(count > 7) {
+        if(count > 17) {
             break;
         }
     }
-    //cout << count << endl;
-    cout << "silhouette" << endl;
-}
 
+    this->total_time = double( clock () - begin_time ) /  CLOCKS_PER_SEC;
 
-void Clustering::print(vector<double> si, string output, ofstream& myfile) {
-    myfile << "Algorithm: " << algorithms.at(0) << " " << algorithms.at(1) << " " << algorithms.at(2) << endl;
-    myfile << "Metric: " << this->metric << endl;
-    myfile << "Silhouette: [";
-    for( int i = 0; i < si.size() - 1; i++ ) {
-        myfile << si.at(i) << ",";
-    }
-    myfile << si.at(si.size() - 1) << "]" << endl;
-    //myfile.close();
-}
-
-vector<double> Clustering::Silhouette() {
-    /* Calculate clusters */
-    vector<vector<Point*>> clusters;
-    clusters.resize(centroids.size());
+    /* Create the clusters */
+    this->clusters.resize(centroids.size());
 
     for(int z = 0; z < dataset.size(); z++) {
         if(dataset.at(z)->isCentroid() == 0) {
@@ -97,6 +81,60 @@ vector<double> Clustering::Silhouette() {
             clusters.at(dataset.at(z)->getCluster()).push_back(dataset.at(z));
         }
     }
+
+    cout << "silhouette" << endl;
+}
+
+/* Get the data structure of clusters */
+vector<vector<Point*>>& Clustering::getClusters() {
+    return this->clusters;
+}
+
+void Clustering::print(vector<double> si, string output, ofstream& myfile) {
+    myfile << "Algorithm: " << algorithms.at(0) << " " << algorithms.at(1) << " " << algorithms.at(2) << endl;
+    myfile << "Metric: " << this->metric << endl;
+    for( int i = 0; i < this->clusters.size(); i++ ) {
+        myfile << "CLUSTER-" << i <<  "  { size:  " << clusters.at(i).size() << ", centroid:  ";
+        if(!algorithms.at(2).compare("PAM")) {
+            myfile << centroids.at(i)->getId();
+        }
+        else {
+            centroids.at(i)->print(",", myfile);
+        }
+        myfile << endl;
+    }
+    myfile << "clustering time: " << this->total_time << " secs" << endl;
+    myfile << "Silhouette: [";
+    for( int i = 0; i < si.size() - 1; i++ ) {
+        myfile << si.at(i) << ",";
+    }
+    myfile << si.at(si.size() - 1) << "]" << endl;
+
+    myfile << endl;
+    /* Count to break the line */
+    int count = 0;
+    /* Maybe you can choose what to print */
+    /* Print the items of the clusters */
+    for( int i = 0; i < clusters.size(); i++ ) {
+        myfile << "CLUSTER-" << i << "  {";
+        for( int j = 0; j < clusters.at(i).size(); j++ ) {
+            myfile << clusters.at(i).at(j)->getId() << ", ";
+            count++;
+            if(count > 100) {
+                myfile << endl;
+                count = 0;
+            }
+        }
+        myfile << "}" << endl;
+        myfile << endl;
+        count = 0;
+    }
+    myfile << endl;
+}
+
+vector<double> Clustering::Silhouette() {
+    /* Calculate clusters */
+
     for(int i = 0; i < clusters.size(); i++) {
         cout << "SIZE of cluster " << i << endl;
         cout << clusters.at(i).size() << endl;
@@ -173,7 +211,6 @@ int Clustering::findSecondMinimum(vector<double> elements) {
             }
         }
     }
-
     return index2;
 }
 
@@ -185,6 +222,10 @@ void Clustering::reinitialize() {
         dataset.at(i)->getClusters()->clear();
     }
     this->algorithms.clear();
+    /* Remove items from the clusters */
+    for( int i = 0; i < clusters.size(); i++ ) {
+        clusters.at(i).clear();
+    }
 }
 
 

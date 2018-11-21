@@ -5,6 +5,7 @@
 #include <numeric>
 #include "Point.h"
 #include <math.h>
+#include <fstream>
 
 using namespace std;
 /* Constructor of the Class Point */
@@ -59,12 +60,14 @@ void Point::addCoord(double coord) {
 }
 
 /* Print data points */
-void Point::print() {
+void Point::print(string seperator, ofstream& myfile) {
     //cout.precision(20);
+  myfile << "[ ";
   for (auto i = coords.begin(); i != coords.end(); ++i){
-    cout << *i << " ";
+    myfile << *i << seperator;
   }
-  cout << endl;
+  myfile << "]";
+  //cout << endl;
 }
 
 /* Get the size of structure in Bytes */

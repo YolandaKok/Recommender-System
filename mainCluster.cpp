@@ -61,12 +61,6 @@ int main(int argc, char* argv[]) {
     vector<Point*> input;
     input = readFile(inputFile, k, size, 1, R, metric);
 
-    //input.at(1)->print();
-
-    //tuple<string, string> initialization("random_selection", "k-means++");
-    //tuple<string, string, string> assignment("Lloyds", "RangeLSH", "RangeHypercube");
-    //tuple<string, string> update("k-means", "PAM");
-
     vector<string> initialization = {"random_selection", "k-means++"};
     vector<string> assignment = {"Lloyds", "RangeLSH", "RangeHypercube"};
     vector<string> update = {"k-means", "PAM"};
@@ -89,8 +83,8 @@ int main(int argc, char* argv[]) {
     clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(0), update.at(0), k, L, metric, size);
     clustering->findClusters();
     vector<double> si = clustering->Silhouette();
-    //clustering->print(si, outputFile, myfile);
-    //clustering->reinitialize();
+    clustering->print(si, outputFile, myfile);
+    clustering->reinitialize();
 
     myfile.close();
 

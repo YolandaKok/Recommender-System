@@ -13,6 +13,7 @@ class Clustering {
         vector<vector<Point*>> clusters;
         // Num of clusters
         int num_clusters;
+        double total_time;
         // metric
         string metric;
         string output;
@@ -36,6 +37,7 @@ class Clustering {
         void reinitialize();
         int findSecondMinimum(vector<double> elements);
         void print(vector<double> si, string output, ofstream& myfile);
+        vector<vector<Point*>>& getClusters();
         // Assignment Algorithms
 
         // Update Algorithms

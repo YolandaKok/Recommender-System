@@ -35,7 +35,7 @@ class Point {
     int getIteration();
     void setIteration(int iteration);
     /* Show the list of the coords of the point */
-    void print();
+    void print(string seperator, ofstream& myfile);
     /* Inner Product between two points */
     double innerProduct(Point *p);
     bool isCentroid();
