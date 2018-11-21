@@ -91,8 +91,32 @@ int main(int argc, char* argv[]) {
       ofstream myfile;
       myfile.open(outputFile);
       //hypercube->points_per_bucket();
-      for(i = 0; i < query.size(); i++)
-        hypercube->findNearest(query.at(i), query.size(), myfile, R);
+      vector<Point*> nearest;
+      vector<Point*> range_items;
+      Point* nearest_neighbor;
+      Point* exact;
+      for(i = 0; i < query.size(); i++) {
+        myfile << "Query: Item " << query.at(i)->getId() << endl;
+        /* Find all the nearest in the probes */
+        nearest = hypercube->findNearest(query.at(i));
+        /* Find the nearest neighbor approximate */
+        nearest_neighbor = hypercube->approximateNN(nearest, query.at(i));
+        myfile << "Nearest Neighbor: " << nearest_neighbor->getId() << endl;
+        myfile << "Nearest Neighbor distance: " << nearest_neighbor->euclidean(query.at(i)) << endl;
+        /* Range Search */
+        if(R > 0.0) {
+          range_items = hypercube->rangeSearch(nearest, query.at(i), R);
+        }
+        myfile << "Range Items: " << endl;
+        for( int j = 0; j < range_items.size(); j++ ) {
+          myfile << range_items.at(j)->getId() << endl;
+          myfile << range_items.at(j)->euclidean(query.at(i)) << endl;
+        }
+        exact = hypercube->exactNN(query.at(i));
+        myfile << "Exact Neighbor distance: " << exact->euclidean(query.at(i)) << endl;
+        myfile << "Exact NN: " << exact->getId() << endl;
+        myfile << endl;
+      }
       myfile.close();
       cout << "Do you want to insert more query files ? (yes, no)" << endl;
       cout << endl;

@@ -123,6 +123,22 @@ vector<tuple<string, double>> Hashtable::find(int bucket_number, Point*& q, int&
   return neighbors;
 }
 
+/* Returns points in this bucket */
+
+vector<Point*> Hashtable::find(vector<int> bucket_numbers) {
+  vector<Point*> neighbors;
+
+  /*if(empty_list(bucket_number))
+    return neighbors;*/
+  for( int i = 0; i < bucket_numbers.size(); i++ ) {
+    for (std::list<Point*>::const_iterator iterator = this->hashtable.at(bucket_numbers.at(i))->begin(), end = this->hashtable.at(bucket_numbers.at(i))->end(); iterator != end; ++iterator) {
+      neighbors.push_back(*iterator);
+    }
+  }
+
+  return neighbors;
+}
+
 void Hashtable::points_per_bucket() {
   for(int i = 0; i < this->size; i++) {
     cout << "Bucket number: " << i << endl;
@@ -163,6 +179,35 @@ double Hashtable::exactNN(Point*& q, ofstream& output) {
   output << "distanceTrue: " << final_distance << endl;
   output << "tTrue: " << double( clock () - begin_time ) /  CLOCKS_PER_SEC  << endl << endl;
   return final_distance;
+}
+
+Point* Hashtable::exactNN(Point*& q) {
+  double distance, final_distance;
+  string id;
+  Point* exact;
+  if(this->type.compare("euclidean") == 0) {
+    final_distance = 10000;
+  }
+  else {
+    final_distance = 10000;
+  }
+
+  for(int i = 0; i < this->size; i++) {
+    for (std::list<Point*>::const_iterator iterator = this->hashtable.at(i)->begin(), end = this->hashtable.at(i)->end(); iterator != end; ++iterator) {
+      if(this->type.compare("euclidean") == 0) {
+        distance = (*iterator)->euclidean(q);
+      }
+      else {
+        distance = (*iterator)->cosine(q);
+      }
+      if(distance < final_distance) {
+        final_distance = distance;
+        id = (*iterator)->getId();
+        exact = *iterator;
+      }
+    }
+  }
+  return exact;
 }
 
 int Hashtable::hash_for_query(Point *query) {

@@ -76,18 +76,20 @@ int Hypercube::hashValue(vector<int> elements) {
 }
 
 
-void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) {
+vector<Point*> Hypercube::findNearest(Point *query) {
   /* getHFunctions for query */
   vector<int> hash_array = getHFunctions(query);
   int hash = hashValue(hash_array);
   int k = getK();
-  int result, i, bucket_number;
+  int result, i;
+  vector<int> bucket_numbers;
   char z;
   char *str = (char*)malloc(k);
-  int count_M = 0, probes_count = 0;
+  int probes_count = 0;
   static int count_size = 0;
   double static mean_time_lsh = 0.0;
   double time_;
+
   count_size++;
   string str1;
   str1.resize(k);
@@ -98,58 +100,49 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
     /* Calculate the input string */
     str1[k-i-1] = result + '0';
   }
-  output << "Query: Item " << query->getId() << endl;
+  //output << "Query: Item " << query->getId() << endl;
   // Call the nearest neighbor function
-  bucket_number = stoi(str1, nullptr, 2);
-  //cout << str1 << endl;
-  vector<tuple<string,double>> results, results2, ab;
+  bucket_numbers.push_back(stoi(str1, nullptr, 2));
+  //bucket_number =
+  //vector<tuple<string,double>> results, results2, ab;
   /* Start Counting Time */
-  results = find(bucket_number, query, count_M, M);
-  //cout << count_M << endl;
+  //results = find(bucket_number, query, count_M, M);
   // Look at the first probe
   clock_t begin_time = clock();
   probes_count++;
   int count = 1;
   vector<string> strs;
+
   do {
-    /*if(count_M == M)
-      break;*/
     strs.clear();
     hamming(str1, k - 1, count, strs);
     for(int j = 0; j < strs.size(); j++) {
       probes_count++;
       if(probes_count > this->probes)
         break;
-      /* Found the bucket number */
-      bucket_number = stoi(strs.at(j), nullptr, 2);
-      results2 = find(bucket_number, query, count_M, M);
-      for(int i = 0; i < results2.size(); i++) {
-        results.push_back(results2.at(i));
-      }
-      /* Find the M points */
-      if(probes_count > this->probes)
-        break;
-      results2.clear();
+      /* Found the bucket numbers */
+      bucket_numbers.push_back(stoi(strs.at(j), nullptr, 2));
     }
     count++;
   } while(this->probes >= probes_count);
 
+  vector<Point*> results;
+  results = find(bucket_numbers);
+
+  /* Return the results that found in the probes */
+  return results;
+
+  #if(0)
   double smallest, nnDistance, max_approximation;
   static double final_max_approximation = 0.0;
   /* Find the smallest distance */
   smallest = smallestDistance(results, output);
+
   time_ = double( clock () - begin_time ) /  CLOCKS_PER_SEC;
   output << "tCube: " << time_ << endl;
   mean_time_lsh += time_;
-  /* Find R nearest neighbors for query */
-  if(R > 0.0) {
-    output << "Range Items: " << endl;
-    for(int z = 0; z < results.size(); z++) {
-      if(get<1>(results.at(z)) < R) {
-        output << "Item " << get<0>(results.at(z)) << endl;
-      }
-    }
-  }
+
+
   /* Find the nearest neighbor */
   nnDistance = exactNN(query, output);
   max_approximation = smallest / nnDistance;
@@ -164,7 +157,58 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
       mean_time_lsh = 0.0;
       final_max_approximation = 0.0;
   }
+  #endif
   free(str);
+}
+
+vector<Point*> Hypercube::rangeSearch(vector<Point*> results, Point *q, double R) {
+  /* Find R nearest neighbors for query */
+  //output << "Range Items: " << endl;
+  vector<Point*> items;
+  double distance;
+  for(int z = 0; z < results.size(); z++) {
+    if(!lsh_family.compare("euclidean")) {
+      distance = q->euclidean(results.at(z));
+    }
+    else {
+      distance = q->cosine(results.at(z));
+    }
+    if(distance < R) {
+      items.push_back(results.at(z));
+    }
+  }
+  return items;
+}
+
+Point* Hypercube::approximateNN(vector<Point*>& results, Point* query) {
+  double distance, final_distance;
+  Point* final_item;
+  //cout << results.at(0)->getId() << endl;
+  if(lsh_family.compare("euclidean") == 0) {
+    distance = results.at(0)->euclidean(query);
+    final_item = results.at(0);
+  }
+  else {
+    distance = results.at(0)->cosine(query);
+    final_item = results.at(0);
+  }
+
+  for( int i = 1; i < results.size(); i++ ) {
+    if(lsh_family.compare("euclidean") == 0) {
+      final_distance = results.at(i)->euclidean(query);
+    }
+    else {
+      final_distance = results.at(i)->cosine(query);
+    }
+
+    if(final_distance < distance) {
+      distance = final_distance;
+      final_item = results.at(i);
+    }
+  }
+
+  return final_item;
+
 }
 
 double Hypercube::smallestDistance(vector<tuple<string,double>>& input, ofstream& output) {

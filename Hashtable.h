@@ -27,7 +27,9 @@ class Hashtable {
     int insert(Point *p, int bucket_number);
     bool empty_list(int bucket_number);
     vector<tuple<string, double>> find(int bucket_number, Point*& q, int& count_M, int M_total);
+    vector<Point*> find(vector<int> bucket_numbers);
     int hash_for_query(Point *query);
+    Point* exactNN(Point*& q);
     /* Return h functions */
     vector<int> getHFunctions(Point *p);
     /* Find bucket for query point */
