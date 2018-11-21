@@ -149,6 +149,7 @@ void Hypercube::findNearest(Point *query, int size, ofstream& output, double R) 
         output << "Item " << get<0>(results.at(z)) << endl;
       }
     }
+
   }
   /* Find the nearest neighbor */
   nnDistance = exactNN(query, output);

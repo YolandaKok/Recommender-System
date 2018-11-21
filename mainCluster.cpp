@@ -80,7 +80,7 @@ int main(int argc, char* argv[]) {
         }
     }*/
 
-    clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(0), update.at(0), k, L, metric, size);
+    clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(1), update.at(0), k, L, metric, size);
     clustering->findClusters();
     vector<double> si = clustering->Silhouette();
     clustering->print(si, outputFile, myfile);

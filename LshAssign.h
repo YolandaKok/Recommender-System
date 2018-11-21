@@ -16,6 +16,7 @@ class LshAssign: public Assignment {
         Hypercube *cube;
         void combinationUtil(vector<int> arr, int n, int r, int index, vector<int> data, int i, vector<pair<int,int>>& results);
         double minimum(vector<double> elements);
+        int minimum_index(vector<double> elements);
     public:
         LshAssign(LSH *lsh, Hypercube *cube);
         void assignCentroids(vector<Point*>& dataset, vector<Point*> centroids);

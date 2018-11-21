@@ -48,6 +48,8 @@ bool PAMUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroi
         /* Find the minimum distance and the index */
         centroids.at(i) = clusters.at(i).at(minimum_index(distances));
         centroids.at(i)->setCentroid(true);
+        // Set cluster for the centroid
+        centroids.at(i)->setCluster(i);
         distances.clear();
     }
 

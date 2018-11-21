@@ -39,7 +39,7 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
     else if(!assign.compare("RangeLSH")) {
         //string metric = "cosine";
         LSH *lsh = new LSH(L, size, k, dataset, metric, dataset.size(), dataset.at(0)->getDimension());
-        Hypercube *cube = new Hypercube(size, dataset.at(0)->getDimension(), k, 8, 3, metric);
+        Hypercube *cube = new Hypercube(size, dataset.at(0)->getDimension(), 8, 30, 0, metric);
         lsh->bucket();
         this->assignment = new LshAssign(lsh, cube);
         this->algorithms.push_back("Range Search with LSH");
@@ -53,19 +53,19 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
         this->update = new PAMUpdate();
         this->algorithms.push_back("PAM");
     }
+    this->centroids = initialization->findCentroids(this->dataset, this->num_clusters);
 }
 
 /* Clustering until the centers are the same */
 void Clustering::findClusters() {
     clock_t begin_time = clock();
     int count = 0;
-    this->centroids = initialization->findCentroids(this->dataset, this->num_clusters);
     this->assignment->assignCentroids(this->dataset, this->centroids);
     while(!this->update->updateCentroids(this->dataset, this->centroids)) {
         this->assignment->assignCentroids(this->dataset, this->centroids);
         count++;
         cout << count << endl;
-        if(count > 17) {
+        if(count > 2) {
             break;
         }
     }
