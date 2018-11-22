@@ -226,6 +226,7 @@ void Clustering::reinitialize() {
     for( int i = 0; i < clusters.size(); i++ ) {
         clusters.at(i).clear();
     }
+    this->centroids.clear();
 }
 
 
