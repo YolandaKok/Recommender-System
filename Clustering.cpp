@@ -39,8 +39,10 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
     else if(!assign.compare("RangeLSH")) {
         //string metric = "cosine";
         LSH *lsh = new LSH(L, size, k, dataset, metric, dataset.size(), dataset.at(0)->getDimension());
-        Hypercube *cube = new Hypercube(size, dataset.at(0)->getDimension(), 8, 30, 0, metric);
-        lsh->bucket();
+        Hypercube *cube = new Hypercube(size, dataset.at(0)->getDimension(), 8, 10, 0, metric);
+        for(int i = 0; i < dataset.size(); i++)
+            cube->insert_point(dataset.at(i));
+        //lsh->bucket();
         this->assignment = new LshAssign(lsh, cube);
         this->algorithms.push_back("Range Search with LSH");
     }
@@ -65,7 +67,7 @@ void Clustering::findClusters() {
         this->assignment->assignCentroids(this->dataset, this->centroids);
         count++;
         cout << count << endl;
-        if(count > 2) {
+        if(count > 4) {
             break;
         }
     }

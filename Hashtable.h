@@ -30,6 +30,8 @@ class Hashtable {
     int hash_for_query(Point *query);
     /* Return h functions */
     vector<int> getHFunctions(Point *p);
+    vector<Point*> find(vector<int> bucket_numbers);
+    Point* exactNN(Point*& q);
     /* Find bucket for query point */
     tuple<string,double,double> find_nearest_neighbor(Point *query);
     vector<Point*> rangeSearch(Point* q, double R, ofstream& output);

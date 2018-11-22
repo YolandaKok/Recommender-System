@@ -5,6 +5,7 @@
 #include "LshAssign.h"
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -50,13 +51,19 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     vector<double> distances2;
     distances2.resize(centroids.size());
     vector<int> *clusters;
+    vector<int>::iterator it;
+
     /* Start of the Loop for range search */
-    for(int i = 0; i < 4; i++) {
-        //cout << "LOOP " << i << endl;
+    for(int i = 0; i < 5; i++) {
+        cout << "LOOP " << i << endl;
+        int num_points = 0;
         for(int j = 0; j < centroids.size(); j++) {
             /* Return a vector of Point* */
             currentPoints = this->lsh->rangeSearch(centroids.at(j), currentR, myfile);
-            cout << currentPoints.size() << " SIZE" << endl;
+            //cout << this->cube->findNearest(centroids.at(j)).size() << "SUZE2" << endl;
+            //currentPoints = this->cube->rangeSearch(this->cube->findNearest(centroids.at(j)), centroids.at(j), currentR);
+            //cout << currentPoints.size() << " SIZE" << endl;
+            //num_points += currentPoints.size();
             //currentPoints = this->cube->rangeSearch(centroids.at(j), currentR, myfile);
             for( int z = 0; z < currentPoints.size(); z++ ) {
                 //cout << currentPoints.at(z)->euclidean(centroids.at(j)) << " distance from centroid" << endl;
@@ -64,25 +71,27 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
                 // Keep assigned points in another array
                 if(currentPoints.at(z)->getR() == 0.0 && currentPoints.at(z)->isCentroid() == 0) {
                     currentPoints.at(z)->setR(currentR);
-                    currentPoints.at(z)->getClusters()->push_back(j);
+                    currentPoints.at(z)->setClusters(j);
                     currentPoints.at(z)->setCluster(j);
-                    currentPoints.at(z)->setIteration(j);
                 }
-                if(currentPoints.at(z)->getR() != 0.0 && currentPoints.at(z)->getClusters()->size() > 0 && currentPoints.at(z)->getR() != currentR && currentPoints.at(z)->isCentroid() == 0) {
-                    currentPoints.at(z)->getClusters()->push_back(j);
-                    for(int w = 0; w < currentPoints.at(z)->getClusters()->size(); w++) {
-                        distances_new.push_back(currentPoints.at(z)->euclidean(centroids.at(currentPoints.at(z)->getClusters()->at(w))));
+                if((currentPoints.at(z)->getR() == currentR) && (currentPoints.at(z)->isCentroid() == 0)) {
+                    it = find (currentPoints.at(z)->getClusters()->begin(), currentPoints.at(z)->getClusters()->end(), j);
+                    if (it != currentPoints.at(z)->getClusters()->end()) {
+
                     }
-                    currentPoints.at(z)->setCluster(minimum_index(distances_new));
-                    distances_new.clear();
+                    else {
+                        currentPoints.at(z)->setClusters(j);
+                        for(int w = 0; w < currentPoints.at(z)->getClusters()->size(); w++) {
+                            distances_new.push_back(currentPoints.at(z)->euclidean(centroids.at(currentPoints.at(z)->getClusters()->at(w))));
+                        }
+                        currentPoints.at(z)->setCluster(minimum_index(distances_new));
+                        distances_new.clear();
+                    }
                 }
             }
-            //cout << " Current Points " << currentPoints.size() << endl;
-            /*for(int k = 0; k < currentPoints.size(); k++) {
-                cout << currentPoints.at(k)->getId() << endl;
-            }*/
             currentPoints.clear();
         }
+        cout << "Num points " << num_points << endl;
         currentR *= 2;
     }
 
@@ -106,38 +115,6 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     }
     cout << "Unassigned " << count << endl;
 }
-
-#if(0)
-
-void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroids) {
-    vector<int> arr;
-    for(int i = 0; i < centroids.size(); i++) {
-        arr.push_back(i);
-    }
-
-    int r = 2;
-    int n = arr.size();
-    //printCombination(arr, n, r);
-    vector<int> data;
-    data.resize(r);
-    vector<pair<int,int>> results;
-    // Print all combination using temprary array 'data[]'
-    /* Find the combinations for the k centers */
-    combinationUtil(arr, n, r, 0, data, 0, results);
-    vector<double> distances;
-    /* Find the minimum distance for the centers */
-    /* Calculate the distance for every centroid */
-    for(int i = 0; i < results.size(); i++) {
-        /* Calculate Distance */
-        distances.push_back(centroids.at(results.at(i).first)->euclidean(centroids.at(results.at(i).second)));
-    }
-    /* Calculate the R initial value */
-    double min = minimum(distances);
-    double currentR = min / 2;
-
-}
-
-#endif
 
 double LshAssign::minimum(vector<double> elements) {
     double min = elements.at(0);

@@ -28,6 +28,7 @@ class Point {
     /* Get Dimensions */
     double getDimension();
     /* Set Id */
+    void setClusters(int j);
     void setId(string id);
     string getId();
     int getCluster();

@@ -16,11 +16,14 @@ class Hypercube: public Hashtable {
     int hashForPoint(Point *p);
     int insert_point(Point *p);
     void find_nearest_neighbor(Point *p);
+    vector<Point*> findNearest(Point *query);
     void findNearest(Point *query, int size, ofstream& output, double R);
     vector<string>& hamming(string& str, int i, int changesLeft, vector<string>& strs);
     double smallestDistance(vector<tuple<string,double>>& input, ofstream& output);
     int structureSizeCube();
     int toInt(vector<bool> boolean);
+    Point* approximateNN(vector<Point*>& results, Point* query);
+    vector<Point*> rangeSearch(vector<Point*> results, Point *q, double R);
     /* Hash Value for int */
     int hashValue(vector<int> elements);
     //int getHFunctions(Point *p);

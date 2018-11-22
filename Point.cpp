@@ -197,6 +197,10 @@ vector<int>* Point::getClusters() {
     return this->clusters;
 }
 
+void Point::setClusters(int j) {
+    this->clusters->push_back(j);
+}
+
 double Point::getNearestDistance() {
     return this->nearestDistance;
 }
