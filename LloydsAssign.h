@@ -10,6 +10,7 @@
 
 class LloydsAssign: public Assignment {
     public:
+        LloydsAssign(string metric);
         void assignCentroids(vector<Point*>& dataset, vector<Point*> centroids);
         int minimum_index(vector<double> elements);
         int findSecondMinimum(vector<double> elements);

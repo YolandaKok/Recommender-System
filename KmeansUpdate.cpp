@@ -41,6 +41,7 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
         new_center->divideVector(clusters.at(i).size());
         centroids.at(i) = new_center;
         centroids.at(i)->setCentroid(true);
+        centroids.at(i)->setInitialCentroid(false);
     }
 
     /* Find if old centroids are differrent from the new */
@@ -57,6 +58,9 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
         if(old_centroids.at(i)->getInitialCentroid()) {
             old_centroids.at(i)->setInitialCentroid(false);
             old_centroids.at(i)->setCentroid(false);
+        }
+        else {
+            delete old_centroids.at(i);
         }
     }
 

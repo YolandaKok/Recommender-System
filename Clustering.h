@@ -5,6 +5,8 @@
 #include "Initialization.h"
 #include "Assignment.h"
 #include "Update.h"
+#include "Hypercube.h"
+#include "Lsh.h"
 #include <fstream>
 
 class Clustering {
@@ -14,9 +16,14 @@ class Clustering {
         // Num of clusters
         int num_clusters;
         double total_time;
+        LSH *lsh;
+        Hypercube *cube;
         // metric
         string metric;
         string output;
+        string initName;
+        string assignName;
+        string updateName;
         // algorithms
         vector<string> algorithms;
         // Input Points

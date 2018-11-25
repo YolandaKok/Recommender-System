@@ -7,6 +7,10 @@
 
 using namespace std;
 
+LloydsAssign::LloydsAssign(string metric): Assignment(metric) {
+
+}
+
 // Assignment step
 void LloydsAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroids) {
     vector<double> distances_from_centroids;
@@ -16,7 +20,13 @@ void LloydsAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centr
         for( int j = 0; j < centroids.size(); j++ ) {
             if(dataset.at(i)->isCentroid() == 0) {
                 /* Calculate distance for every centroid and find minimum */
-                distances_from_centroids.push_back(dataset.at(i)->euclidean(centroids.at(j)));
+                if(!metric.compare("euclidean")) {
+                    distances_from_centroids.push_back(dataset.at(i)->euclidean(centroids.at(j)));
+                }
+                else if(!metric.compare("cosine")) {
+                    distances_from_centroids.push_back(dataset.at(i)->cosine(centroids.at(j)));
+                }
+
                 // TODO: also for cosine distance
             }
         }

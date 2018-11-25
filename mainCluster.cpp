@@ -54,9 +54,6 @@ int main(int argc, char* argv[]) {
 
     /* Read Configuration File */
     readConf(confFile, k, L, clusters);
-    cout << k << endl;
-    cout << L << endl;
-    cout << clusters << endl;
     /* Read Input file */
     vector<Point*> input;
     input = readFile(inputFile, k, size, 1, R, metric);
@@ -68,23 +65,36 @@ int main(int argc, char* argv[]) {
     ofstream myfile;
     myfile.open(outputFile);
     Clustering *clustering;
-    /*for( int i = 0; i < initialization.size(); i++ ) {
-        for(int j = 0; j < assignment.size() - 2; j++) {
+    for( int i = 0; i < initialization.size(); i++ ) {
+        for(int j = 0; j < assignment.size(); j++) {
             for(int z = 0; z < update.size(); z++) {
                 clustering = new Clustering(clusters, input, initialization.at(i), assignment.at(j), update.at(z), k, L, metric, size);
                 clustering->findClusters();
                 vector<double> si = clustering->Silhouette();
                 clustering->print(si, outputFile, myfile);
                 clustering->reinitialize();
+                delete clustering;
             }
         }
-    }*/
+    }
 
-    clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(1), update.at(0), k, L, metric, size);
+    //clustering = new Clustering(clusters, input, initialization.at(1), assignment.at(0), update.at(1), k, L, metric, size);
+    //clustering->findClusters();
+    //vector<double> si = clustering->Silhouette();
+    //clustering->print(si, outputFile, myfile);
+    //clustering->reinitialize();
+
+
+
+
+    /*clustering = new Clustering(clusters, input, initialization.at(1), assignment.at(1), update.at(1), k, L, metric, size);
     clustering->findClusters();
-    vector<double> si = clustering->Silhouette();
+    si = clustering->Silhouette();
     clustering->print(si, outputFile, myfile);
     clustering->reinitialize();
+
+    delete clustering;
+*/
 
     myfile.close();
 
@@ -92,8 +102,6 @@ int main(int argc, char* argv[]) {
     for(int i = 0; i < input.size(); i++) {
         delete input.at(i);
     }
-
-    delete clustering;
 
     free(inputFile); free(confFile); free(outputFile);
     return 1;

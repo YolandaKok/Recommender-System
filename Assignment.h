@@ -10,6 +10,8 @@
 
 class Assignment {
     public:
+        string metric;
+        Assignment(string metric);
         virtual void assignCentroids(vector<Point*>& dataset, vector<Point*> centroids);
 };
 

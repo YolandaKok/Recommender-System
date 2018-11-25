@@ -9,7 +9,7 @@
 
 using namespace std;
 
-LshAssign::LshAssign(LSH *lsh, Hypercube *cube) {
+LshAssign::LshAssign(LSH *lsh, Hypercube *cube, string metric): Assignment(metric) {
     /* Pointer to the Lsh Structure */
     this->lsh = lsh;
     this->cube = cube;
@@ -37,7 +37,13 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     /* Calculate the distance for every centroid */
     for(int i = 0; i < results.size(); i++) {
         /* Calculate Distance */
-        distances.push_back(centroids.at(results.at(i).first)->euclidean(centroids.at(results.at(i).second)));
+        if(!this->metric.compare("euclidean")) {
+            distances.push_back(centroids.at(results.at(i).first)->euclidean(centroids.at(results.at(i).second)));
+        }
+        else if(!this->metric.compare("cosine")) {
+            distances.push_back(centroids.at(results.at(i).first)->cosine(centroids.at(results.at(i).second)));
+        }
+
     }
     /* Calculate the R initial value */
     double min = minimum(distances);
@@ -54,15 +60,20 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     vector<int>::iterator it;
 
     /* Start of the Loop for range search */
-    for(int i = 0; i < 5; i++) {
+    for(int i = 0; i < 7; i++) {
         cout << "LOOP " << i << endl;
         int num_points = 0;
         for(int j = 0; j < centroids.size(); j++) {
             /* Return a vector of Point* */
-            currentPoints = this->lsh->rangeSearch(centroids.at(j), currentR, myfile);
+            if(this->cube == NULL) {
+                currentPoints = this->lsh->rangeSearch(centroids.at(j), currentR, myfile);
+            }
+            else {
+                currentPoints = this->cube->rangeSearch(this->cube->findNearest(centroids.at(j)), centroids.at(j), currentR);
+            }
             //cout << this->cube->findNearest(centroids.at(j)).size() << "SUZE2" << endl;
             //currentPoints = this->cube->rangeSearch(this->cube->findNearest(centroids.at(j)), centroids.at(j), currentR);
-            //cout << currentPoints.size() << " SIZE" << endl;
+            cout << currentPoints.size() << " SIZE" << endl;
             //num_points += currentPoints.size();
             //currentPoints = this->cube->rangeSearch(centroids.at(j), currentR, myfile);
             for( int z = 0; z < currentPoints.size(); z++ ) {
@@ -82,7 +93,12 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
                     else {
                         currentPoints.at(z)->setClusters(j);
                         for(int w = 0; w < currentPoints.at(z)->getClusters()->size(); w++) {
-                            distances_new.push_back(currentPoints.at(z)->euclidean(centroids.at(currentPoints.at(z)->getClusters()->at(w))));
+                            if(!this->metric.compare("euclidean")) {
+                                distances_new.push_back(currentPoints.at(z)->euclidean(centroids.at(currentPoints.at(z)->getClusters()->at(w))));
+                            }
+                            else if(!this->metric.compare("cosine")) {
+                                distances_new.push_back(currentPoints.at(z)->cosine(centroids.at(currentPoints.at(z)->getClusters()->at(w))));
+                            }
                         }
                         currentPoints.at(z)->setCluster(minimum_index(distances_new));
                         distances_new.clear();
@@ -91,7 +107,7 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
             }
             currentPoints.clear();
         }
-        cout << "Num points " << num_points << endl;
+        //cout << "Num points " << num_points << endl;
         currentR *= 2;
     }
 
@@ -102,7 +118,12 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
             count++;
             /* Find the nearest centroid and assign it */
             for( int j = 0; j < centroids.size(); j++ ) {
-                remaining_distances.push_back(centroids.at(j)->euclidean(dataset.at(i)));
+                if(!metric.compare("euclidean")) {
+                    remaining_distances.push_back(centroids.at(j)->euclidean(dataset.at(i)));
+                }
+                else if(!metric.compare("cosine")) {
+                    remaining_distances.push_back(centroids.at(j)->cosine(dataset.at(i)));
+                }
             }
             //cout << remaining_distances.at(0) << endl;
             min_index = minimum_index(remaining_distances);

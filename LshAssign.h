@@ -18,7 +18,7 @@ class LshAssign: public Assignment {
         double minimum(vector<double> elements);
         int minimum_index(vector<double> elements);
     public:
-        LshAssign(LSH *lsh, Hypercube *cube);
+        LshAssign(LSH *lsh, Hypercube *cube, string metric);
         void assignCentroids(vector<Point*>& dataset, vector<Point*> centroids);
 };
 

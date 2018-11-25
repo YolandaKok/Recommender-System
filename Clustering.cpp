@@ -23,6 +23,9 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
     this->num_clusters = num_clusters;
     this->dataset = dataset;
     this->metric = metric;
+    this->initName = init;
+    this->assignName = assign;
+    this->updateName = update;
     if(!init.compare("random_selection")) {
         this->initialization = new RandomInit();
         this->algorithms.push_back("Random Initialization");
@@ -33,18 +36,24 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
     }
 
     if(!assign.compare("Lloyds")) {
-        this->assignment = new LloydsAssign();
+        this->assignment = new LloydsAssign(metric);
         this->algorithms.push_back("Lloyd's");
     }
     else if(!assign.compare("RangeLSH")) {
         //string metric = "cosine";
-        LSH *lsh = new LSH(L, size, k, dataset, metric, dataset.size(), dataset.at(0)->getDimension());
-        Hypercube *cube = new Hypercube(size, dataset.at(0)->getDimension(), 8, 10, 0, metric);
+        this->lsh = new LSH(L, size, k, dataset, metric, dataset.size(), dataset.at(0)->getDimension());
+        //lsh->bucket();
+        this->cube = NULL;
+        this->assignment = new LshAssign(lsh, cube, metric);
+        this->algorithms.push_back("Range Search with LSH");
+    }
+    else if(!assign.compare("RangeHypercube")) {
+        this->lsh = NULL;
+        this->cube = new Hypercube(size, dataset.at(0)->getDimension(), 8, 10, 0, metric);
         for(int i = 0; i < dataset.size(); i++)
             cube->insert_point(dataset.at(i));
-        //lsh->bucket();
-        this->assignment = new LshAssign(lsh, cube);
-        this->algorithms.push_back("Range Search with LSH");
+        this->assignment = new LshAssign(lsh, cube, metric);
+        this->algorithms.push_back("Range Search with Hypercube");
     }
 
     if(!update.compare("k-means")) {
@@ -67,9 +76,17 @@ void Clustering::findClusters() {
         this->assignment->assignCentroids(this->dataset, this->centroids);
         count++;
         cout << count << endl;
-        if(count > 4) {
-            break;
+        if(!this->algorithms.at(2).compare("PAM")) {
+            if(count > 3) {
+                break;
+            }
         }
+        else {
+            if(count > 15) {
+                break;
+            }
+        }
+
     }
 
     this->total_time = double( clock () - begin_time ) /  CLOCKS_PER_SEC;
@@ -158,15 +175,31 @@ vector<double> Clustering::Silhouette() {
         for (int i = 0; i < clusters.at(k).size(); i++) {
             //secondCluster = clusters.at(k).at(i)->getSecondBestCluster();
             for(int z = 0; z < centroids.size(); z++) {
-                second_distances.push_back(clusters.at(k).at(i)->euclidean(centroids.at(z)));
+                if(!metric.compare("euclidean")) {
+                    second_distances.push_back(clusters.at(k).at(i)->euclidean(centroids.at(z)));
+                }
+                else if(!metric.compare("cosine")) {
+                    second_distances.push_back(clusters.at(k).at(i)->cosine(centroids.at(z)));
+                }
             }
             secondCluster = findSecondMinimum(second_distances);
             for (int j = 0; j < clusters.at(k).size(); j++) {
-                averageIntra += clusters.at(k).at(i)->euclidean(clusters.at(k).at(j)) / clusters.at(k).size();
+                if(!metric.compare("euclidean")) {
+                    averageIntra += clusters.at(k).at(i)->euclidean(clusters.at(k).at(j)) / clusters.at(k).size();
+                }
+                else if(!metric.compare("cosine")) {
+                    averageIntra += clusters.at(k).at(i)->cosine(clusters.at(k).at(j)) / clusters.at(k).size();
+                }
+
                 //averageIntra += clusters.at(k).at(i)->getNearestDistance() / clusters.at(k).size();
             }
             for (int j = 0; j < clusters.at(secondCluster).size(); j++) {
-                averageNearest1 += clusters.at(k).at(i)->euclidean(clusters.at(secondCluster).at(j)) / clusters.at(secondCluster).size();
+                if(!metric.compare("euclidean")) {
+                    averageNearest1 += clusters.at(k).at(i)->euclidean(clusters.at(secondCluster).at(j)) / clusters.at(secondCluster).size();
+                }
+                else if(!metric.compare("cosine")) {
+                    averageNearest1 += clusters.at(k).at(i)->cosine(clusters.at(secondCluster).at(j)) / clusters.at(secondCluster).size();
+                }
                 //averageNearest1 += clusters.at(k).at(i)->getSecondNearestDistance() / clusters.at(secondCluster).size();
             }
             second_distances.clear();
@@ -236,4 +269,15 @@ Clustering::~Clustering() {
     delete this->initialization;
     delete this->assignment;
     delete this->update;
+    if(!this->updateName.compare("k-means")) {
+        for(int i = 0; i < centroids.size(); i++) {
+            delete centroids.at(i);
+        }
+    }
+    if(!this->assignName.compare("RangeLSH")) {
+        delete this->lsh;
+    }
+    else if(!this->assignName.compare("RangeHypercube")) {
+        delete this->cube;
+    }
 }
