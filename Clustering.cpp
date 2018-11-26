@@ -42,14 +42,14 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
     else if(!assign.compare("RangeLSH")) {
         //string metric = "cosine";
         this->lsh = new LSH(L, size, k, dataset, metric, dataset.size(), dataset.at(0)->getDimension());
-        //lsh->bucket();
+        this->lsh->bucket();
         this->cube = NULL;
         this->assignment = new LshAssign(lsh, cube, metric);
         this->algorithms.push_back("Range Search with LSH");
     }
     else if(!assign.compare("RangeHypercube")) {
         this->lsh = NULL;
-        this->cube = new Hypercube(size, dataset.at(0)->getDimension(), 8, 10, 0, metric);
+        this->cube = new Hypercube(size, dataset.at(0)->getDimension(), 8, 50, 0, metric);
         for(int i = 0; i < dataset.size(); i++)
             cube->insert_point(dataset.at(i));
         this->assignment = new LshAssign(lsh, cube, metric);
@@ -86,7 +86,6 @@ void Clustering::findClusters() {
                 break;
             }
         }
-
     }
 
     this->total_time = double( clock () - begin_time ) /  CLOCKS_PER_SEC;

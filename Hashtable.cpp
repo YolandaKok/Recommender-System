@@ -170,7 +170,7 @@ Point* Hashtable::exactNN(Point*& q) {
 
 void Hashtable::points_per_bucket() {
     int count = 0;
-  for(int i = 0; i < 100; i++) {
+  for(int i = 0; i < this->hashtable.size(); i++) {
     cout << "Bucket number: " << i << endl;
     for (std::list<Point*>::const_iterator iterator = this->hashtable.at(i)->begin(), end = this->hashtable.at(i)->end(); iterator != end; ++iterator) {
       //cout << (*iterator)->getId() << endl;

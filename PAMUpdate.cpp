@@ -61,7 +61,7 @@ bool PAMUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroi
             count++;
         }
     }
-
+    cout << "count " << count << endl;
     if(count == centroids.size()) {
         return true;
     }
@@ -71,6 +71,26 @@ bool PAMUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroi
 
 }
 
+double PAMUpdate::objectiveFunction(vector<Point*>& dataset, vector<Point*>& centroids) {
+    vector<vector<Point*>> clusters;
+    clusters.resize(centroids.size());
+
+    for( int i = 0; i < dataset.size(); i++ ) {
+        if(dataset.at(i)->isCentroid() == 0) {
+            clusters.at(dataset.at(i)->getCluster()).push_back(dataset.at(i));
+        }
+    }
+
+    double sum = 0.0;
+    for(int i = 0; i < centroids.size(); i++) {
+        for(int j = 0; j < clusters.at(i).size(); j++) {
+            if(clusters.at(i).at(j)->isCentroid() == 0) {
+                sum += clusters.at(i).at(j)->euclidean_squared(centroids.at(i));
+            }
+        }
+    }
+    return sum;
+}
 
 int PAMUpdate::minimum_index(vector<double> elements) {
     int index = 0;

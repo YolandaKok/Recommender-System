@@ -9,8 +9,8 @@ using namespace std;
 extern default_random_engine generator;
 
 H_euclidean::H_euclidean(int w, double dimension, double mean, double variance):H(dimension, mean, variance) {
-  this->t = generateT(0.0, 1.3);
-  this->w = 1.3;
+  this->t = generateT(0.0, 1.5);
+  this->w = 1.5;
 }
 
 int H_euclidean::hashForPoint(Point *p) {

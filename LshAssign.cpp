@@ -60,8 +60,8 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     vector<int>::iterator it;
 
     /* Start of the Loop for range search */
-    for(int i = 0; i < 7; i++) {
-        cout << "LOOP " << i << endl;
+    for(int i = 0; i < 5; i++) {
+        //cout << "LOOP " << i << endl;
         int num_points = 0;
         for(int j = 0; j < centroids.size(); j++) {
             /* Return a vector of Point* */
@@ -73,7 +73,7 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
             }
             //cout << this->cube->findNearest(centroids.at(j)).size() << "SUZE2" << endl;
             //currentPoints = this->cube->rangeSearch(this->cube->findNearest(centroids.at(j)), centroids.at(j), currentR);
-            cout << currentPoints.size() << " SIZE" << endl;
+            //cout << currentPoints.size() << " SIZE" << endl;
             //num_points += currentPoints.size();
             //currentPoints = this->cube->rangeSearch(centroids.at(j), currentR, myfile);
             for( int z = 0; z < currentPoints.size(); z++ ) {

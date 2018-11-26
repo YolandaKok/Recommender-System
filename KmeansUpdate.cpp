@@ -18,6 +18,10 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
         }
     }*/
 
+    //cout << "first obj " << objectiveFunction(dataset, old_centroids) << endl;
+
+    double old_obj = objectiveFunction(dataset, old_centroids);
+
     vector<vector<Point*>> clusters;
     clusters.resize(centroids.size());
 
@@ -52,7 +56,12 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
         }
     }
 
-    cout << "Count" << count << endl;
+    //cout << "Second obj " << objectiveFunction(dataset, centroids) << endl;
+    //cout << (objectiveFunction(dataset, old_centroids) - objectiveFunction(dataset, centroids)) / objectiveFunction(dataset, old_centroids)    << endl;
+    double new_obj = objectiveFunction(dataset, centroids);
+    double change_rate = (old_obj - new_obj) / old_obj;
+    cout << "Change rate " << change_rate << endl;
+    // old_centroids and new_centroids does not change a lot
 
     for(int i = 0; i < old_centroids.size(); i++) {
         if(old_centroids.at(i)->getInitialCentroid()) {
@@ -64,9 +73,9 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
         }
     }
 
-    //cout << "Count " << count << endl;
+    cout << "Count " << count << endl;
 
-    if(count == centroids.size()) {
+    if(count == centroids.size() || change_rate < 0.001) {
         return true;
     }
     else {
@@ -74,8 +83,30 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
     }
 }
 
+double KmeansUpdate::objectiveFunction(vector<Point*>& dataset, vector<Point*>& centroids) {
+    vector<vector<Point*>> clusters;
+    clusters.resize(centroids.size());
+
+    for( int i = 0; i < dataset.size(); i++ ) {
+        if(dataset.at(i)->isCentroid() == 0) {
+            clusters.at(dataset.at(i)->getCluster()).push_back(dataset.at(i));
+        }
+    }
+
+    double sum = 0.0;
+    for(int i = 0; i < centroids.size(); i++) {
+        for(int j = 0; j < clusters.at(i).size(); j++) {
+            if(clusters.at(i).at(j)->isCentroid() == 0) {
+                sum += clusters.at(i).at(j)->euclidean_squared(centroids.at(i));
+            }
+        }
+    }
+    return sum;
+}
+
 void KmeansUpdate::initializePoint(int dimension, Point* p) {
     for( int i = 0; i < dimension; i++ ) {
         p->addCoord(0.0);
     }
 }
+

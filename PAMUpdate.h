@@ -13,6 +13,7 @@ class PAMUpdate: public Update {
         bool updateCentroids(vector<Point*>& dataset, vector<Point*>& centroids);
         int minimum_index(vector<double> elements);
         int findSecondMinimum(vector<double> elements);
+        double objectiveFunction(vector<Point*>& dataset, vector<Point*>& centroids);
 };
 
 
