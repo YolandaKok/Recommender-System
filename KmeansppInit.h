@@ -16,6 +16,7 @@ class KmeansppInit: public Initialization {
         double minimum(vector<double> elements);
         double sum(vector<double> elements);
         double maximum(vector<double> elements);
+        double binarySearch(vector<double> arr, int l, int r, double x);
 };
 
 

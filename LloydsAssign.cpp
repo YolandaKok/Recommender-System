@@ -27,7 +27,6 @@ void LloydsAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centr
                     distances_from_centroids.push_back(dataset.at(i)->cosine(centroids.at(j)));
                 }
 
-                // TODO: also for cosine distance
             }
         }
         if(dataset.at(i)->isCentroid() == 0) {

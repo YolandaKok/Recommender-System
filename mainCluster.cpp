@@ -78,13 +78,43 @@ int main(int argc, char* argv[]) {
         }
     }*/
 
-    clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(0), update.at(0), k, L, metric, size);
+    /* Run it for more multiple combinations of clusters */
+
+    vector<int> cluster = {5, 10, 20, 50, 100, 200, 250, 300, 500};
+
+    for(int i = 0; i < cluster.size(); i++) {
+        clustering = new Clustering(cluster.at(i), input, initialization.at(1), assignment.at(0), update.at(0), k, L, metric, size);
+        clustering->findClusters();
+        vector<double> si = clustering->Silhouette();
+        clustering->print(si, outputFile, myfile);
+        clustering->reinitialize();
+        delete clustering;
+    }
+
+
+    /*clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(0), update.at(0), k, L, metric, size);
     clustering->findClusters();
-    vector<double> si = clustering->Silhouette();
+    si = clustering->Silhouette();
     clustering->print(si, outputFile, myfile);
     clustering->reinitialize();
 
     delete clustering;
+
+    clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(0), update.at(1), k, L, metric, size);
+    clustering->findClusters();
+    si = clustering->Silhouette();
+    clustering->print(si, outputFile, myfile);
+    clustering->reinitialize();
+
+    delete clustering;
+
+    clustering = new Clustering(clusters, input, initialization.at(1), assignment.at(0), update.at(1), k, L, metric, size);
+    clustering->findClusters();
+    si = clustering->Silhouette();
+    clustering->print(si, outputFile, myfile);
+    clustering->reinitialize();
+
+    delete clustering;*/
 
     myfile.close();
 

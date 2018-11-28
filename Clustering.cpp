@@ -133,7 +133,7 @@ void Clustering::print(vector<double> si, string output, ofstream& myfile) {
     int count = 0;
     /* Maybe you can choose what to print */
     /* Print the items of the clusters */
-    for( int i = 0; i < clusters.size(); i++ ) {
+    /*for( int i = 0; i < clusters.size(); i++ ) {
         myfile << "CLUSTER-" << i << "  {";
         for( int j = 0; j < clusters.at(i).size(); j++ ) {
             myfile << clusters.at(i).at(j)->getId() << ", ";
@@ -146,7 +146,7 @@ void Clustering::print(vector<double> si, string output, ofstream& myfile) {
         myfile << "}" << endl;
         myfile << endl;
         count = 0;
-    }
+    }*/
     myfile << endl;
 }
 

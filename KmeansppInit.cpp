@@ -25,8 +25,7 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
     vector<Point*> remaining_elements;
     remaining_elements = dataset;
     /* Choose a centroid uniformly at random */
-    uniform_int_distribution<> dis(0, dataset.size());
-    uniform_real_distribution<> dist(0.0, 1.0);
+    //uniform_int_distribution<> dis(0, dataset.size()-1);
     //int initial_centroid = dis(gen);
     /* Select the initial centroid */
     int initial_centroid = rand() % dataset.size();
@@ -57,7 +56,7 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
                 distances.clear();
             }
         }
-        cout << "Min distances " << min_distances.size() << endl;
+        //cout << "Min distances " << min_distances.size() << endl;
         // Calculate the probability
         //sum_distances = sum(min_distances);
         double max = maximum(min_distances);
@@ -68,30 +67,52 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
 
         partial_sum(min_distances.begin(), min_distances.end(), cumsum.begin(), plus<double>());
         cumsum.insert(cumsum.begin(), 0.0);
+        //cout << "[" ;
         for( int z = 0; z < cumsum.size(); z++ ) {
             cumsum.at(z) /= sqrt(max);
         }
+        //cout << "]" << endl;
         uniform_real_distribution<> dist2(0.0, cumsum.at(cumsum.size() - 1));
         double x = dist2(gen);
-        cout << x << "R" << endl;
-        cout << "Min distances2 " << cumsum.at(cumsum.size() - 1) << endl;
+        //cout << x << "R" << endl;
+        //cout << "Min distances2 " << cumsum.size() << endl;
 
         /* Find the first index that cumsum is >= r  */
-        for(int r = 0; r < cumsum.size(); r++) {
-            //TODO: binary search
+        int in = binarySearch(cumsum, 0, cumsum.size()-1, x);
+        cout << "Cumsum " << cumsum.at(in) << endl;
+        cout << "X number " << x << endl;
+        cout << "Binary index " << in << endl;
+        int index = ids.at(in);
+        cout << "Real index: " << index << endl;
+        centroids.push_back(dataset.at(index));
+        dataset.at(index)->setCentroid(true);
+        dataset.at(index)->setInitialCentroid(true);
+        /*for(int r = 0; r < cumsum.size(); r++) {
             if(cumsum.at(r) >= x) {
                 index = ids.at(r);
                 centroids.push_back(dataset.at(index));
                 dataset.at(index)->setCentroid(true);
                 dataset.at(index)->setInitialCentroid(true);
+                cout << "index " << index << endl;
                 break;
             }
-        }
+        }*/
         min_distances.clear();
         cumsum.clear();
         ids.clear();
     }
     return centroids;
+}
+
+double KmeansppInit::binarySearch(vector<double> arr, int l, int r, double x) {
+    while(l < r) {
+        int mid = (l + r) / 2 + 1;
+        if(x < arr[mid])
+            r = mid-1;
+        else
+            l = mid;
+    }
+    return l+1;
 }
 
 double KmeansppInit::minimum(vector<double> elements) {

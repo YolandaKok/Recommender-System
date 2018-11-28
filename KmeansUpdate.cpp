@@ -10,7 +10,6 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
     int dimension = dataset.at(0)->getDimension();
     vector<Point*> old_centroids;
     old_centroids = centroids;
-    // TODO: if it is not initial centroid deallocate the memory
 
     /*for(int i = 0; i < centroids.size(); i++) {
         if(centroids.at(i)->getInitialCentroid() == 0) {
