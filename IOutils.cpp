@@ -181,22 +181,21 @@ int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k
 }
 
 /* Read the configuration file */
-int readConf(const char filename[], int& k, int& L, int& clusters) {
+int readConf(const char filename[], int& k, int& L, int& clusters, int& probes) {
   string line;
   string word;
   ifstream myfile (filename);
 
   if (myfile.is_open()) {
     while (getline(myfile, line)) {
-      /*  */
       cout << line << endl;
       istringstream iss(line);
       while (iss >> word) {
         /* do stuff with word */
         /* If it is input small find metric */
         if (!word.compare("number_of_hash_functions:")) {
-          iss >> word;
-          k = stoi(word);
+            iss >> word;
+            k = stoi(word);
         }
         else if (!word.compare("number_of_hash_tables:")) {
             iss >> word;
@@ -204,7 +203,11 @@ int readConf(const char filename[], int& k, int& L, int& clusters) {
         }
         else if (!word.compare("number_of_clusters:")) {
             iss >> word;
-          clusters = stoi(word);
+            clusters = stoi(word);
+        }
+        else if(!word.compare("number_of_probes:")) {
+            iss >> word;
+            probes = stoi(word);
         }
       }
     }

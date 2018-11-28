@@ -12,5 +12,5 @@ int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k
 /* File input2 */
 vector<Point*> readFile(const char filename[], int k, int& size, int input, double& R, string& metric);
 /* Read Clusters conf file */
-int readConf(const char filename[], int& k, int& L, int& clusters);
+int readConf(const char filename[], int& k, int& L, int& clusters, int& probes);
 #endif

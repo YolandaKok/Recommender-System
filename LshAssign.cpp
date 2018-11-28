@@ -58,11 +58,14 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     distances2.resize(centroids.size());
     vector<int> *clusters;
     vector<int>::iterator it;
-
+    int newAssign = 0, countAssign = 0;
+    int i = 0;
     /* Start of the Loop for range search */
-    for(int i = 0; i < 5; i++) {
-        //cout << "LOOP " << i << endl;
+    do {
+        i++;
+        cout << "LOOP " << i << endl;
         int num_points = 0;
+        newAssign = 0;
         for(int j = 0; j < centroids.size(); j++) {
             /* Return a vector of Point* */
             if(this->cube == NULL) {
@@ -84,6 +87,7 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
                     currentPoints.at(z)->setR(currentR);
                     currentPoints.at(z)->setClusters(j);
                     currentPoints.at(z)->setCluster(j);
+                    newAssign++;
                 }
                 if((currentPoints.at(z)->getR() == currentR) && (currentPoints.at(z)->isCentroid() == 0)) {
                     it = find (currentPoints.at(z)->getClusters()->begin(), currentPoints.at(z)->getClusters()->end(), j);
@@ -102,14 +106,24 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
                         }
                         currentPoints.at(z)->setCluster(minimum_index(distances_new));
                         distances_new.clear();
+                        newAssign++;
                     }
                 }
             }
             currentPoints.clear();
         }
+        /*if(newAssign < 5) {
+            break;
+        }
+        else {
+            newAssign = 0;
+        }*/
         //cout << "Num points " << num_points << endl;
+        if(newAssign < 5) {
+            countAssign++;
+        }
         currentR *= 2;
-    }
+    } while(countAssign < 4);
 
     int count = 0, min_index;
     vector<double> remaining_distances;

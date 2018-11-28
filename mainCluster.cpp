@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
     srand(time(NULL));
     /* k - number of hash functions */
     /* L number of hashtables */
-    int k = 4, L = 5, size, clusters = 0;
+    int k = 4, L = 5, size, clusters = 5, probes = 5;
     double R = 0.0;
     string metric("euclidean");
     srand(time(NULL));
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
     }
 
     /* Read Configuration File */
-    readConf(confFile, k, L, clusters);
+    readConf(confFile, k, L, clusters, probes);
     /* Read Input file */
     vector<Point*> input;
     input = readFile(inputFile, k, size, 1, R, metric);
@@ -80,27 +80,27 @@ int main(int argc, char* argv[]) {
 
     /* Run it for more multiple combinations of clusters */
 
-    vector<int> cluster = {5, 10, 20, 50, 100, 200, 250, 300, 500};
+    /*vector<int> cluster = {5, 10, 20, 50, 100, 200, 250, 300, 500};
 
     for(int i = 0; i < cluster.size(); i++) {
-        clustering = new Clustering(cluster.at(i), input, initialization.at(1), assignment.at(0), update.at(0), k, L, metric, size);
+        clustering = new Clustering(cluster.at(i), input, initialization.at(0), assignment.at(0), update.at(0), k, L, metric, size);
         clustering->findClusters();
         vector<double> si = clustering->Silhouette();
         clustering->print(si, outputFile, myfile);
         clustering->reinitialize();
         delete clustering;
-    }
+    }*/
 
 
-    /*clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(0), update.at(0), k, L, metric, size);
+    clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(1), update.at(0), k, L, metric, size, probes);
     clustering->findClusters();
-    si = clustering->Silhouette();
+    vector<double> si = clustering->Silhouette();
     clustering->print(si, outputFile, myfile);
     clustering->reinitialize();
 
     delete clustering;
 
-    clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(0), update.at(1), k, L, metric, size);
+    /*clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(0), update.at(1), k, L, metric, size);
     clustering->findClusters();
     si = clustering->Silhouette();
     clustering->print(si, outputFile, myfile);

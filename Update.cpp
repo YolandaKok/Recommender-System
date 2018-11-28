@@ -5,7 +5,7 @@
 #include "Update.h"
 
 
-bool Update::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroids) {
+bool Update::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroids, string algorithm) {
 
 }
 

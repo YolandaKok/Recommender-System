@@ -7,7 +7,7 @@
 
 using namespace std;
 
-bool PAMUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroids) {
+bool PAMUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroids, string algorithm) {
     /* Find the clusters */
     /* Take the dimensions of a point */
     int dimension = dataset.at(0)->getDimension();

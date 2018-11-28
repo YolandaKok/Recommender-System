@@ -19,7 +19,7 @@ using namespace std;
 
 extern default_random_engine generator;
 
-Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, string assign, string update, int k, int L, string metric, int size) {
+Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, string assign, string update, int k, int L, string metric, int size, int probes) {
     this->num_clusters = num_clusters;
     this->dataset = dataset;
     this->metric = metric;
@@ -49,7 +49,7 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
     }
     else if(!assign.compare("RangeHypercube")) {
         this->lsh = NULL;
-        this->cube = new Hypercube(size, dataset.at(0)->getDimension(), 8, 50, 0, metric);
+        this->cube = new Hypercube(size, dataset.at(0)->getDimension(), k, probes, 0, metric);
         for(int i = 0; i < dataset.size(); i++)
             cube->insert_point(dataset.at(i));
         this->assignment = new LshAssign(lsh, cube, metric);
@@ -72,7 +72,7 @@ void Clustering::findClusters() {
     clock_t begin_time = clock();
     int count = 0;
     this->assignment->assignCentroids(this->dataset, this->centroids);
-    while(!this->update->updateCentroids(this->dataset, this->centroids)) {
+    while(!this->update->updateCentroids(this->dataset, this->centroids, this->assignName)) {
         this->assignment->assignCentroids(this->dataset, this->centroids);
         count++;
         cout << count << endl;
@@ -81,6 +81,10 @@ void Clustering::findClusters() {
                 break;
             }
         }
+        /*else if(this->assignName.compare("RangeHypercube")) {
+            if(count > 10)
+                break;
+        }*/
         else {
             if(count > 15) {
                 break;
@@ -164,6 +168,7 @@ vector<double> Clustering::Silhouette() {
     /* Find the average */
     /* And the distance of this point to the second minimum cluster */
     /* average distance of sample i to the other samples of the cluster and the second best cluster */
+
     double averageIntra = 0.0, averageNearest = 0.0, averageNearest1 = 0.0;
     int initCluster, secondCluster;
     double average = 0.0;

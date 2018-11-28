@@ -1,23 +1,16 @@
 #include "KmeansUpdate.h"
 #include <iostream>
+#include <cmath>
 #include "Point.h"
 #include "stdlib.h"
 
 using namespace std;
 
-bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroids) {
+bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroids, string algorithm) {
     /* Take the dimensions of a point */
     int dimension = dataset.at(0)->getDimension();
     vector<Point*> old_centroids;
     old_centroids = centroids;
-
-    /*for(int i = 0; i < centroids.size(); i++) {
-        if(centroids.at(i)->getInitialCentroid() == 0) {
-            delete centroids.at(i);
-        }
-    }*/
-
-    //cout << "first obj " << objectiveFunction(dataset, old_centroids) << endl;
 
     double old_obj = objectiveFunction(dataset, old_centroids);
 
@@ -26,7 +19,6 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
 
     for(int z = 0; z < dataset.size(); z++) {
         if(dataset.at(z)->isCentroid() == 0) {
-            //cout << dataset.at(z)->getCluster() << endl;
             clusters.at(dataset.at(z)->getCluster()).push_back(dataset.at(z));
         }
     }
@@ -55,8 +47,6 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
         }
     }
 
-    //cout << "Second obj " << objectiveFunction(dataset, centroids) << endl;
-    //cout << (objectiveFunction(dataset, old_centroids) - objectiveFunction(dataset, centroids)) / objectiveFunction(dataset, old_centroids)    << endl;
     double new_obj = objectiveFunction(dataset, centroids);
     double change_rate = (old_obj - new_obj) / old_obj;
     cout << "Change rate " << change_rate << endl;
@@ -74,12 +64,33 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
 
     cout << "Count " << count << endl;
 
-    if(count == centroids.size() || change_rate < 0.001) {
-        return true;
+    if(!algorithm.compare("Lloyds")) {
+        if(count == centroids.size() || change_rate < 0.001) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
-    else {
-        return false;
+    else if (!algorithm.compare("RangeLSH")) {
+
+        if(count == centroids.size() || change_rate < 0.002) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
+    else if (!algorithm.compare("RangeHypercube")) {
+
+        if(count == centroids.size() || change_rate < 0.04) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 }
 
 double KmeansUpdate::objectiveFunction(vector<Point*>& dataset, vector<Point*>& centroids) {
@@ -96,7 +107,13 @@ double KmeansUpdate::objectiveFunction(vector<Point*>& dataset, vector<Point*>& 
     for(int i = 0; i < centroids.size(); i++) {
         for(int j = 0; j < clusters.at(i).size(); j++) {
             if(clusters.at(i).at(j)->isCentroid() == 0) {
-                sum += clusters.at(i).at(j)->euclidean_squared(centroids.at(i));
+                double distance = clusters.at(i).at(j)->euclidean_squared(centroids.at(i));
+                if(isnan(distance)) {
+                    sum += 0.0;
+                }
+                else {
+                    sum += distance;
+                }
             }
         }
     }

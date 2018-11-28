@@ -37,7 +37,7 @@ class Clustering {
         // Update
         Update *update;
     public:
-        Clustering(int num_clusters, vector<Point*> dataset, string init, string assign, string update, int k, int L, string metric, int size);
+        Clustering(int num_clusters, vector<Point*> dataset, string init, string assign, string update, int k, int L, string metric, int size, int probes);
         vector<double> Silhouette();
         // Initialization Algorithms
         void findClusters();
@@ -45,12 +45,6 @@ class Clustering {
         int findSecondMinimum(vector<double> elements);
         void print(vector<double> si, string output, ofstream& myfile);
         vector<vector<Point*>>& getClusters();
-        // Assignment Algorithms
-
-        // Update Algorithms
-
-        // Utils
-
         ~Clustering();
 };
 
