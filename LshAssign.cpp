@@ -74,13 +74,7 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
             else {
                 currentPoints = this->cube->rangeSearch(this->cube->findNearest(centroids.at(j)), centroids.at(j), currentR);
             }
-            //cout << this->cube->findNearest(centroids.at(j)).size() << "SUZE2" << endl;
-            //currentPoints = this->cube->rangeSearch(this->cube->findNearest(centroids.at(j)), centroids.at(j), currentR);
-            //cout << currentPoints.size() << " SIZE" << endl;
-            //num_points += currentPoints.size();
-            //currentPoints = this->cube->rangeSearch(centroids.at(j), currentR, myfile);
             for( int z = 0; z < currentPoints.size(); z++ ) {
-                //cout << currentPoints.at(z)->euclidean(centroids.at(j)) << " distance from centroid" << endl;
                 // if it exists in assignedPoints
                 // Keep assigned points in another array
                 if(currentPoints.at(z)->getR() == 0.0 && currentPoints.at(z)->isCentroid() == 0) {
@@ -91,7 +85,7 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
                 }
                 if((currentPoints.at(z)->getR() == currentR) && (currentPoints.at(z)->isCentroid() == 0)) {
                     it = find (currentPoints.at(z)->getClusters()->begin(), currentPoints.at(z)->getClusters()->end(), j);
-                    if (it != currentPoints.at(z)->getClusters()->end()) {
+                    if (it != currentPoints.at(z)->getClusters()->end() && currentPoints.at(z)->getClusters()->size() == 1) {
 
                     }
                     else {
@@ -112,13 +106,7 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
             }
             currentPoints.clear();
         }
-        /*if(newAssign < 5) {
-            break;
-        }
-        else {
-            newAssign = 0;
-        }*/
-        //cout << "Num points " << num_points << endl;
+
         if(newAssign < 5) {
             countAssign++;
         }
@@ -139,9 +127,8 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
                     remaining_distances.push_back(centroids.at(j)->cosine(dataset.at(i)));
                 }
             }
-            //cout << remaining_distances.at(0) << endl;
+
             min_index = minimum_index(remaining_distances);
-            //cout << "MIN INDEX: " << min_index << endl;
             dataset.at(i)->setCluster(min_index);
             remaining_distances.clear();
         }

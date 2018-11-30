@@ -5,7 +5,7 @@
 class F_hypercube_euclidean: public F_euclidean {
   private:
   public:
-    F_hypercube_euclidean(int k, int size, double dimension);
+    F_hypercube_euclidean(int k, int size, double dimension, double w);
     int hashForPoint(Point *p);
     vector<int> getHFun(Point *p);
     ~F_hypercube_euclidean();

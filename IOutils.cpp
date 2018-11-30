@@ -91,7 +91,7 @@ vector<Point*> readInput(const char filename[], const char seperator[], const ch
 
 
 /* New I/O read using C++ */
-vector<Point*> readFile(const char filename[], int k, int& size, int input, double& R, string& metric) {
+vector<Point*> readFile(const char filename[], int k, int& size, int input, double& R, string& metric, char separator) {
   string line;
   string word;
   vector<Point*> points;
@@ -106,7 +106,7 @@ vector<Point*> readFile(const char filename[], int k, int& size, int input, doub
       /* Find the metric */
       //cout << line << endl;
       istringstream iss(line);
-      while(getline(iss, word, ',')) {
+      while(getline(iss, word, separator)) {
        /* do stuff with word */
        /* If it is input small find metric */
           if(!word.compare("@metric")) {
@@ -181,7 +181,7 @@ int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k
 }
 
 /* Read the configuration file */
-int readConf(const char filename[], int& k, int& L, int& clusters, int& probes) {
+int readConf(const char filename[], int& k, int& L, int& clusters, int& probes, double& w) {
   string line;
   string word;
   ifstream myfile (filename);
@@ -208,6 +208,10 @@ int readConf(const char filename[], int& k, int& L, int& clusters, int& probes) 
         else if(!word.compare("number_of_probes:")) {
             iss >> word;
             probes = stoi(word);
+        }
+        else if(!word.compare("w_parameter:")) {
+            iss >> word;
+            w = stod(word);
         }
       }
     }

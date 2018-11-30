@@ -21,12 +21,14 @@ mt19937 gen(rd());
 default_random_engine generator(rd());
 
 int main(int argc, char* argv[]) {
-    char *inputFile = NULL, *confFile = NULL, *outputFile = NULL;
+    char *inputFile = NULL, *confFile = NULL, *outputFile = NULL, *separator = NULL;
     srand(time(NULL));
+    //string separator;
+    char sep = ',';
     /* k - number of hash functions */
     /* L number of hashtables */
     int k = 4, L = 5, size, clusters = 5, probes = 5;
-    double R = 0.0;
+    double R = 0.0, w = 3.0;
     string metric("euclidean");
     srand(time(NULL));
     /* Read the arguments from the command line */
@@ -50,13 +52,24 @@ int main(int argc, char* argv[]) {
             outputFile = (char*)malloc(strlen(argv[i+1]) + 1);
             strcpy(outputFile, argv[i+1]);
         }
+        else if(!strcmp(argv[i], "-separator")) {
+            separator = (char*)malloc(strlen(argv[i+1]) + 1);
+            strcpy(separator, argv[i+1]);
+            //separator = argv[i + 1];
+            if(!strcmp(separator, "tab")) {
+                sep = '\t';
+            }
+            else {
+                sep = ',';
+            }
+        }
     }
 
     /* Read Configuration File */
-    readConf(confFile, k, L, clusters, probes);
+    readConf(confFile, k, L, clusters, probes, w);
     /* Read Input file */
     vector<Point*> input;
-    input = readFile(inputFile, k, size, 1, R, metric);
+    input = readFile(inputFile, k, size, 1, R, metric, sep);
 
     vector<string> initialization = {"random_selection", "k-means++"};
     vector<string> assignment = {"Lloyds", "RangeLSH", "RangeHypercube"};
@@ -65,10 +78,10 @@ int main(int argc, char* argv[]) {
     ofstream myfile;
     myfile.open(outputFile);
     Clustering *clustering;
-    /*for( int i = 0; i < initialization.size(); i++ ) {
+    for( int i = 0; i < initialization.size(); i++ ) {
         for(int j = 0; j < assignment.size(); j++) {
             for(int z = 0; z < update.size(); z++) {
-                clustering = new Clustering(clusters, input, initialization.at(i), assignment.at(j), update.at(z), k, L, metric, size);
+                clustering = new Clustering(clusters, input, initialization.at(i), assignment.at(j), update.at(z), k, L, metric, size, probes, w);
                 clustering->findClusters();
                 vector<double> si = clustering->Silhouette();
                 clustering->print(si, outputFile, myfile);
@@ -76,7 +89,7 @@ int main(int argc, char* argv[]) {
                 delete clustering;
             }
         }
-    }*/
+    }
 
     /* Run it for more multiple combinations of clusters */
 
@@ -92,25 +105,9 @@ int main(int argc, char* argv[]) {
     }*/
 
 
-    clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(1), update.at(0), k, L, metric, size, probes);
+    /*clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(1), update.at(0), k, L, metric, size, probes, w);
     clustering->findClusters();
     vector<double> si = clustering->Silhouette();
-    clustering->print(si, outputFile, myfile);
-    clustering->reinitialize();
-
-    delete clustering;
-
-    /*clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(0), update.at(1), k, L, metric, size);
-    clustering->findClusters();
-    si = clustering->Silhouette();
-    clustering->print(si, outputFile, myfile);
-    clustering->reinitialize();
-
-    delete clustering;
-
-    clustering = new Clustering(clusters, input, initialization.at(1), assignment.at(0), update.at(1), k, L, metric, size);
-    clustering->findClusters();
-    si = clustering->Silhouette();
     clustering->print(si, outputFile, myfile);
     clustering->reinitialize();
 

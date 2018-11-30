@@ -17,7 +17,7 @@
 
 using namespace std;
 
-Hashtable::Hashtable(int size, int k, string lsh_family, int input_size, double dimension) {
+Hashtable::Hashtable(int size, int k, string lsh_family, int input_size, double dimension, double w) {
   string type1("euclidean");
   string type2("cosine");
   this->k = k;
@@ -26,7 +26,7 @@ Hashtable::Hashtable(int size, int k, string lsh_family, int input_size, double 
   this->dimension = dimension;
   if(type1.compare(lsh_family) == 0) {
     /* Initialize f */
-    this->f_hash = new F_euclidean(k, size, dimension);
+    this->f_hash = new F_euclidean(k, size, dimension, w);
   }
   if(type2.compare(lsh_family) == 0) {
     /* Initialize f */
@@ -49,7 +49,7 @@ int Hashtable::getK() {
   return this->k;
 }
 
-Hashtable::Hashtable(int k, int input_size, int dimension, string lsh_family) {
+Hashtable::Hashtable(int k, int input_size, int dimension, double w, string lsh_family) {
   string type1("euclidean");
   string type2("cosine");
   this->dimension = dimension;
@@ -58,7 +58,7 @@ Hashtable::Hashtable(int k, int input_size, int dimension, string lsh_family) {
   this->input_size = input_size;
   if(type1.compare(lsh_family) == 0) {
     /* Initialize f */
-    this->f_hash = new F_hypercube_euclidean(k, size, dimension);
+    this->f_hash = new F_hypercube_euclidean(k, size, dimension, w);
     //cout << "eu" << endl;
   }
   if(type2.compare(lsh_family) == 0) {

@@ -9,14 +9,14 @@
 
 using namespace std;
 
-F_euclidean::F_euclidean(int k, int tablesize, double dimension):F(k, dimension) {
+F_euclidean::F_euclidean(int k, int tablesize, double dimension, double w):F(k, dimension) {
   /* Generate Rk */
   generateRk(k);
   this->tablesize = tablesize;
   this->dimension = dimension;
   /* Create k H_euclidean functions */
   for( int i = 0; i < getK(); i++ ) {
-    setH((H_euclidean*)new H_euclidean(4, dimension, 0.0, 1.0), i);
+    setH((H_euclidean*)new H_euclidean(w, dimension, 0.0, w), i);
   }
 }
 

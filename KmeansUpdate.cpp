@@ -74,7 +74,7 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
     }
     else if (!algorithm.compare("RangeLSH")) {
 
-        if(count == centroids.size() || change_rate < 0.002) {
+        if(count == centroids.size() || change_rate < 0.05) {
             return true;
         }
         else {

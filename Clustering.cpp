@@ -19,7 +19,7 @@ using namespace std;
 
 extern default_random_engine generator;
 
-Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, string assign, string update, int k, int L, string metric, int size, int probes) {
+Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, string assign, string update, int k, int L, string metric, int size, int probes, double w) {
     this->num_clusters = num_clusters;
     this->dataset = dataset;
     this->metric = metric;
@@ -41,7 +41,7 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
     }
     else if(!assign.compare("RangeLSH")) {
         //string metric = "cosine";
-        this->lsh = new LSH(L, size, k, dataset, metric, dataset.size(), dataset.at(0)->getDimension());
+        this->lsh = new LSH(L, size, k, dataset, metric, dataset.size(), dataset.at(0)->getDimension(), w);
         this->lsh->bucket();
         this->cube = NULL;
         this->assignment = new LshAssign(lsh, cube, metric);
@@ -49,7 +49,7 @@ Clustering::Clustering(int num_clusters, vector<Point*> dataset, string init, st
     }
     else if(!assign.compare("RangeHypercube")) {
         this->lsh = NULL;
-        this->cube = new Hypercube(size, dataset.at(0)->getDimension(), k, probes, 0, metric);
+        this->cube = new Hypercube(size, dataset.at(0)->getDimension(), w, k, probes, 0, metric);
         for(int i = 0; i < dataset.size(); i++)
             cube->insert_point(dataset.at(i));
         this->assignment = new LshAssign(lsh, cube, metric);
