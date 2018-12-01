@@ -43,7 +43,7 @@ class Clustering {
         void findClusters();
         void reinitialize();
         int findSecondMinimum(vector<double> elements);
-        void print(vector<double> si, string output, ofstream& myfile);
+        void print(vector<double> si, string output, ofstream& myfile, bool complete);
         vector<vector<Point*>>& getClusters();
         ~Clustering();
 };

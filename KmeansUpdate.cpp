@@ -49,7 +49,7 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
 
     double new_obj = objectiveFunction(dataset, centroids);
     double change_rate = (old_obj - new_obj) / old_obj;
-    cout << "Change rate " << change_rate << endl;
+    //cout << "Change rate " << change_rate << endl;
     // old_centroids and new_centroids does not change a lot
 
     for(int i = 0; i < old_centroids.size(); i++) {
@@ -62,7 +62,7 @@ bool KmeansUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& cent
         }
     }
 
-    cout << "Count " << count << endl;
+    //cout << "Count " << count << endl;
 
     if(!algorithm.compare("Lloyds")) {
         if(count == centroids.size() || change_rate < 0.001) {

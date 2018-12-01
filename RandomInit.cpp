@@ -33,8 +33,7 @@ vector<Point*> RandomInit::findCentroids(vector<Point*> dataset, int clusters) {
             dataset.at(index)->setInitialCentroid(true);
             count++;
         }
-        //dataset.at(index)->setCluster(i);
-        cout << index << endl;
+        //cout << index << endl;
     }
     return centroids;
 }

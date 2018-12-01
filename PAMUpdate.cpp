@@ -61,7 +61,7 @@ bool PAMUpdate::updateCentroids(vector<Point*>& dataset, vector<Point*>& centroi
             count++;
         }
     }
-    cout << "count " << count << endl;
+    //cout << "count " << count << endl;
     if(count == centroids.size()) {
         return true;
     }

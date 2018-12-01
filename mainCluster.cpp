@@ -84,7 +84,7 @@ int main(int argc, char* argv[]) {
                 clustering = new Clustering(clusters, input, initialization.at(i), assignment.at(j), update.at(z), k, L, metric, size, probes, w);
                 clustering->findClusters();
                 vector<double> si = clustering->Silhouette();
-                clustering->print(si, outputFile, myfile);
+                clustering->print(si, outputFile, myfile, false);
                 clustering->reinitialize();
                 delete clustering;
             }
@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
     /*vector<int> cluster = {5, 10, 20, 50, 100, 200, 250, 300, 500};
 
     for(int i = 0; i < cluster.size(); i++) {
-        clustering = new Clustering(cluster.at(i), input, initialization.at(0), assignment.at(0), update.at(0), k, L, metric, size);
+        clustering = new Clustering(cluster.at(i), input, initialization.at(0), assignment.at(1), update.at(0), k, L, metric, size, probes, w);
         clustering->findClusters();
         vector<double> si = clustering->Silhouette();
         clustering->print(si, outputFile, myfile);

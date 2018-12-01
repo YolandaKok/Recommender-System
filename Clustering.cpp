@@ -75,7 +75,7 @@ void Clustering::findClusters() {
     while(!this->update->updateCentroids(this->dataset, this->centroids, this->assignName)) {
         this->assignment->assignCentroids(this->dataset, this->centroids);
         count++;
-        cout << count << endl;
+        //cout << count << endl;
         if(!this->algorithms.at(2).compare("PAM")) {
             if(count > 3) {
                 break;
@@ -112,7 +112,7 @@ vector<vector<Point*>>& Clustering::getClusters() {
     return this->clusters;
 }
 
-void Clustering::print(vector<double> si, string output, ofstream& myfile) {
+void Clustering::print(vector<double> si, string output, ofstream& myfile, bool complete) {
     myfile << "Algorithm: " << algorithms.at(0) << " " << algorithms.at(1) << " " << algorithms.at(2) << endl;
     myfile << "Metric: " << this->metric << endl;
     for( int i = 0; i < this->clusters.size(); i++ ) {
@@ -133,34 +133,36 @@ void Clustering::print(vector<double> si, string output, ofstream& myfile) {
     myfile << si.at(si.size() - 1) << "]" << endl;
 
     myfile << endl;
-    /* Count to break the line */
-    int count = 0;
-    /* Maybe you can choose what to print */
-    /* Print the items of the clusters */
-    /*for( int i = 0; i < clusters.size(); i++ ) {
-        myfile << "CLUSTER-" << i << "  {";
-        for( int j = 0; j < clusters.at(i).size(); j++ ) {
-            myfile << clusters.at(i).at(j)->getId() << ", ";
-            count++;
-            if(count > 100) {
-                myfile << endl;
-                count = 0;
+    if(complete) {
+        /* Count to break the line */
+        int count = 0;
+        /* Maybe you can choose what to print */
+        /* Print the items of the clusters */
+        for( int i = 0; i < clusters.size(); i++ ) {
+            myfile << "CLUSTER-" << i << "  {";
+            for( int j = 0; j < clusters.at(i).size(); j++ ) {
+                myfile << clusters.at(i).at(j)->getId() << ", ";
+                count++;
+                if(count > 100) {
+                    myfile << endl;
+                    count = 0;
+                }
             }
+            myfile << "}" << endl;
+            myfile << endl;
+            count = 0;
         }
-        myfile << "}" << endl;
         myfile << endl;
-        count = 0;
-    }*/
-    myfile << endl;
+    }
 }
 
 vector<double> Clustering::Silhouette() {
     /* Calculate clusters */
 
-    for(int i = 0; i < clusters.size(); i++) {
+    /*for(int i = 0; i < clusters.size(); i++) {
         cout << "SIZE of cluster " << i << endl;
         cout << clusters.at(i).size() << endl;
-    }
+    }*/
 
     /* Array with average */
 
@@ -208,8 +210,8 @@ vector<double> Clustering::Silhouette() {
             }
             second_distances.clear();
         }
-        cout << "Cluster " << k << " Silhouette" << endl;
-        cout << (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra) << endl;
+        //cout << "Cluster " << k << " Silhouette" << endl;
+        //cout << (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra) << endl;
         cluster_si = (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra);
         if( !isnan(cluster_si) ) {
             si.push_back((averageNearest1 - averageIntra) / max(averageNearest1, averageIntra) );
@@ -224,7 +226,7 @@ vector<double> Clustering::Silhouette() {
     }
 
     si.push_back(average / clusters.size());
-    cout << "stotal " << average / clusters.size() << endl;
+    //cout << "stotal " << average / clusters.size() << endl;
 
     return si;
 }

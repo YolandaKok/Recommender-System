@@ -79,11 +79,11 @@ vector<Point*> KmeansppInit::findCentroids(vector<Point*> dataset, int num_clust
 
         /* Find the first index that cumsum is >= r  */
         int in = binarySearch(cumsum, 0, cumsum.size()-1, x);
-        cout << "Cumsum " << cumsum.at(in) << endl;
-        cout << "X number " << x << endl;
-        cout << "Binary index " << in << endl;
+        //cout << "Cumsum " << cumsum.at(in) << endl;
+        //cout << "X number " << x << endl;
+        //cout << "Binary index " << in << endl;
         int index = ids.at(in);
-        cout << "Real index: " << index << endl;
+        //cout << "Real index: " << index << endl;
         centroids.push_back(dataset.at(index));
         dataset.at(index)->setCentroid(true);
         dataset.at(index)->setInitialCentroid(true);

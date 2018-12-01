@@ -49,10 +49,20 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     double min = minimum(distances);
     double currentR = min / 2;
 
+    int index_min;
+    while(currentR == 0.0) {
+        index_min = minimum_index(distances);
+        distances.erase (distances.begin()+index_min);
+        min = minimum(distances);
+        currentR = min / 2;
+        //cout << currentR << endl;
+    }
+
     ofstream myfile;
     vector<double> distances_new;
 
     cout << currentR << "Current R" << endl;
+
     vector<Point*> currentPoints;
     vector<double> distances2;
     distances2.resize(centroids.size());
@@ -63,7 +73,7 @@ void LshAssign::assignCentroids(vector<Point*>& dataset, vector<Point*> centroid
     /* Start of the Loop for range search */
     do {
         i++;
-        cout << "LOOP " << i << endl;
+        //cout << "LOOP " << i << endl;
         int num_points = 0;
         newAssign = 0;
         for(int j = 0; j < centroids.size(); j++) {
