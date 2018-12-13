@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
     ofstream myfile;
     myfile.open(outputFile);
     Clustering *clustering;
-    for( int i = 0; i < initialization.size(); i++ ) {
+    /*for( int i = 0; i < initialization.size(); i++ ) {
         for(int j = 0; j < assignment.size(); j++) {
             for(int z = 0; z < update.size(); z++) {
                 clustering = new Clustering(clusters, input, initialization.at(i), assignment.at(j), update.at(z), k, L, metric, size, probes, w);
@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
                 delete clustering;
             }
         }
-    }
+    }*/
 
     /* Run it for more multiple combinations of clusters */
 
@@ -105,13 +105,14 @@ int main(int argc, char* argv[]) {
     }*/
 
 
-    /*clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(1), update.at(0), k, L, metric, size, probes, w);
+    clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(0), update.at(0), k, L, metric, size, probes, w);
     clustering->findClusters();
-    vector<double> si = clustering->Silhouette();
-    clustering->print(si, outputFile, myfile);
-    clustering->reinitialize();
+    vector<vector<Point*>> final_clusters = clustering->getClusters();
+    //vector<double> si = clustering->Silhouette();
+    //clustering->print(si, outputFile, myfile, true);
+    //clustering->reinitialize();
 
-    delete clustering;*/
+    delete clustering;
 
     myfile.close();
 
