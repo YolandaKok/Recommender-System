@@ -143,6 +143,54 @@ vector<Point*> readFile(const char filename[], int k, int& size, int input, doub
   return points;
 }
 
+/* New I/O read using C++ */
+vector<Point*> readFileRecommend(const char filename[], int& size, int input, int& P, char seperator) {
+  string line;
+  string word;
+  vector<Point*> points;
+  ifstream myfile (filename);
+  int flag = 0;
+  int count = 0, countPoint = 0;
+  Point *point;
+  if (myfile.is_open())
+  {
+    while ( getline (myfile,line) )
+    {
+      /* Find the metric */
+      //cout << line << endl;
+      istringstream iss(line);
+      while(getline(iss, word, separator)) {
+        /* do stuff with word */
+        /* If it is input small find metric */
+        if(!word.compare("P:")) {
+          iss >> word;
+          P = stoi(word);
+        }
+        else {
+          flag = 1;
+          if(countPoint == 0) {
+            point = new Point();
+            //cout << word << endl;
+            point->setId(word);
+            countPoint++;
+          }
+          else {
+            point->addCoord(stod(word));
+          }
+        }
+      }
+      if(flag) {
+        points.push_back(point);
+      }
+      count++;
+      countPoint = 0;
+    }
+    myfile.close();
+  }
+  if(input)
+    size = points.size();
+  return points;
+}
 
 /* Read the arguments */
 int readArgs(char* argv[], int argc, char*& input_file, char*& queryFile, int& k, int& L, char*& outputFile, int& probes, int& M) {

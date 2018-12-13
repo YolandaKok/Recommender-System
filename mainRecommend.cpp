@@ -4,6 +4,8 @@
 #include <map>
 #include <random>
 #include <cstring>
+#include "Tweet.h"
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -11,6 +13,8 @@ int main(int argc, char* argv[]) {
 
     bool validate = false;
     char *inputFile = NULL, *outputFile = NULL;
+    // Number of the default Nearest Neighbors
+    int P = 20;
     srand(time(NULL));
 
     vector<string> coins = {"ethereum", "bitcoin", "stellar", "tether"};
@@ -35,7 +39,39 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    Tweet *tweet = new Tweet("123");
+    tweet->addWord("hey");
+    tweet->addWord("bitcoin");
+    tweet->addWord("great");
+
+    Tweet *tweet1 = new Tweet("123");
+    tweet1->addWord("ethereum");
+    tweet1->addWord("bad");
+    tweet1->addWord("maybe");
+
+    //delete tweet;
+
+
     // Read Input File
+    map<int, vector<Tweet*>> Tweets_per_User;
+    Tweets_per_User[1].push_back(tweet);
+    Tweets_per_User[1].push_back(tweet1);
+
+    Tweets_per_User[1].at(0)->print();
+    Tweets_per_User[1].at(1)->print();
+
+
+    multimap<int, Tweet*> tweets;
+    tweets.insert(pair <int, Tweet*> (1, tweet));
+    tweets.insert(pair <int, Tweet*> (1, tweet1));
+
+    int key = 1;
+    for (auto itr = tweets.begin(); itr != tweets.end(); itr++)
+        if (itr -> first == key) {
+            cout << itr->first << " ";
+            itr->second->print();
+        }
+
 
 
     return 1;
