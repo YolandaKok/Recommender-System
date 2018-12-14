@@ -7,6 +7,7 @@
 #include "Tweet.h"
 #include <bits/stdc++.h>
 #include "IOutils.h"
+#include "Sentiment.h"
 
 using namespace std;
 
@@ -44,11 +45,24 @@ int main(int argc, char* argv[]) {
     map<string, vector<Tweet*>> tweets_per_user;
     tweets_per_user = readFileRecommend(inputFile, size, true, P, '\t');
 
-    //map<, int> m;
     vector<string> user_ids;
+    vector<Sentiment*> sentiments;
+    Sentiment *sentiment;
+
     for(map<string,vector<Tweet*>>::iterator it = tweets_per_user.begin(); it != tweets_per_user.end(); ++it) {
         user_ids.push_back(it->first);
-        //cout << it->first << endl;
+    }
+
+    string key = "1";
+    for( int i = 0; i < tweets_per_user[key].size(); i++ ) {
+        tweets_per_user[key].at(i)->print();
+    }
+
+    for( int i = 0; i < user_ids.size(); i++ ) {
+        //cout << user_ids.at(i) << endl;
+        sentiment = new Sentiment(coins, dictionary, coins.size(), user_ids.at(i), tweets_per_user[user_ids.at(i)]);
+        sentiment->computeUserSentiment();
+        sentiments.push_back(sentiment);
     }
 
     /* string key = "3";

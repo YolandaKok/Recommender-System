@@ -7,6 +7,7 @@
 #include "Tweet.h"
 #include <iostream>
 #include <vector>
+#include <map>
 #include <string>
 using namespace std;
 
@@ -16,13 +17,17 @@ class Sentiment {
         // Sentiments
         vector<double> user_sentiments;
         // Maybe the dictionary for the sentiments
+        map<string, double> dictionary;
         // Maybe the vector with the coins
+        vector<string> coins;
         string userId;
         // Tweets for the current user
         vector<Tweet*> tweets;
+        string coin;
     public:
-        Sentiment();
-        vector<double> user_sentiments;
+        Sentiment(vector<string> coins, map<string, double> dictionary, int dimension, string userId, vector<Tweet*> tweets);
+        int findCoin(vector<string> coins, string word);
+        vector<double> computeUserSentiment();
         ~Sentiment();
 };
 
