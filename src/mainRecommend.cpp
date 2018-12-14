@@ -6,6 +6,7 @@
 #include <cstring>
 #include "Tweet.h"
 #include <bits/stdc++.h>
+#include "IOutils.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ int main(int argc, char* argv[]) {
     bool validate = false;
     char *inputFile = NULL, *outputFile = NULL;
     // Number of the default Nearest Neighbors
-    int P = 20;
+    int P = 20, size;
     srand(time(NULL));
 
     vector<string> coins = {"ethereum", "bitcoin", "stellar", "tether"};
@@ -39,38 +40,25 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    Tweet *tweet = new Tweet("123");
-    tweet->addWord("hey");
-    tweet->addWord("bitcoin");
-    tweet->addWord("great");
-
-    Tweet *tweet1 = new Tweet("123");
-    tweet1->addWord("ethereum");
-    tweet1->addWord("bad");
-    tweet1->addWord("maybe");
-
-    //delete tweet;
-
-
     // Read Input File
-    map<int, vector<Tweet*>> Tweets_per_User;
-    Tweets_per_User[1].push_back(tweet);
-    Tweets_per_User[1].push_back(tweet1);
+    map<string, vector<Tweet*>> tweets_per_user;
+    tweets_per_user = readFileRecommend(inputFile, size, true, P, '\t');
 
-    Tweets_per_User[1].at(0)->print();
-    Tweets_per_User[1].at(1)->print();
+    //map<, int> m;
+    vector<string> user_ids;
+    for(map<string,vector<Tweet*>>::iterator it = tweets_per_user.begin(); it != tweets_per_user.end(); ++it) {
+        user_ids.push_back(it->first);
+        //cout << it->first << endl;
+    }
 
+    /* string key = "3";
 
-    multimap<int, Tweet*> tweets;
-    tweets.insert(pair <int, Tweet*> (1, tweet));
-    tweets.insert(pair <int, Tweet*> (1, tweet1));
+    for( int i = 0; i < tweets_per_user[key].size(); i++ ) {
+        tweets_per_user[key].at(i)->print();
+    } */
 
-    int key = 1;
-    for (auto itr = tweets.begin(); itr != tweets.end(); itr++)
-        if (itr -> first == key) {
-            cout << itr->first << " ";
-            itr->second->print();
-        }
+    /* Deallocate memory */
+    //for(int i = 0; i < tweets_per_user.size(); i++)
 
     return 1;
 }

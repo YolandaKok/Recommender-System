@@ -17,6 +17,9 @@
 #include <sstream>
 #include "F.h"
 #include <string>
+#include <map>
+#include "Tweet.h"
+#include "Point.h"
 
 using namespace std;
 /* Read the dataset file */
@@ -144,13 +147,16 @@ vector<Point*> readFile(const char filename[], int k, int& size, int input, doub
 }
 
 /* New I/O read using C++ */
-vector<Point*> readFileRecommend(const char filename[], int& size, int input, int& P, char separator) {
+map<string, vector<Tweet*>> readFileRecommend(const char filename[], int& size, int input, int& P, char separator) {
   string line;
   string word;
-  vector<Point*> points;
+  Tweet *tweet;
+  //vector<Tweet*> points;
+  map<string, vector<Tweet*>> points;
   ifstream myfile (filename);
   int flag = 0;
   int count = 0, countPoint = 0;
+  string userId;
   Point *point;
   if (myfile.is_open())
   {
@@ -169,26 +175,30 @@ vector<Point*> readFileRecommend(const char filename[], int& size, int input, in
         else {
           flag = 1;
           if(countPoint == 0) {
-            point = new Point();
             //cout << word << endl;
-            point->setId(word);
+            //cout << "lala" << endl;
+            userId = word;
+            countPoint++;
+          }
+          else if(countPoint == 1) {
+            tweet = new Tweet(word);
             countPoint++;
           }
           else {
-            point->addCoord(stod(word));
+              tweet->addWord(word);
           }
         }
       }
       if(flag) {
-        points.push_back(point);
+        points[userId].push_back(tweet);
       }
       count++;
       countPoint = 0;
     }
     myfile.close();
   }
-  if(input)
-    size = points.size();
+  /*if(input)
+    size = points.size();*/
   return points;
 }
 
