@@ -8,6 +8,7 @@
 #include "Hypercube.h"
 #include "Lsh.h"
 #include <fstream>
+#include <map>
 
 class Clustering {
     private:
@@ -16,6 +17,7 @@ class Clustering {
         // Num of clusters
         int num_clusters;
         double total_time;
+        map<string, int> which_cluster;
         LSH *lsh;
         Hypercube *cube;
         // metric
@@ -45,6 +47,7 @@ class Clustering {
         int findSecondMinimum(vector<double> elements);
         void print(vector<double> si, string output, ofstream& myfile, bool complete);
         vector<vector<Point*>>& getClusters();
+        map<string, int>& getWhichCluster();
         ~Clustering();
 };
 

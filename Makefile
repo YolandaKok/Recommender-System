@@ -1,7 +1,7 @@
 SRC = src/mainRecommend.cpp src/Tweet.cpp src/IOutils.cpp src/Point.cpp src/Sentiment.cpp test/SentimentTest.cpp
 OBJS1 = main.o IOutils.o Point.o H.o F.o Hashtable.o Lsh.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube_euclidean.o F_hypercube_cosine.o
 OBJS2 = main2.o Hypercube.o IOutils.o Point.o H.o F.o Hashtable.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube_euclidean.o F_hypercube_cosine.o
-OBJS3 = mainCluster.o Point.o IOutils.o Clustering.o Initialization.o RandomInit.o KmeansppInit.o Update.o Assignment.o LloydsAssign.o KmeansUpdate.o LshAssign.o Lsh.o Hashtable.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F.o H.o F_hypercube_euclidean.o F_hypercube_cosine.o PAMUpdate.o Hypercube.o
+OBJS3 = mainCluster.o Tweet.o Point.o IOutils.o Clustering.o Initialization.o RandomInit.o KmeansppInit.o Update.o Assignment.o LloydsAssign.o KmeansUpdate.o LshAssign.o Lsh.o Hashtable.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F.o H.o F_hypercube_euclidean.o F_hypercube_cosine.o PAMUpdate.o Hypercube.o
 OBJS4 = mainRecommend.o Tweet.o IOutils.o Point.o Sentiment.o SentimentTest.o
 LIBS = -pthread libgtest.a
 INC = -I googletest/googletest \

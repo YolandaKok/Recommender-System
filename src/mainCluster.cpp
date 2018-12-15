@@ -108,8 +108,10 @@ int main(int argc, char* argv[]) {
     clustering = new Clustering(clusters, input, initialization.at(0), assignment.at(0), update.at(0), k, L, metric, size, probes, w);
     clustering->findClusters();
     vector<vector<Point*>> final_clusters = clustering->getClusters();
-    //vector<double> si = clustering->Silhouette();
-    //clustering->print(si, outputFile, myfile, true);
+    map<string,int> which_cluster = clustering->getWhichCluster();
+    cout << which_cluster["300"] << " cluster" << endl;
+    vector<double> si = clustering->Silhouette();
+    clustering->print(si, outputFile, myfile, true);
     //clustering->reinitialize();
 
     delete clustering;

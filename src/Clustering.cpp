@@ -13,6 +13,7 @@
 #include <numeric>
 #include <functional>
 #include <fstream>
+#include <map>
 
 
 using namespace std;
@@ -97,10 +98,12 @@ void Clustering::findClusters() {
     /* Create the clusters */
     this->clusters.resize(centroids.size());
 
+    //map<string, int> which_cluster;
     for(int z = 0; z < dataset.size(); z++) {
         if(dataset.at(z)->isCentroid() == 0) {
             //cout << dataset.at(z)->getCluster() << endl;
             clusters.at(dataset.at(z)->getCluster()).push_back(dataset.at(z));
+            which_cluster[dataset.at(z)->getId()] = dataset.at(z)->getCluster();
         }
     }
 
@@ -110,6 +113,10 @@ void Clustering::findClusters() {
 /* Get the data structure of clusters */
 vector<vector<Point*>>& Clustering::getClusters() {
     return this->clusters;
+}
+
+map<string, int>& Clustering::getWhichCluster() {
+    return this->which_cluster;
 }
 
 void Clustering::print(vector<double> si, string output, ofstream& myfile, bool complete) {
