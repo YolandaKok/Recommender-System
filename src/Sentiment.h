@@ -16,6 +16,7 @@ class Sentiment {
         int dimension;
         // Sentiments
         vector<double> user_sentiments;
+        vector<int> user_sentiments_per_coin;
         // Maybe the dictionary for the sentiments
         map<string, double> dictionary;
         // Maybe the vector with the coins
@@ -25,9 +26,11 @@ class Sentiment {
         vector<Tweet*> tweets;
         string coin;
     public:
+        Sentiment();
         Sentiment(vector<string> coins, map<string, double> dictionary, int dimension, string userId, vector<Tweet*> tweets);
         int findCoin(vector<string> coins, string word);
         vector<double> computeUserSentiment();
+        double normalizeSi(double totalscore, double alpha);
         ~Sentiment();
 };
 

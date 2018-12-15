@@ -12,8 +12,26 @@ void Tweet::addWord(string word) {
     this->words.push_back(word);
 }
 
-vector<string>& Tweet::getWords() {
+vector<string> Tweet::getWords() {
     return this->words;
+}
+
+int Tweet::findCoin(vector<string> coins) {
+    bool found = false;
+    int index;
+
+    for( int i = 0; i < coins.size(); i++ ) {
+        for(int j = 0; j < this->words.size(); j++) {
+            if(coins.at(i).compare(this->words.at(j)) == 0) {
+                found = true;
+                index = i;
+            }
+        }
+    }
+    if(found)
+        return index;
+    else
+        return -1;
 }
 
 void Tweet::print() {

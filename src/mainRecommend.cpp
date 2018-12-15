@@ -53,16 +53,18 @@ int main(int argc, char* argv[]) {
         user_ids.push_back(it->first);
     }
 
-    string key = "1";
+    string key = "4";
     for( int i = 0; i < tweets_per_user[key].size(); i++ ) {
         tweets_per_user[key].at(i)->print();
     }
 
     for( int i = 0; i < user_ids.size(); i++ ) {
         //cout << user_ids.at(i) << endl;
+        //tweets_per_user[user_ids.at(i)].at(0)->print();
         sentiment = new Sentiment(coins, dictionary, coins.size(), user_ids.at(i), tweets_per_user[user_ids.at(i)]);
         sentiment->computeUserSentiment();
         sentiments.push_back(sentiment);
+        delete sentiment;
     }
 
     /* string key = "3";
