@@ -21,9 +21,8 @@ int main(int argc, char* argv[]) {
 
     vector<string> coins = {"ethereum", "bitcoin", "stellar", "tether"};
     map<string, double> dictionary;
-    dictionary["bad"] = -2.0;
-    dictionary["good"] = 2.0;
-    dictionary["profitable"] = 1.5;
+
+    readDictionary("datasets/vader_lexicon.csv", &dictionary, '\t');
 
     for(int i = 1; i < argc; i += 2) {
         /* Input File */
@@ -41,6 +40,9 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    /* Read Dictionary */
+
+
     // Read Input File
     map<string, vector<Tweet*>> tweets_per_user;
     tweets_per_user = readFileRecommend(inputFile, size, true, P, '\t');
@@ -53,19 +55,20 @@ int main(int argc, char* argv[]) {
         user_ids.push_back(it->first);
     }
 
-    string key = "4";
+    cout << user_ids.at(100) << endl;
+    string key = "10943";
     for( int i = 0; i < tweets_per_user[key].size(); i++ ) {
         tweets_per_user[key].at(i)->print();
+        cout << tweets_per_user[key].at(i)->getId() << endl;
     }
-
-    for( int i = 0; i < user_ids.size(); i++ ) {
+    /*for( int i = 0; i < user_ids.size(); i++ ) {
         //cout << user_ids.at(i) << endl;
         //tweets_per_user[user_ids.at(i)].at(0)->print();
         sentiment = new Sentiment(coins, dictionary, coins.size(), user_ids.at(i), tweets_per_user[user_ids.at(i)]);
         sentiment->computeUserSentiment();
         sentiments.push_back(sentiment);
         delete sentiment;
-    }
+    }*/
 
     /* string key = "3";
 

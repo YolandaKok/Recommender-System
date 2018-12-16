@@ -160,7 +160,7 @@ map<string, vector<Tweet*>> readFileRecommend(const char filename[], int& size, 
   Point *point;
   if (myfile.is_open())
   {
-    while ( getline (myfile,line) )
+    while ( getline (myfile,line, '\n') )
     {
       /* Find the metric */
       //cout << line << endl;
@@ -168,7 +168,7 @@ map<string, vector<Tweet*>> readFileRecommend(const char filename[], int& size, 
       while(getline(iss, word, separator)) {
         /* do stuff with word */
         /* If it is input small find metric */
-        if(!word.compare("P:")) {
+        if(word.compare("P:") == 0) {
           iss >> word;
           P = stoi(word);
         }
@@ -176,7 +176,9 @@ map<string, vector<Tweet*>> readFileRecommend(const char filename[], int& size, 
           flag = 1;
           if(countPoint == 0) {
             //cout << word << endl;
-            //cout << "lala" << endl;
+              if(count < 10) {
+                  //cout << word << endl;
+              }
             userId = word;
             countPoint++;
           }
@@ -190,6 +192,9 @@ map<string, vector<Tweet*>> readFileRecommend(const char filename[], int& size, 
         }
       }
       if(flag) {
+
+        cout << userId << endl;
+
         points[userId].push_back(tweet);
       }
       count++;
@@ -200,6 +205,39 @@ map<string, vector<Tweet*>> readFileRecommend(const char filename[], int& size, 
   /*if(input)
     size = points.size();*/
   return points;
+}
+
+void readDictionary(const char filename[], map<string, double>* dictionary, char separator) {
+  string line;
+  string word;
+  ifstream myfile (filename);
+  int flag = 0;
+  int count = 0, countPoint = 0;
+  string key;
+  if (myfile.is_open())
+  {
+    while ( getline (myfile,line, '\n') )
+    {
+      /* Find the metric */
+      //cout << line << endl;
+      istringstream iss(line);
+      while(getline(iss, word, separator)) {
+        /* do stuff with word */
+        /* If it is input small find metric */
+          if(countPoint == 0) {
+            //cout << word << endl;
+            key = word;
+            countPoint++;
+          }
+          else if(countPoint == 1) {
+            dictionary->insert ( pair<string,double>(key,stod(word)) );
+            countPoint++;
+          }
+      }
+      countPoint = 0;
+    }
+    myfile.close();
+  }
 }
 
 /* Read the arguments */

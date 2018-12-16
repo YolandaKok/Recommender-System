@@ -36,9 +36,13 @@ int Tweet::findCoin(vector<string> coins) {
 
 void Tweet::print() {
     for( int i = 0; i < this->words.size(); i++ ) {
-        cout << words.at(i) << " ";
+        cout << words.at(i);
     }
     cout << endl;
+}
+
+string Tweet::getId() {
+    return this->tweet_id;
 }
 
 Tweet::~Tweet() {

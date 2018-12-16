@@ -18,6 +18,7 @@ class Tweet {
         int findCoin(vector<string> coins);
         vector<string> getWords();
         void print();
+        string getId();
         ~Tweet();
 };
 

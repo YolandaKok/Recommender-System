@@ -18,4 +18,6 @@ int readConf(const char filename[], int& k, int& L, int& clusters, int& probes, 
 
 map<string, vector<Tweet*>> readFileRecommend(const char filename[], int& size, int input, int& P, char separator);
 
+void readDictionary(const char filename[], map<string, double>* dictionary, char separator);
+
 #endif
