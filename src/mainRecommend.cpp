@@ -8,6 +8,7 @@
 #include <bits/stdc++.h>
 #include "IOutils.h"
 #include "Sentiment.h"
+#include <unordered_map>
 
 using namespace std;
 
@@ -20,9 +21,10 @@ int main(int argc, char* argv[]) {
     srand(time(NULL));
 
     vector<string> coins = {"ethereum", "bitcoin", "stellar", "tether"};
-    map<string, double> dictionary;
+    unordered_map<string, double> dictionary;
 
     readDictionary("datasets/vader_lexicon.csv", &dictionary, '\t');
+    cout << dictionary[":-d"] << endl;
 
     for(int i = 1; i < argc; i += 2) {
         /* Input File */
@@ -55,12 +57,6 @@ int main(int argc, char* argv[]) {
         user_ids.push_back(it->first);
     }
 
-    cout << user_ids.at(100) << endl;
-    string key = "10943";
-    for( int i = 0; i < tweets_per_user[key].size(); i++ ) {
-        tweets_per_user[key].at(i)->print();
-        cout << tweets_per_user[key].at(i)->getId() << endl;
-    }
     /*for( int i = 0; i < user_ids.size(); i++ ) {
         //cout << user_ids.at(i) << endl;
         //tweets_per_user[user_ids.at(i)].at(0)->print();

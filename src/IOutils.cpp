@@ -20,6 +20,7 @@
 #include <map>
 #include "Tweet.h"
 #include "Point.h"
+#include <unordered_map>
 
 using namespace std;
 /* Read the dataset file */
@@ -193,7 +194,7 @@ map<string, vector<Tweet*>> readFileRecommend(const char filename[], int& size, 
       }
       if(flag) {
 
-        cout << userId << endl;
+        //cout << userId << endl;
 
         points[userId].push_back(tweet);
       }
@@ -207,7 +208,7 @@ map<string, vector<Tweet*>> readFileRecommend(const char filename[], int& size, 
   return points;
 }
 
-void readDictionary(const char filename[], map<string, double>* dictionary, char separator) {
+void readDictionary(const char filename[], unordered_map<string, double>* dictionary, char separator) {
   string line;
   string word;
   ifstream myfile (filename);
