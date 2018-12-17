@@ -16,7 +16,7 @@ class Tweet {
         // getters and setters
         void addWord(string word);
         int findCoin(vector<string> coins);
-        vector<string> getWords();
+        vector<string>& getWords();
         void print();
         string getId();
         ~Tweet();

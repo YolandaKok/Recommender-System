@@ -166,7 +166,8 @@ map<string, vector<Tweet*>> readFileRecommend(const char filename[], int& size, 
     {
       /* Find the metric */
       //cout << line << endl;
-      istringstream iss(line);
+        line = line.substr(0, line.size()-1);
+        istringstream iss(line);
       while(getline(iss, word, separator)) {
         /* do stuff with word */
         /* If it is input small find metric */
@@ -214,7 +215,7 @@ void readCoins(const char filename[], unordered_map<string, int>* coins_queries,
   string word;
   ifstream myfile (filename);
   int flag = 0;
-  int count = 0, countPoint = 0;
+  int count = 1, countPoint = 0;
   string key;
   if (myfile.is_open())
   {

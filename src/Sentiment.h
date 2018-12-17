@@ -9,6 +9,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <unordered_map>
 using namespace std;
 
 class Sentiment {
@@ -18,18 +19,18 @@ class Sentiment {
         vector<double> user_sentiments;
         vector<int> user_sentiments_per_coin;
         // Maybe the dictionary for the sentiments
-        map<string, double> dictionary;
+        unordered_map<string, double> dictionary;
         // Maybe the vector with the coins
-        vector<string> coins;
+        unordered_map<string, int> coins_queries;
         string userId;
         // Tweets for the current user
         vector<Tweet*> tweets;
         string coin;
     public:
         Sentiment();
-        Sentiment(vector<string> coins, map<string, double> dictionary, int dimension, string userId, vector<Tweet*> tweets);
+        Sentiment(unordered_map<string, int> coins_queries, unordered_map<string, double> dictionary, int dimension, string userId, vector<Tweet*> tweets);
         int findCoin(vector<string> coins, string word);
-        vector<double> computeUserSentiment();
+        void computeUserSentiment();
         double normalizeSi(double totalscore, double alpha);
         ~Sentiment();
 };

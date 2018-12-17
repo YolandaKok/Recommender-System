@@ -12,7 +12,7 @@ void Tweet::addWord(string word) {
     this->words.push_back(word);
 }
 
-vector<string> Tweet::getWords() {
+vector<string>& Tweet::getWords() {
     return this->words;
 }
 
