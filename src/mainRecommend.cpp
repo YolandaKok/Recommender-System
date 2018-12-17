@@ -20,11 +20,16 @@ int main(int argc, char* argv[]) {
     int P = 20, size;
     srand(time(NULL));
 
-    vector<string> coins = {"ethereum", "bitcoin", "stellar", "tether"};
+    // Read Dictionary
     unordered_map<string, double> dictionary;
-
     readDictionary("datasets/vader_lexicon.csv", &dictionary, '\t');
-    cout << dictionary[":-d"] << endl;
+
+    // Read Coins
+    unordered_map<string, int> coins_queries;
+    vector<string> coins;
+
+    readCoins("datasets/coins_queries.csv", &coins_queries, &coins, '\t');
+    cout << coins_queries["@monero"] << endl;
 
     for(int i = 1; i < argc; i += 2) {
         /* Input File */

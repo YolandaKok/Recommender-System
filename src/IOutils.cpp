@@ -21,6 +21,7 @@
 #include "Tweet.h"
 #include "Point.h"
 #include <unordered_map>
+#include <algorithm>
 
 using namespace std;
 /* Read the dataset file */
@@ -208,6 +209,45 @@ map<string, vector<Tweet*>> readFileRecommend(const char filename[], int& size, 
   return points;
 }
 
+void readCoins(const char filename[], unordered_map<string, int>* coins_queries, vector<string>* coins, char separator) {
+  string line;
+  string word;
+  ifstream myfile (filename);
+  int flag = 0;
+  int count = 0, countPoint = 0;
+  string key;
+  if (myfile.is_open())
+  {
+    while ( getline (myfile,line, '\n') ) {
+        // replace end of line
+        line = line.substr(0, line.size()-1);
+        istringstream iss(line);
+      while(getline(iss, word, separator)) {
+        /* do stuff with word */
+        /* If it is input small find metric */
+        if(countPoint == 0) {
+          //cout << word << endl;
+          coins->push_back(word);
+          coins_queries->insert ( pair<string, int>(word, count) );
+          //key = word;
+          countPoint++;
+        }
+        else {
+            //cout << word << endl;
+          coins_queries->insert ( pair<string, int>(word,count) );
+          countPoint++;
+        }
+      }
+      coins_queries->insert ( pair<string, int>(word,count) );
+      //cout << word << endl;
+      //cout << word.size() << endl;
+      countPoint = 0;
+      count++;
+    }
+    myfile.close();
+  }
+}
+
 void readDictionary(const char filename[], unordered_map<string, double>* dictionary, char separator) {
   string line;
   string word;
@@ -285,7 +325,7 @@ int readConf(const char filename[], int& k, int& L, int& clusters, int& probes, 
 
   if (myfile.is_open()) {
     while (getline(myfile, line)) {
-      cout << line << endl;
+      //cout << line << endl;
       istringstream iss(line);
       while (iss >> word) {
         /* do stuff with word */
