@@ -80,5 +80,14 @@ int main(int argc, char* argv[]) {
     /* Deallocate memory */
     //for(int i = 0; i < tweets_per_user.size(); i++)
 
+    /* Free memory for the tweets */
+    for( int i = 0; i < user_ids.size(); i++ ) {
+        for( int j = 0; j < tweets_per_user[user_ids.at(i)].size(); j++ ) {
+            delete tweets_per_user[user_ids.at(i)].at(j);
+        }
+    }
+
+    free(inputFile); free(outputFile);
+
     return 1;
 }
