@@ -21,9 +21,14 @@ class Point {
     vector<int> *clusters;
     double nearestDistance;
     double secondNearestDistance;
+    // Save the unrated coins
+    vector<int> modified;
   public:
     Point();
     void addCoord(double coord);
+    void addModified(int index);
+    bool findModified(int index);
+    void printModified();
     /* Get Dimensions */
     double getDimension();
     /* Set Id */
@@ -39,8 +44,10 @@ class Point {
     /* Inner Product between two points */
     double innerProduct(Point *p);
     bool isCentroid();
+    void modifyCoord(int index, double value);
     void setCentroid(bool centroid);
     int getSecondBestCluster();
+    void print();
     void setSecondBestCluster(int second);
     double getR();
     void setR(double R);

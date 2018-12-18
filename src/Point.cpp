@@ -43,6 +43,29 @@ void Point::setInitialCentroid(bool initial) {
     this->initialCentroid = initial;
 }
 
+void Point::modifyCoord(int index, double value) {
+    this->coords.at(index) += value;
+}
+
+void Point::addModified(int index) {
+    this->modified.push_back(index);
+}
+
+bool Point::findModified(int index) {
+    vector<int>::iterator it;
+    it = find (this->modified.begin(), this->modified.end(), index);
+    if (it != this->modified.end())
+        return true;
+    else
+        return false;
+}
+
+void Point::printModified() {
+    for( int i = 0; i < this->modified.size(); i++ ) {
+        cout << this->modified.at(i) << " ";
+    }
+    cout << endl;
+}
 
 int Point::getSecondBestCluster() {
     return this->secondBestCluster;
@@ -68,6 +91,15 @@ void Point::print(string seperator, ofstream& myfile) {
   }
   myfile << "]";
   //cout << endl;
+}
+
+void Point::print() {
+    cout.precision(20);
+    cout << "[ ";
+    for (auto i = coords.begin(); i != coords.end(); ++i){
+        cout << *i << " ";
+    }
+    cout << "]";
 }
 
 /* Get the size of structure in Bytes */

@@ -149,16 +149,16 @@ vector<Point*> readFile(const char filename[], int k, int& size, int input, doub
 }
 
 /* New I/O read using C++ */
-map<string, vector<Tweet*>> readFileRecommend(const char filename[], int& size, int input, int& P, char separator) {
+map<int, vector<Tweet*>> readFileRecommend(const char filename[], int& size, int input, int& P, char separator) {
   string line;
   string word;
   Tweet *tweet;
   //vector<Tweet*> points;
-  map<string, vector<Tweet*>> points;
+  map<int, vector<Tweet*>> points;
   ifstream myfile (filename);
   int flag = 0;
   int count = 0, countPoint = 0;
-  string userId;
+  int userId;
   Point *point;
   if (myfile.is_open())
   {
@@ -178,11 +178,7 @@ map<string, vector<Tweet*>> readFileRecommend(const char filename[], int& size, 
         else {
           flag = 1;
           if(countPoint == 0) {
-            //cout << word << endl;
-              if(count < 10) {
-                  //cout << word << endl;
-              }
-            userId = word;
+            userId = stoi(word);
             countPoint++;
           }
           else if(countPoint == 1) {
