@@ -125,6 +125,8 @@ vector<Point*> LSH::rangeSearch(Point *query, double R, ofstream& output) {
   return points_new;
 }
 
+//TODO: Create a sorted rangeSearch List
+
 void LSH::bucket() {
    this->tables[0]->points_per_bucket();
 }

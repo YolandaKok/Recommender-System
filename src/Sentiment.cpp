@@ -51,9 +51,9 @@ Point* Sentiment::computeUserSentiment() {
         double si = normalizeSi(sum, 15.0);
         // Save the user sentiment
         for( int j = 0; j < coin_indexes.size(); j++ ) {
-            this->point->modifyCoord(coin_indexes.at(j) - 1, si);
             // Save which was modified
             if(!this->point->findModified(coin_indexes.at(j) - 1)) {
+                this->point->modifyCoord(coin_indexes.at(j) - 1, si);
                 this->point->addModified(coin_indexes.at(j) - 1);
             }
         }
@@ -62,7 +62,10 @@ Point* Sentiment::computeUserSentiment() {
     }
     // Compute average and subtract it from a every known sentiment
     //subtractAverage();
-    //for( int i = 0; i < this->dimension; i++ )
+    // Subtract average from the modified
+    this->point->subtractAverage();
+    this->point->computeAverage();
+    this->point->setId(to_string(this->userId));
     return this->point;
 }
 

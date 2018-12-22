@@ -56,6 +56,7 @@ int main(int argc, char* argv[]) {
 
     for(map<int,vector<Tweet*>>::iterator it = tweets_per_user.begin(); it != tweets_per_user.end(); ++it) {
         user_ids.push_back(it->first);
+        cout << it->first << endl;
     }
 
     // Input for Lsh
@@ -71,6 +72,8 @@ int main(int argc, char* argv[]) {
         delete sentiment;
     }
 
+    points.at(2)->print();
+    cout << points.at(2)->getId() << endl;
     // TODO: Recommendation Base Class
     // TODO: Learn about the recommendation type
     // Create LSH Recommendation

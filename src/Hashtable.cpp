@@ -283,6 +283,18 @@ vector<Point*> Hashtable::rangeSearch(Point* query, double R, ofstream& output) 
   return points;
 }
 
+vector<Point*> Hashtable::rangeSearchAll(Point* query) {
+  int hash = hash_for_query(query);
+  vector<string> ids;
+  double distance;
+  vector<Point*> points;
+  for (std::list<Point*>::const_iterator iterator = this->hashtable.at(hash)->begin(), end = this->hashtable.at(hash)->end(); iterator != end; ++iterator) {
+    points.push_back(*iterator);
+  }
+  return points;
+}
+
+
 int Hashtable::structureSize() {
   return sizeof(class Hashtable) + sizeof(list<Point*>*) * size + sizeof(Point*) * input_size + this->f_hash->structureSize();
 }

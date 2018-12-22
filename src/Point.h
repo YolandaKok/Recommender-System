@@ -15,6 +15,7 @@ class Point {
     bool centroid;
     bool initialCentroid;
     int iteration;
+    double average;
     /* R for LSH */
     double R;
     /* List of clusters for the same R */
@@ -28,7 +29,9 @@ class Point {
     void addCoord(double coord);
     void addModified(int index);
     bool findModified(int index);
+    void subtractAverage();
     void printModified();
+    void computeAverage();
     /* Get Dimensions */
     double getDimension();
     /* Set Id */

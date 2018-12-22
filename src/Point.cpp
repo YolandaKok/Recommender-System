@@ -51,6 +51,29 @@ void Point::addModified(int index) {
     this->modified.push_back(index);
 }
 
+void Point::subtractAverage() {
+    double sum = 0.0;
+    // Calculate Sum
+    for( int i = 0; i < this->modified.size(); i++ ) {
+        sum += this->coords.at(this->modified.at(i));
+    }
+    sum /= this->modified.size();
+    // Subtract from the modified
+    for( int i = 0; i < this->modified.size(); i++ ) {
+        this->coords.at(i) -= sum;
+    }
+}
+
+void Point::computeAverage() {
+    double sum = 0.0;
+    // Calculate Sum
+    for( int i = 0; i < this->modified.size(); i++ ) {
+        sum += this->coords.at(this->modified.at(i));
+    }
+    sum /= this->modified.size();
+    this->average = sum;
+}
+
 bool Point::findModified(int index) {
     vector<int>::iterator it;
     it = find (this->modified.begin(), this->modified.end(), index);
