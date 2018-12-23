@@ -283,13 +283,14 @@ vector<Point*> Hashtable::rangeSearch(Point* query, double R, ofstream& output) 
   return points;
 }
 
-vector<Point*> Hashtable::rangeSearchAll(Point* query) {
+vector<tuple<double, Point*>> Hashtable::rangeSearchAll(Point* query) {
   int hash = hash_for_query(query);
   vector<string> ids;
   double distance;
-  vector<Point*> points;
+  vector<tuple<double, Point*>> points;
   for (std::list<Point*>::const_iterator iterator = this->hashtable.at(hash)->begin(), end = this->hashtable.at(hash)->end(); iterator != end; ++iterator) {
-    points.push_back(*iterator);
+    distance = query->cosine_similarity(*iterator);
+    points.push_back(make_tuple(distance, *iterator));
   }
   return points;
 }

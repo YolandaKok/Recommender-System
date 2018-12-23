@@ -59,6 +59,7 @@ class Point {
     double euclidean(Point *p);
     double manhattan(Point *p);
     double cosine(Point *p);
+    double cosine_similarity(Point *p);
     double norm2(Point *p);
     void sumVectors(Point* p);
     void divideVector(int divider);

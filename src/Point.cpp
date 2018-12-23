@@ -218,6 +218,20 @@ double Point::cosine(Point *p) {
   return (1.0 - (this->innerProduct(p) / (norm_x * norm_y)));
 }
 
+/* Cosine distance */
+double Point::cosine_similarity(Point *p) {
+    int i;
+    double result = 0.0;
+    double norm_x = 0.0, norm_y = 0.0;
+    for (i = 0; i < this->coords.size(); i++) {
+        norm_x += this->coords.at(i) * this->coords.at(i);
+        norm_y += p->coords.at(i) * p->coords.at(i);
+    }
+    norm_x = sqrt(norm_x);
+    norm_y = sqrt(norm_y);
+    return (this->innerProduct(p) / (norm_x * norm_y));
+}
+
 /* Destructor of the Class Point */
 Point::~Point() {
   coords.clear();

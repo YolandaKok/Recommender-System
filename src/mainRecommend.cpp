@@ -12,6 +12,9 @@
 
 using namespace std;
 
+random_device rd;
+default_random_engine generator(rd());
+
 int main(int argc, char* argv[]) {
 
     bool validate = false;

@@ -7,6 +7,7 @@
 #include <tuple>
 #include <cmath>
 #include <random>
+#include <algorithm>
 
 using namespace std;
 
@@ -126,6 +127,37 @@ vector<Point*> LSH::rangeSearch(Point *query, double R, ofstream& output) {
 }
 
 //TODO: Create a sorted rangeSearch List
+vector<tuple<double, Point*>> LSH::rangeSearchAll(Point *query) {
+  vector<string> ids;
+  vector<string> ids_new;
+  int flag = 0, i;
+  //vector<Point*> points;
+  //vector<Point*> points_new;
+  vector<tuple<double, Point*>> points;
+  vector<tuple<double, Point*>> points_new;
+
+  // Create a vector of tuples
+
+  for(i = 0; i < this->L; i++) {
+    points = this->tables[i]->rangeSearchAll(query);
+    // Check for double ids into the rangeSearch
+    for(int z = 0; z < points.size(); z++) {
+      for(int j = 0; j < points_new.size(); j++) {
+        if(get<1>(points[z])->getId() == get<1>(points_new[j])->getId()) {
+          flag = 1;
+        }
+      }
+      if(flag == 0)
+        points_new.push_back(points[z]);
+      flag = 0;
+    }
+    points.clear();
+  }
+
+  sort(points_new.begin(), points_new.end());
+
+  return points_new;
+}
 
 void LSH::bucket() {
    this->tables[0]->points_per_bucket();

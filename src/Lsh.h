@@ -18,6 +18,7 @@ class LSH {
     void find_nearest_neighbor(Point *query, ofstream& output, int size, double R);
     void bucket();
     vector<Point*> rangeSearch(Point *query, double R, ofstream& output);
+    vector<tuple<double, Point*>> rangeSearchAll(Point *query);
     int structureSize();
     ~LSH();
 };
