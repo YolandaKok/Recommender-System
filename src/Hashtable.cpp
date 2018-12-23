@@ -290,7 +290,8 @@ vector<tuple<double, Point*>> Hashtable::rangeSearchAll(Point* query) {
   vector<tuple<double, Point*>> points;
   for (std::list<Point*>::const_iterator iterator = this->hashtable.at(hash)->begin(), end = this->hashtable.at(hash)->end(); iterator != end; ++iterator) {
     distance = query->cosine_similarity(*iterator);
-    points.push_back(make_tuple(distance, *iterator));
+    if(!isnan(distance))
+        points.push_back(make_tuple(distance, *iterator));
   }
   return points;
 }

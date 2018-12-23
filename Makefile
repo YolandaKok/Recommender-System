@@ -2,7 +2,7 @@ SRC = src/mainRecommend.cpp src/Tweet.cpp src/IOutils.cpp src/Point.cpp src/Sent
 OBJS1 = main.o IOutils.o Point.o H.o F.o Hashtable.o Lsh.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube_euclidean.o F_hypercube_cosine.o
 OBJS2 = main2.o Hypercube.o IOutils.o Point.o H.o F.o Hashtable.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F_hypercube_euclidean.o F_hypercube_cosine.o
 OBJS3 = mainCluster.o Tweet.o Point.o IOutils.o Clustering.o Initialization.o RandomInit.o KmeansppInit.o Update.o Assignment.o LloydsAssign.o KmeansUpdate.o LshAssign.o Lsh.o Hashtable.o F_euclidean.o H_euclidean.o F_cosine.o H_cosine.o F.o H.o F_hypercube_euclidean.o F_hypercube_cosine.o PAMUpdate.o Hypercube.o
-OBJS4 = mainRecommend.o Tweet.o IOutils.o Point.o Sentiment.o SentimentTest.o Lsh.o Hashtable.o F.o H.o F_euclidean.o F_cosine.o H_euclidean.o H_cosine.o F_hypercube_cosine.o F_hypercube_euclidean.o
+OBJS4 = mainRecommend.o Tweet.o IOutils.o Point.o Sentiment.o SentimentTest.o Lsh.o Hashtable.o F.o H.o F_euclidean.o F_cosine.o H_euclidean.o H_cosine.o F_hypercube_cosine.o F_hypercube_euclidean.o LshRecommend.o Rating.o
 LIBS = -pthread libgtest.a
 INC = -I googletest/googletest \
 			-I googletest/googletest/include \
@@ -85,5 +85,9 @@ Sentiment.o: src/Sentiment.cpp
 	g++ -c -o Sentiment.o src/Sentiment.cpp -std=c++14
 SentimentTest.o: test/SentimentTest.cpp
 	g++ -c -o SentimentTest.o test/SentimentTest.cpp $(INC) -std=c++14
+LshRecommend.o: src/LshRecommend.cpp
+	g++ -c -o LshRecommend.o src/LshRecommend.cpp -std=c++14
+Rating.o: src/Rating.cpp
+	g++ -c -o Rating.o src/Rating.cpp -std=c++14
 clean:
 	rm -f *.o lsh cube cluster recommendation

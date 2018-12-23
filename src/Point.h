@@ -55,6 +55,7 @@ class Point {
     double getR();
     void setR(double R);
     vector<int>* getClusters();
+    double getCoord(int index);
     /* Euclidean distance */
     double euclidean(Point *p);
     double manhattan(Point *p);

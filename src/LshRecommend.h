@@ -8,13 +8,13 @@ using namespace std;
 
 class LshRecommend {
     private:
-        LSH lsh;
+        LSH *lsh;
         vector<Point*> user_points;
     public:
         // Constructor
-        LshRecommend(int L, int size, int k, vector<Point*> points, string lsh_family, int input_size, double dimension, double w, vector<Point*> user_points);
+        LshRecommend(int L, int size, int k, vector<Point*> points, string lsh_family, int input_size, double dimension, double w);
         // Recommend k items
-        vector<vector<int>> getRecommendations();
+        void getRecommendations();
         // Destructor
         ~LshRecommend();
 

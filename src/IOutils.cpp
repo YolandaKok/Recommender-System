@@ -195,14 +195,14 @@ map<int, vector<Tweet*>> readFileRecommend(const char filename[], int& size, int
         //cout << userId << endl;
 
         points[userId].push_back(tweet);
+          count++;
       }
-      count++;
+
       countPoint = 0;
     }
     myfile.close();
   }
-  /*if(input)
-    size = points.size();*/
+  size = count;
   return points;
 }
 

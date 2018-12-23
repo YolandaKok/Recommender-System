@@ -127,7 +127,7 @@ vector<Point*> LSH::rangeSearch(Point *query, double R, ofstream& output) {
 }
 
 //TODO: Create a sorted rangeSearch List
-vector<tuple<double, Point*>> LSH::rangeSearchAll(Point *query) {
+vector<Point*> LSH::rangeSearchAll(Point *query) {
   vector<string> ids;
   vector<string> ids_new;
   int flag = 0, i;
@@ -155,8 +155,13 @@ vector<tuple<double, Point*>> LSH::rangeSearchAll(Point *query) {
   }
 
   sort(points_new.begin(), points_new.end());
+  vector<Point*> users;
+  for(int i = 0; i < points_new.size(); i++) {
+      //cout << get<0>(points_new[i]) << " " << get<1>(points_new[i])->getId() << endl;
+      users.push_back(get<1>(points_new[i]));
+  }
 
-  return points_new;
+  return users;
 }
 
 void LSH::bucket() {

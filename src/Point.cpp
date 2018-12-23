@@ -172,6 +172,9 @@ double Point::euclidean(Point *p) {
   return result;
 }
 
+double Point::getCoord(int index) {
+    return this->coords.at(index);
+}
 
 /* Euclidean distance metric */
 double Point::euclidean_squared(Point *p) {

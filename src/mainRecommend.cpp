@@ -8,6 +8,7 @@
 #include <bits/stdc++.h>
 #include "IOutils.h"
 #include "Sentiment.h"
+#include "LshRecommend.h"
 #include <unordered_map>
 
 using namespace std;
@@ -20,7 +21,9 @@ int main(int argc, char* argv[]) {
     bool validate = false;
     char *inputFile = NULL, *outputFile = NULL;
     // Number of the default Nearest Neighbors
-    int P = 20, size;
+    int P = 20, input_size;
+    int L = 3, k = 8, size;
+    double w = 4.0;
     srand(time(NULL));
 
     // Read Dictionary
@@ -51,7 +54,7 @@ int main(int argc, char* argv[]) {
 
     // Read Input File
     map<int, vector<Tweet*>> tweets_per_user;
-    tweets_per_user = readFileRecommend(inputFile, size, true, P, '\t');
+    tweets_per_user = readFileRecommend(inputFile, input_size, true, P, '\t');
 
     vector<int> user_ids;
     vector<Sentiment*> sentiments;
@@ -59,8 +62,10 @@ int main(int argc, char* argv[]) {
 
     for(map<int,vector<Tweet*>>::iterator it = tweets_per_user.begin(); it != tweets_per_user.end(); ++it) {
         user_ids.push_back(it->first);
-        cout << it->first << endl;
+        //cout << it->first << endl;
     }
+
+    cout << input_size << " input_size" << endl;
 
     // Input for Lsh
     vector<Point*> points;
@@ -75,8 +80,13 @@ int main(int argc, char* argv[]) {
         delete sentiment;
     }
 
+    cout << points.size() << endl;
     points.at(2)->print();
-    cout << points.at(2)->getId() << endl;
+    cout << endl;
+    cout << points.at(2)->getId() << " Id" << endl;
+    LshRecommend *lshRecommend = new LshRecommend(L, size, k, points, "cosine", input_size, points.at(0)->getDimension(), w);
+    lshRecommend->getRecommendations();
+    delete lshRecommend;
     // TODO: Recommendation Base Class
     // TODO: Learn about the recommendation type
     // Create LSH Recommendation
