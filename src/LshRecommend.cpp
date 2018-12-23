@@ -23,12 +23,12 @@ void LshRecommend::getRecommendations() {
 
     vector<Point*> neighbors;
     //neighbors.resize(100);
-    neighbors = this->lsh->rangeSearchAll(user_points.at(1));
+    neighbors = this->lsh->rangeSearchAll(user_points.at(3));
     // For every item create a recommendation using the recommendation filtering algorithm
     //neighbors.resize(20);
     //get<1>(neighbors[1])->getId();
     //neighbors.at(1)->getId();
-    Rating *rating = new Rating(user_points.at(1), neighbors);
+    Rating *rating = new Rating(user_points.at(3), neighbors);
     rating->mainRating();
     delete rating;
 }

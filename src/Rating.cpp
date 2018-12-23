@@ -12,7 +12,13 @@ using namespace std;
 
 Rating::Rating(Point *query, vector<Point*> neighbors) {
     this->query = query;
+    this->query->subtractAverage();
     this->neighbors = neighbors;
+    for( int i = 0; i < neighbors.size(); i++ ) {
+        if(this->query->getId().compare(neighbors.at(i)->getId()) != 0) {
+            neighbors.at(i)->subtractAverage();
+        }
+    }
     this->z = calculateZ();
 }
 

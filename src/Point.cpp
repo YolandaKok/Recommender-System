@@ -52,15 +52,15 @@ void Point::addModified(int index) {
 }
 
 void Point::subtractAverage() {
-    double sum = 0.0;
+    /*double sum = 0.0;
     // Calculate Sum
     for( int i = 0; i < this->modified.size(); i++ ) {
         sum += this->coords.at(this->modified.at(i));
     }
-    sum /= this->modified.size();
+    sum /= this->modified.size();*/
     // Subtract from the modified
     for( int i = 0; i < this->modified.size(); i++ ) {
-        this->coords.at(i) -= sum;
+        this->coords.at(i) -= this->average;
     }
 }
 

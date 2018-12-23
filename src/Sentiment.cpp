@@ -63,7 +63,7 @@ Point* Sentiment::computeUserSentiment() {
     // Compute average and subtract it from a every known sentiment
     //subtractAverage();
     // Subtract average from the modified
-    this->point->subtractAverage();
+    //this->point->subtractAverage();
     this->point->computeAverage();
     this->point->setId(to_string(this->userId));
     return this->point;
