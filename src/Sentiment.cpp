@@ -7,6 +7,7 @@
 #include <cmath>
 #include <unordered_map>
 #include "Point.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -36,7 +37,7 @@ Point* Sentiment::computeUserSentiment() {
     vector<int> coin_indexes;
     vector<string> words;
     double sum = 0.0;
-    int count = 0;
+    int count = 0, empty_tweets = 0;
     //point = new Point();
     /* Save which one changes */
     for( int i = 0; i < tweets.size(); i++ ) {
@@ -47,14 +48,20 @@ Point* Sentiment::computeUserSentiment() {
             }
             sum += dictionary[words.at(j)];
         }
-        // Normalization
-        double si = normalizeSi(sum, 15.0);
-        // Save the user sentiment
-        for( int j = 0; j < coin_indexes.size(); j++ ) {
-            // Save which was modified
-            if(!this->point->findModified(coin_indexes.at(j) - 1)) {
-                this->point->modifyCoord(coin_indexes.at(j) - 1, si);
-                this->point->addModified(coin_indexes.at(j) - 1);
+
+        if(sum == 0.0) {
+            empty_tweets++;
+        }
+        else {
+            // Normalization
+            double si = normalizeSi(sum, 15.0);
+            // Save the user sentiment
+            for( int j = 0; j < coin_indexes.size(); j++ ) {
+                // Save which was modified
+                if(!this->point->findModified(coin_indexes.at(j) - 1)) {
+                    this->point->modifyCoord(coin_indexes.at(j) - 1, si);
+                    this->point->addModified(coin_indexes.at(j) - 1);
+                }
             }
         }
         sum = 0.0;
@@ -66,7 +73,17 @@ Point* Sentiment::computeUserSentiment() {
     //this->point->subtractAverage();
     this->point->computeAverage();
     this->point->setId(to_string(this->userId));
-    return this->point;
+    if(empty_tweets == tweets.size()) {
+        //this->point->print();
+        delete this->point;
+        for(int i = 0; i < tweets.size(); i++) {
+            delete tweets.at(i);
+        }
+        return nullptr;
+    }
+    else {
+        return this->point;
+    }
 }
 
 void Sentiment::subtractAverage() {

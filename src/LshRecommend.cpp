@@ -8,29 +8,38 @@
 using namespace std;
 
 LshRecommend::LshRecommend(int L, int size, int k, vector<Point *> points, string lsh_family, int input_size,
-                           double dimension, double w) {
+                           double dimension, double w, int P) {
 
     this->lsh = new LSH(L, size, k, points, lsh_family, input_size, dimension, w);
     this->user_points = points;
+    this->P = P;
 }
 
 void LshRecommend::getRecommendations() {
     //this->lsh->bucket();
-    /*for(int i = 0; i < 4; i++) {
-        cout << user_points.at(i)->getId() << " user_id" << endl;
-        cout << this->lsh->rangeSearchAll(user_points.at(i)).size() << " LshRecommend" << endl;
-    }*/
-
     vector<Point*> neighbors;
-    //neighbors.resize(100);
-    neighbors = this->lsh->rangeSearchAll(user_points.at(3));
-    // For every item create a recommendation using the recommendation filtering algorithm
-    //neighbors.resize(20);
-    //get<1>(neighbors[1])->getId();
-    //neighbors.at(1)->getId();
-    Rating *rating = new Rating(user_points.at(3), neighbors);
-    rating->mainRating();
-    delete rating;
+    int count = 0;
+    for(int i = 0; i < this->user_points.size(); i++) {
+        neighbors = this->lsh->rangeSearchAll(user_points.at(i));
+        // Find if neighbors are > P
+        if(neighbors.size() > this->P) {
+            // truncate some results from the vector
+            neighbors.resize(P);
+            // cout << neighbors.at(0)->getId() << " neighbor id" << endl;
+        }
+        cout << neighbors.size() << " neighbors" << endl;
+        if(neighbors.size() == 0) {
+            count++;
+        }
+        else {
+            Rating *rating = new Rating(user_points.at(i), neighbors);
+            rating->mainRating();
+            delete rating;
+        }
+    }
+    cout << count << " zeros" << endl;
+    // For every user recommend k coins
+
 }
 
 LshRecommend::~LshRecommend() {

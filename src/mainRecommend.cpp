@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
     char *inputFile = NULL, *outputFile = NULL;
     // Number of the default Nearest Neighbors
     int P = 20, input_size;
-    int L = 3, k = 8, size;
+    int L = 10, k = 15, size;
     double w = 4.0;
     srand(time(NULL));
 
@@ -62,7 +62,6 @@ int main(int argc, char* argv[]) {
 
     for(map<int,vector<Tweet*>>::iterator it = tweets_per_user.begin(); it != tweets_per_user.end(); ++it) {
         user_ids.push_back(it->first);
-        //cout << it->first << endl;
     }
 
     cout << input_size << " input_size" << endl;
@@ -74,17 +73,21 @@ int main(int argc, char* argv[]) {
     for( int i = 0; i < user_ids.size(); i++ ) {
         sentiment = new Sentiment(coins_queries, dictionary, 100, user_ids.at(i), tweets_per_user[user_ids.at(i)]);
         point = sentiment->computeUserSentiment();
-        //point->print();
-        points.push_back(point);
-        //sentiments.push_back(sentiment);
+        if(point == nullptr) {
+            // erase user
+            user_ids.erase (user_ids.begin() + i);
+        }
+        else {
+            points.push_back(point);
+        }
         delete sentiment;
     }
 
     cout << points.size() << endl;
-    points.at(2)->print();
+    points.at(9)->print();
     cout << endl;
-    cout << points.at(2)->getId() << " Id" << endl;
-    LshRecommend *lshRecommend = new LshRecommend(L, size, k, points, "cosine", input_size, points.at(0)->getDimension(), w);
+    cout << points.at(9)->getId() << " Id" << endl;
+    LshRecommend *lshRecommend = new LshRecommend(L, size, k, points, "cosine", input_size, points.at(0)->getDimension(), w, P);
     lshRecommend->getRecommendations();
     delete lshRecommend;
     // TODO: Recommendation Base Class

@@ -8,6 +8,7 @@
 #include <tuple>
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 Rating::Rating(Point *query, vector<Point*> neighbors) {
@@ -38,15 +39,31 @@ void Rating::mainRating() {
     // Sum of the similarities
     double sum = 0.0;
     vector<double> estimated_ratings;
+    Point *point = new Point();
+    vector<tuple<double, int>> coin_rating;
     for(int j = 0; j < this->neighbors.at(0)->getDimension(); j++ ) {
         for (int i = 0; i < this->neighbors.size(); i++) {
             sum += ratingForItem(this->neighbors.at(i), j, i);
         }
         sum = sum * this->z;
-        cout << sum << endl;
+        //cout << sum << endl;
+        point->setId(this->query->getId());
+        point->addCoord(sum);
         estimated_ratings.push_back(sum);
+        if(this->query->findModified(j) == 0) {
+            coin_rating.push_back(make_tuple(sum, j));
+        }
         sum = 0.0;
     }
+    sort(coin_rating.begin(), coin_rating.end());
+    for(int i = 0; i < 5; i++) {
+        cout << get<1>(coin_rating.at(i)) << " coin";
+    }
+    cout << endl;
+    // Estimated Ratings for every coin
+    //point->print();
+    // From query find the modified and exclude them from the results
+
 }
 
 double Rating::ratingForItem(Point *user, int coin, int user_index) {
