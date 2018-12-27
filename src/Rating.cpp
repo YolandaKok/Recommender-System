@@ -9,6 +9,7 @@
 #include <cmath>
 #include <iostream>
 #include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
 
 Rating::Rating(Point *query, vector<Point*> neighbors) {
@@ -35,12 +36,13 @@ double Rating::calculateZ() {
     return 1 / sum;
 }
 
-void Rating::mainRating() {
+vector<int> Rating::mainRating() {
     // Sum of the similarities
     double sum = 0.0;
     vector<double> estimated_ratings;
     Point *point = new Point();
     vector<tuple<double, int>> coin_rating;
+    vector<int> recommended_coins;
     for(int j = 0; j < this->neighbors.at(0)->getDimension(); j++ ) {
         for (int i = 0; i < this->neighbors.size(); i++) {
             sum += ratingForItem(this->neighbors.at(i), j, i);
@@ -55,15 +57,24 @@ void Rating::mainRating() {
         }
         sum = 0.0;
     }
-    sort(coin_rating.begin(), coin_rating.end());
+    sort(coin_rating.begin(), coin_rating.end(), sortdesc);
+    cout << "lala" << endl;
     for(int i = 0; i < 5; i++) {
-        cout << get<1>(coin_rating.at(i)) << " coin";
+        //cout << get<0>(coin_rating.at(i)) << endl;
+        cout << get<1>(coin_rating.at(i)) << " coin" << endl;
+        recommended_coins.push_back(get<1>(coin_rating.at(i)));
     }
+    cout << "lala" << endl;
     cout << endl;
     // Estimated Ratings for every coin
     //point->print();
     // From query find the modified and exclude them from the results
+    return recommended_coins;
+}
 
+// by first element of tuples in descending order
+bool Rating::sortdesc(const tuple<double, int>& a, const tuple<double, int>& b) {
+    return (get<0>(a) > get<0>(b));
 }
 
 double Rating::ratingForItem(Point *user, int coin, int user_index) {

@@ -15,7 +15,7 @@ class LshRecommend {
         // Constructor
         LshRecommend(int L, int size, int k, vector<Point*> points, string lsh_family, int input_size, double dimension, double w, int P);
         // Recommend k items
-        void getRecommendations();
+        vector<tuple<string, vector<string>>> getRecommendations(vector<string>& coin_names);
         // Destructor
         ~LshRecommend();
 

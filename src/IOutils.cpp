@@ -206,7 +206,7 @@ map<int, vector<Tweet*>> readFileRecommend(const char filename[], int& size, int
   return points;
 }
 
-void readCoins(const char filename[], unordered_map<string, int>* coins_queries, vector<string>* coins, char separator) {
+void readCoins(const char filename[], unordered_map<string, int>* coins_queries, vector<string>* coins, vector<string> *coin_names, char separator) {
   string line;
   string word;
   ifstream myfile (filename);
@@ -226,7 +226,7 @@ void readCoins(const char filename[], unordered_map<string, int>* coins_queries,
           //cout << word << endl;
           coins->push_back(word);
           coins_queries->insert ( pair<string, int>(word, count) );
-          //key = word;
+          coin_names->push_back(word);
           countPoint++;
         }
         else {

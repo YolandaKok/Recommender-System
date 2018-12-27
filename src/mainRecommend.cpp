@@ -34,7 +34,12 @@ int main(int argc, char* argv[]) {
     unordered_map<string, int> coins_queries;
     vector<string> coins;
 
-    readCoins("datasets/coins_queries.csv", &coins_queries, &coins, '\t');
+    vector<string> coin_names;
+    readCoins("datasets/coins_queries.csv", &coins_queries, &coins, &coin_names, '\t');
+
+    for(int i = 0; i < coin_names.size(); i++) {
+        cout << coin_names.at(i) << endl;
+    }
 
     for(int i = 1; i < argc; i += 2) {
         /* Input File */
@@ -87,9 +92,20 @@ int main(int argc, char* argv[]) {
     points.at(9)->print();
     cout << endl;
     cout << points.at(9)->getId() << " Id" << endl;
+    vector<tuple<string, vector<string>>> coins_per_user;
     LshRecommend *lshRecommend = new LshRecommend(L, size, k, points, "cosine", input_size, points.at(0)->getDimension(), w, P);
-    lshRecommend->getRecommendations();
+    coins_per_user = lshRecommend->getRecommendations(coin_names);
     delete lshRecommend;
+
+    for(int i = 0; i < coins_per_user.size(); i++) {
+        cout << "<u" << get<0>(coins_per_user.at(i)) << ">: ";
+        vector<string> coins_recommendations = get<1>(coins_per_user.at(i));
+        for(int j = 0; j < coins_recommendations.size(); j++) {
+            cout << coins_recommendations.at(j) << " ";
+        }
+        cout << endl;
+    }
+
     // TODO: Recommendation Base Class
     // TODO: Learn about the recommendation type
     // Create LSH Recommendation
