@@ -103,9 +103,11 @@ int main(int argc, char* argv[]) {
     vector<string> initialization = {"random_selection", "k-means++"};
     vector<string> assignment = {"Lloyds", "RangeLSH", "RangeHypercube"};
     vector<string> update = {"k-means", "PAM"};
+    vector<tuple<string, vector<string>>> coins_per_user;
     ClusterRecommend *clusterRecommend = new ClusterRecommend(points, P, initialization.at(0), assignment.at(0), update.at(0), k, L,
             "euclidean", points.size(), probes, w);
-
+    coins_per_user = clusterRecommend->getRecommendations(coin_names);
+    clusterRecommend->print(outputFile);
     delete clusterRecommend;
 
     /* Free memory for the sentiments */
