@@ -217,8 +217,8 @@ vector<double> Clustering::Silhouette() {
             }
             second_distances.clear();
         }
-        //cout << "Cluster " << k << " Silhouette" << endl;
-        //cout << (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra) << endl;
+        cout << "Cluster " << k << " Silhouette" << endl;
+        cout << (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra) << endl;
         cluster_si = (averageNearest1 - averageIntra) / max(averageNearest1, averageIntra);
         if( !isnan(cluster_si) ) {
             si.push_back((averageNearest1 - averageIntra) / max(averageNearest1, averageIntra) );
@@ -233,7 +233,7 @@ vector<double> Clustering::Silhouette() {
     }
 
     si.push_back(average / clusters.size());
-    //cout << "stotal " << average / clusters.size() << endl;
+    cout << "stotal " << average / clusters.size() << endl;
 
     return si;
 }

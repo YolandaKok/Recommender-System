@@ -9,11 +9,14 @@
 #include "IOutils.h"
 #include "Sentiment.h"
 #include "LshRecommend.h"
+#include "ClusterRecommend.h"
 #include <unordered_map>
 
 using namespace std;
 
 random_device rd;
+mt19937 gen(rd());
+
 default_random_engine generator(rd());
 
 int main(int argc, char* argv[]) {
@@ -88,19 +91,22 @@ int main(int argc, char* argv[]) {
         delete sentiment;
     }
 
-    cout << points.size() << endl;
+    /*cout << points.size() << endl;
     vector<tuple<string, vector<string>>> coins_per_user;
     LshRecommend *lshRecommend = new LshRecommend(L, size, k, points, "cosine", input_size, points.at(0)->getDimension(), w, P);
     coins_per_user = lshRecommend->getRecommendations(coin_names);
     lshRecommend->print(outputFile);
-    delete lshRecommend;
+    delete lshRecommend;*/
 
+    // Recommendation through clustering
+    int probes = 20;
+    vector<string> initialization = {"random_selection", "k-means++"};
+    vector<string> assignment = {"Lloyds", "RangeLSH", "RangeHypercube"};
+    vector<string> update = {"k-means", "PAM"};
+    ClusterRecommend *clusterRecommend = new ClusterRecommend(points, P, initialization.at(0), assignment.at(0), update.at(0), k, L,
+            "euclidean", points.size(), probes, w);
 
-
-    // TODO: Recommendation Base Class
-    // TODO: Learn about the recommendation type
-    // Create LSH Recommendation
-    // Create Clustering recommendation using euclidean and k-means for users
+    delete clusterRecommend;
 
     /* Free memory for the sentiments */
     for( int i = 0; i < points.size(); i++ ) {
