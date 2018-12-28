@@ -89,22 +89,13 @@ int main(int argc, char* argv[]) {
     }
 
     cout << points.size() << endl;
-    points.at(9)->print();
-    cout << endl;
-    cout << points.at(9)->getId() << " Id" << endl;
     vector<tuple<string, vector<string>>> coins_per_user;
     LshRecommend *lshRecommend = new LshRecommend(L, size, k, points, "cosine", input_size, points.at(0)->getDimension(), w, P);
     coins_per_user = lshRecommend->getRecommendations(coin_names);
+    lshRecommend->print(outputFile);
     delete lshRecommend;
 
-    for(int i = 0; i < coins_per_user.size(); i++) {
-        cout << "<u" << get<0>(coins_per_user.at(i)) << ">: ";
-        vector<string> coins_recommendations = get<1>(coins_per_user.at(i));
-        for(int j = 0; j < coins_recommendations.size(); j++) {
-            cout << coins_recommendations.at(j) << " ";
-        }
-        cout << endl;
-    }
+
 
     // TODO: Recommendation Base Class
     // TODO: Learn about the recommendation type

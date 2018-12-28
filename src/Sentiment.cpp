@@ -42,7 +42,7 @@ Point* Sentiment::computeUserSentiment() {
     /* Save which one changes */
     for( int i = 0; i < tweets.size(); i++ ) {
         words = this->tweets.at(i)->getWords();
-        for( int j = 0; j < this->tweets.at(i)->getWords().size(); j++ ) {
+        for( int j = 0; j < words.size(); j++ ) {
             if(this->coins_queries[words.at(j)] != 0) {
                 coin_indexes.push_back(this->coins_queries[words.at(j)]);
             }

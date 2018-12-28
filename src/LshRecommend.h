@@ -3,6 +3,7 @@
 #include "Lsh.h"
 #include <vector>
 #include "Point.h"
+#include <string>
 
 using namespace std;
 
@@ -10,12 +11,15 @@ class LshRecommend {
     private:
         LSH *lsh;
         vector<Point*> user_points;
+        vector<tuple<string, vector<string>>> coins_per_user;
         int P;
+        double total_time;
     public:
         // Constructor
         LshRecommend(int L, int size, int k, vector<Point*> points, string lsh_family, int input_size, double dimension, double w, int P);
         // Recommend k items
         vector<tuple<string, vector<string>>> getRecommendations(vector<string>& coin_names);
+        void print(string outputFile);
         // Destructor
         ~LshRecommend();
 
