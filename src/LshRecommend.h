@@ -16,10 +16,13 @@ class LshRecommend {
         double total_time;
     public:
         // Constructor
-        LshRecommend(int L, int size, int k, vector<Point*> points, string lsh_family, int input_size, double dimension, double w, int P);
+        LshRecommend(int L, int size, int k, vector<Point*> points, string lsh_family, int input_size, double dimension,
+                double w, int P);
+        LshRecommend(int L, int size, int k, vector<Point *> points, string lsh_family, int input_size,
+                               double dimension, double w, int P, vector<Point *> queries);
         // Recommend k items
-        vector<tuple<string, vector<string>>> getRecommendations(vector<string>& coin_names);
-        void print(string outputFile);
+        vector<tuple<string, vector<string>>> getRecommendations(vector<string>& coin_names, int num_of_coins);
+        void print(string outputFile, string exercise);
         // Destructor
         ~LshRecommend();
 

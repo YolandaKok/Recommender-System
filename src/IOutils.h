@@ -22,5 +22,6 @@ map<int, vector<Tweet*>> readFileRecommend(const char filename[], int& size, int
 void readDictionary(const char filename[], unordered_map<string, double>* dictionary, char separator);
 
 void readCoins(const char filename[], unordered_map<string, int>* coins_queries, vector<string>* coins, vector<string> *coin_names, char separator);
+map<string, Tweet*> readFileRecommendMap(const char filename[], int& size, int input, int& P, char separator);
 
 #endif

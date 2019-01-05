@@ -36,7 +36,7 @@ double Rating::calculateZ() {
     return 1 / sum;
 }
 
-vector<int> Rating::mainRating() {
+vector<int> Rating::mainRating(int coins) {
     // Sum of the similarities
     double sum = 0.0;
     vector<double> estimated_ratings;
@@ -58,14 +58,13 @@ vector<int> Rating::mainRating() {
         sum = 0.0;
     }
     sort(coin_rating.begin(), coin_rating.end(), sortdesc);
-    cout << "lala" << endl;
-    for(int i = 0; i < 5; i++) {
+    for(int i = 0; i < coins; i++) {
         //cout << get<0>(coin_rating.at(i)) << endl;
         cout << get<1>(coin_rating.at(i)) << " coin" << endl;
         recommended_coins.push_back(get<1>(coin_rating.at(i)));
     }
-    cout << "lala" << endl;
-    cout << endl;
+    // cout << "lala" << endl;
+    // cout << endl;
     // Estimated Ratings for every coin
     //point->print();
     // From query find the modified and exclude them from the results

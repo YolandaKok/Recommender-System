@@ -21,7 +21,7 @@ class Rating {
         // Calculate Rating for i item
         double ratingForItem(Point *user, int coin, int user_index);
         // Main Rating
-        vector<int> mainRating();
+        vector<int> mainRating(int coins);
         static bool sortdesc(const tuple<double, int>& a, const tuple<double, int>& b);
         // Find the k most rated coins
         ~Rating();

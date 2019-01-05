@@ -29,7 +29,7 @@ ClusterRecommend::ClusterRecommend(vector<Point*> dataset, int P, string init, s
     }
 }
 
-vector<tuple<string, vector<string>>> ClusterRecommend::getRecommendations(vector<string>& coin_names) {
+vector<tuple<string, vector<string>>> ClusterRecommend::getRecommendations(vector<string>& coin_names, int num_of_coins) {
     vector<Point*> neighbors;
     vector<string> coins;
     vector<int> coins_indexes;
@@ -41,7 +41,7 @@ vector<tuple<string, vector<string>>> ClusterRecommend::getRecommendations(vecto
         //cout << which_cluster[this->points.at(i)->getId()] << endl;
         neighbors = this->clusters.at(which_cluster[this->points.at(i)->getId()]);
         Rating *rating = new Rating(points.at(i), neighbors);
-        coins_indexes = rating->mainRating();
+        coins_indexes = rating->mainRating(num_of_coins);
         for(int j = 0; j < coins_indexes.size(); j++) {
             coins.push_back(coin_names.at(coins_indexes.at(j)));
         }

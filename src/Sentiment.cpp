@@ -34,26 +34,18 @@ Sentiment::Sentiment(unordered_map<string, int> coins_queries, unordered_map<str
 
 // Constructor for tweets
 Sentiment::Sentiment( unordered_map<string, int>& coins_queries, unordered_map<string, double>& dictionary,
-        int dimension, vector<vector<Point*>>& clusters ) {
-    this->clusters = clusters;
+        int dimension, vector<Point*> input ) {
+    //this->clusters = clusters;
     this->dictionary = dictionary;
     this->coins_queries = coins_queries;
+    this->input = input;
 }
 
-vector<Point*> Sentiment::computeTweetSentiment(map<string, Tweet*>& map_tweets, map<string,int>& which_cluster, vector<Point*> input) {
+void Sentiment::computeTweetSentiment(map<string, Tweet*> map_tweets, map<string,int>& which_cluster, vector<Point*> *output) {
     // Keep all the sentiments for a cluster for every coin
     // For every Cluster Create a vector
     vector<int> coin_indexes;
-    vector<Point*> output;
-
-    Point *point;
-    for( int i = 0; i < 200; i++ ) {
-        point = new Point();
-        for( int j = 0; j < 100; j++ ) {
-            point->addCoord(0.0);
-        }
-        output.push_back(point);
-    }
+    //vector<Point*> output;
     // Compute cluster Sentiment
     int cluster;
     vector<string> words;
@@ -77,15 +69,16 @@ vector<Point*> Sentiment::computeTweetSentiment(map<string, Tweet*>& map_tweets,
         // Save the user sentiment
         for( int j = 0; j < coin_indexes.size(); j++ ) {
             // Save which was modified
-            if(!output.at(cluster)->findModified(coin_indexes.at(j) - 1)) {
-                output.at(cluster)->modifyCoord(coin_indexes.at(j) - 1, si);
-                output.at(cluster)->addModified(coin_indexes.at(j) - 1);
+            if(!output->at(cluster)->findModified(coin_indexes.at(j) - 1)) {
+                output->at(cluster)->modifyCoord(coin_indexes.at(j) - 1, si);
+                output->at(cluster)->addModified(coin_indexes.at(j) - 1);
             }
         }
         sum = 0.0;
         coin_indexes.clear();
     }
-    return output;
+
+    //return output;
 }
 
 /* Return a point */

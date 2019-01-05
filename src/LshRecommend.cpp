@@ -15,7 +15,16 @@ LshRecommend::LshRecommend(int L, int size, int k, vector<Point *> points, strin
     this->P = P;
 }
 
-vector<tuple<string, vector<string>>> LshRecommend::getRecommendations(vector<string>& coin_names) {
+// Constructor for different query points
+
+LshRecommend::LshRecommend(int L, int size, int k, vector<Point *> points, string lsh_family, int input_size,
+                           double dimension, double w, int P, vector<Point *> queries) {
+    this->lsh = new LSH(L, size, k, points, lsh_family, input_size, dimension, w);
+    this->user_points = queries;
+    this->P = P;
+}
+
+vector<tuple<string, vector<string>>> LshRecommend::getRecommendations(vector<string>& coin_names, int num_of_coins) {
     //this->lsh->bucket();
     clock_t begin_time = clock();
     vector<Point*> neighbors;
@@ -37,7 +46,7 @@ vector<tuple<string, vector<string>>> LshRecommend::getRecommendations(vector<st
         }
         else {
             Rating *rating = new Rating(user_points.at(i), neighbors);
-            coins_indexes = rating->mainRating();
+            coins_indexes = rating->mainRating(num_of_coins);
             for(int j = 0; j < coins_indexes.size(); j++) {
                 coins.push_back(coin_names.at(coins_indexes.at(j)));
             }
@@ -52,11 +61,11 @@ vector<tuple<string, vector<string>>> LshRecommend::getRecommendations(vector<st
     return this->coins_per_user;
 }
 
-void LshRecommend::print(string outputFile) {
+void LshRecommend::print(string outputFile, string exercise) {
     ofstream myfile;
     myfile.open(outputFile);
     myfile << "Cosine Lsh" << endl;
-    myfile << "1A" << endl;
+    myfile << exercise << endl;
     for( int i = 0; i < this->coins_per_user.size(); i++ ) {
         myfile << "<u" << get<0>(coins_per_user.at(i)) << ">: ";
         vector<string> coins_recommendations = get<1>(coins_per_user.at(i));

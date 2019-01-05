@@ -63,8 +63,10 @@ int main(int argc, char* argv[]) {
 
     // Read Input File
     map<int, vector<Tweet*>> tweets_per_user;
-    map<string, Tweet*> tweets;
+    map<string, Tweet*> tweets, tweets1;
     tweets_per_user = readFileRecommend(inputFile, input_size, true, P, '\t', &tweets);
+
+    tweets1 = readFileRecommendMap(inputFile, input_size, true, P, '\t');
 
     //cout << tweets["3526"] << "tweet" << endl;
     /* vector<string> words = tweets["b"]->getWords();
@@ -82,23 +84,23 @@ int main(int argc, char* argv[]) {
     cout << input_size << " input_size" << endl;
 
     // Input for Lsh
-    /* vector<Point*> points;
-    Point *point;
+    vector<Point*> users;
+    Point *user;
 
     for( int i = 0; i < user_ids.size(); i++ ) {
         sentiment = new Sentiment(coins_queries, dictionary, 100, user_ids.at(i), tweets_per_user[user_ids.at(i)]);
-        point = sentiment->computeUserSentiment();
-        if(point == nullptr) {
+        user = sentiment->computeUserSentiment();
+        if(user == nullptr) {
             user_ids.erase (user_ids.begin() + i);
         }
         else {
-            points.push_back(point);
+            users.push_back(user);
         }
         delete sentiment;
-    } */
+    }
 
-    /*cout << points.size() << endl;
-    vector<tuple<string, vector<string>>> coins_per_user;
+    cout << users.size() << endl;
+    /* vector<tuple<string, vector<string>>> coins_per_user;
     LshRecommend *lshRecommend = new LshRecommend(L, size, k, points, "cosine", input_size, points.at(0)->getDimension(), w, P);
     coins_per_user = lshRecommend->getRecommendations(coin_names);
     lshRecommend->print(outputFile);
@@ -116,32 +118,52 @@ int main(int argc, char* argv[]) {
     clusterRecommend->print(outputFile);
     delete clusterRecommend;*/
 
+
+
     /* Read tweets from the second assignment */
     char sep = ',';
     vector<Point*> input;
     input = readFile("datasets/twitter_dataset_small_v2.csv", k, size, 1, R, metric, sep);
 
     cout << input.size() << endl;
-    /* Create ci vectors from clusters */
     int clusters = 200;
     Clustering *tweetsClustering;
     tweetsClustering = new Clustering(clusters, input, initialization.at(0), assignment.at(0), update.at(0), k, L, metric, size, probes, w);
     tweetsClustering->findClusters();
-    vector<vector<Point*>> final_clusters = tweetsClustering->getClusters();
+    //vector<vector<Point*>> final_clusters = tweetsClustering->getClusters();
     map<string,int> which_cluster = tweetsClustering->getWhichCluster();
+    delete tweetsClustering;
+
+    vector<Point*> output;
+    Point *point;
+    for( int i = 0; i < 200; i++ ) {
+        point = new Point();
+        for( int j = 0; j < 100; j++ ) {
+            point->addCoord(0.0);
+        }
+        output.push_back(point);
+    }
+
     // Compute Sentiments for every cluster
-    vector<Point*> sentiments_clusters;
-    Sentiment *tweetsSentiment = new Sentiment(coins_queries, dictionary, 100, final_clusters);
-    sentiments_clusters = tweetsSentiment->computeTweetSentiment(tweets, which_cluster, input);
+    //vector<Point*> sentiments_clusters;
+    Sentiment *tweetsSentiment = new Sentiment(coins_queries, dictionary, 100, input);
+    tweetsSentiment->computeTweetSentiment(tweets1, which_cluster, &output);
     delete tweetsSentiment;
     //vector<double> si = tweetsClustering->Silhouette();
     //cout << "Silhouette hoho " << si.at(si.size() - 1) << endl;
     //clustering->print(si, outputFile, myfile, true);
-    delete tweetsClustering;
-
-    for( int i = 0; i < sentiments_clusters.size(); i++ ) {
-        sentiments_clusters.at(i)->print();
+    for( int i = 0; i < output.size(); i++ ) {
+        output.at(i)->print();
     }
+
+    /* LSH using the cluster users - 1B */
+    vector<tuple<string, vector<string>>> coins_per_user;
+    int size1;
+    LshRecommend *lshRecommend = new LshRecommend(L, size1, k, output, "cosine", output.size(), output.at(0)->getDimension(), w, P, users);
+    coins_per_user = lshRecommend->getRecommendations(coin_names, 2);
+    lshRecommend->print(outputFile, "1B");
+    delete lshRecommend;
+
 
     /* Free memory for the tweets */
     for( int i = 0; i < user_ids.size(); i++ ) {

@@ -194,8 +194,6 @@ map<int, vector<Tweet*>> readFileRecommend(const char filename[], int& size, int
         points[userId].push_back(tweet);
         //tweets[tweet->getId()] = tweet;
         tweets->insert (pair<string,Tweet*>(tweet->getId(),tweet));
-        if(count == 4)
-            cout << "tweet false " << tweet->getId() << endl;
         count++;
       }
       countPoint = 0;
@@ -204,6 +202,62 @@ map<int, vector<Tweet*>> readFileRecommend(const char filename[], int& size, int
   }
   size = count;
   return points;
+}
+
+
+map<string, Tweet*> readFileRecommendMap(const char filename[], int& size, int input, int& P, char separator) {
+    string line;
+    string word;
+    Tweet *tweet;
+    //vector<Tweet*> points;
+    map<string, Tweet*> points;
+    ifstream myfile (filename);
+    int flag = 0;
+    int count = 0, countPoint = 0;
+    int userId;
+    Point *point;
+    if (myfile.is_open())
+    {
+        while ( getline (myfile,line, '\n') )
+        {
+            /* Find the metric */
+            //cout << line << endl;
+            line = line.substr(0, line.size()-1);
+            istringstream iss(line);
+            while(getline(iss, word, separator)) {
+                /* do stuff with word */
+                /* If it is input small find metric */
+                if(word.compare("P:") == 0) {
+                    iss >> word;
+                    P = stoi(word);
+                }
+                else {
+                    flag = 1;
+                    if(countPoint == 0) {
+                        userId = stoi(word);
+                        countPoint++;
+                    }
+                    else if(countPoint == 1) {
+                        tweet = new Tweet(word);
+                        countPoint++;
+                    }
+                    else {
+                        tweet->addWord(word);
+                    }
+                }
+            }
+            if(flag) {
+                //points[userId].push_back(tweet);
+                //tweets[tweet->getId()] = tweet;
+                points.insert (pair<string,Tweet*>(tweet->getId(),tweet));
+                count++;
+            }
+            countPoint = 0;
+        }
+        myfile.close();
+    }
+    size = count;
+    return points;
 }
 
 void readCoins(const char filename[], unordered_map<string, int>* coins_queries, vector<string>* coins, vector<string> *coin_names, char separator) {
