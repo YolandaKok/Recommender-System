@@ -41,10 +41,7 @@ int main(int argc, char* argv[]) {
     vector<string> coin_names;
     readCoins("datasets/coins_queries.csv", &coins_queries, &coins, &coin_names, '\t');
 
-    /*for(int i = 0; i < coin_names.size(); i++) {
-        cout << coin_names.at(i) << endl;
-    }*/
-
+    /* Read Arguments */
     for(int i = 1; i < argc; i += 2) {
         /* Input File */
         if(!strcmp(argv[i], "-d")) {
@@ -68,11 +65,6 @@ int main(int argc, char* argv[]) {
 
     tweets1 = readFileRecommendMap(inputFile, input_size, true, P, '\t');
 
-    //cout << tweets["3526"] << "tweet" << endl;
-    /* vector<string> words = tweets["b"]->getWords();
-    for(int i = 0; i < words.size(); i++)
-        cout << words.at(i) << endl; */
-
     vector<int> user_ids;
     vector<Sentiment*> sentiments;
     Sentiment *sentiment;
@@ -80,8 +72,6 @@ int main(int argc, char* argv[]) {
     for(map<int,vector<Tweet*>>::iterator it = tweets_per_user.begin(); it != tweets_per_user.end(); ++it) {
         user_ids.push_back(it->first);
     }
-
-    cout << input_size << " input_size" << endl;
 
     // Input for Lsh
     vector<Point*> users;
@@ -152,18 +142,29 @@ int main(int argc, char* argv[]) {
     //vector<double> si = tweetsClustering->Silhouette();
     //cout << "Silhouette hoho " << si.at(si.size() - 1) << endl;
     //clustering->print(si, outputFile, myfile, true);
-    for( int i = 0; i < output.size(); i++ ) {
+    /*for( int i = 0; i < output.size(); i++ ) {
         output.at(i)->print();
-    }
+    }*/
 
     /* LSH using the cluster users - 1B */
-    vector<tuple<string, vector<string>>> coins_per_user;
+    /*vector<tuple<string, vector<string>>> coins_per_user;
     int size1;
     LshRecommend *lshRecommend = new LshRecommend(L, size1, k, output, "cosine", output.size(), output.at(0)->getDimension(), w, P, users);
     coins_per_user = lshRecommend->getRecommendations(coin_names, 2);
     lshRecommend->print(outputFile, "1B");
     delete lshRecommend;
+*/
 
+
+
+    /* 2B Exercise ! */
+
+    vector<tuple<string, vector<string>>> coins_per_user;
+    ClusterRecommend *clusterRecommend = new ClusterRecommend(output, P, initialization.at(0), assignment.at(0), update.at(0), k, L,
+                                                              "euclidean", output.size(), probes, w, users);
+    coins_per_user = clusterRecommend->getRecommendations(coin_names, 2);
+    clusterRecommend->print(outputFile, "2B");
+    delete clusterRecommend;
 
     /* Free memory for the tweets */
     for( int i = 0; i < user_ids.size(); i++ ) {

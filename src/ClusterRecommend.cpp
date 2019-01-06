@@ -18,9 +18,33 @@ ClusterRecommend::ClusterRecommend(vector<Point*> dataset, int P, string init, s
     // Size of the dataset and P neighbors
     this->total_time = clock();
     int num_clusters = size / P;
-    this->points = dataset;
+    //this->points = dataset;
+    this->queries = dataset;
     // Create clustering instance
     this->clustering = new Clustering(num_clusters, dataset, init, assign, update, k, L, metric, size, probes, w);
+    this->clustering->findClusters();
+    this->clustering->Silhouette();
+    this->clusters = this->clustering->getClusters();
+    for( int i = 0; i < clusters.size(); i++ ) {
+        cout << clusters.at(i).size() << endl;
+    }
+}
+
+/* Cluster Recommendation with different query set */
+
+
+ClusterRecommend::ClusterRecommend(vector<Point*> dataset, int P, string init, string assign, string update, int k, int L,
+                                   string metric, int size, int probes, double w, vector<Point*> query) {
+    // Number of the clusters
+    // Size of the dataset and P neighbors
+    this->total_time = clock();
+    int num_clusters = size / P;
+    this->points = dataset;
+    this->queries = query;
+    /* Concat the two vectors */
+    this->points.insert(this->points.end(), this->queries.begin(), this->queries.end());
+    // Create clustering instance
+    this->clustering = new Clustering(num_clusters, this->points, init, assign, update, k, L, metric, this->points.size(), probes, w);
     this->clustering->findClusters();
     this->clustering->Silhouette();
     this->clusters = this->clustering->getClusters();
@@ -34,18 +58,18 @@ vector<tuple<string, vector<string>>> ClusterRecommend::getRecommendations(vecto
     vector<string> coins;
     vector<int> coins_indexes;
     map<string, int> which_cluster = this->clustering->getWhichCluster();
-    for(int i = 0; i < this->points.size(); i++) {
+    for(int i = 0; i < this->queries.size(); i++) {
         // Find in which cluster is the user
         // Get all the items of this cluster
         // Calculate Rating
         //cout << which_cluster[this->points.at(i)->getId()] << endl;
-        neighbors = this->clusters.at(which_cluster[this->points.at(i)->getId()]);
-        Rating *rating = new Rating(points.at(i), neighbors);
+        neighbors = this->clusters.at(which_cluster[this->queries.at(i)->getId()]);
+        Rating *rating = new Rating(queries.at(i), neighbors);
         coins_indexes = rating->mainRating(num_of_coins);
         for(int j = 0; j < coins_indexes.size(); j++) {
             coins.push_back(coin_names.at(coins_indexes.at(j)));
         }
-        this->coins_per_user.push_back(make_tuple(points.at(i)->getId(), coins));
+        this->coins_per_user.push_back(make_tuple(queries.at(i)->getId(), coins));
         coins.clear();
         delete rating;
     }
@@ -53,11 +77,11 @@ vector<tuple<string, vector<string>>> ClusterRecommend::getRecommendations(vecto
     return this->coins_per_user;
 }
 
-void ClusterRecommend::print(string outputFile) {
+void ClusterRecommend::print(string outputFile, string exercise) {
     ofstream myfile;
     myfile.open(outputFile);
-    myfile << "Cosine Lsh" << endl;
-    myfile << "2A" << endl;
+    myfile << "Clustering" << endl;
+    myfile << exercise << endl;
     for( int i = 0; i < this->coins_per_user.size(); i++ ) {
         myfile << "<u" << get<0>(coins_per_user.at(i)) << ">: ";
         vector<string> coins_recommendations = get<1>(coins_per_user.at(i));
