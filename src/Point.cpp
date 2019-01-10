@@ -235,6 +235,14 @@ double Point::cosine_similarity(Point *p) {
     return (this->innerProduct(p) / (norm_x * norm_y));
 }
 
+double Point::getAverage() {
+    return this->average;
+}
+
+double Point::euclidean_similarity(Point *p) {
+    return 1.0 / (1.0 + this->euclidean(p));
+}
+
 /* Destructor of the Class Point */
 Point::~Point() {
   coords.clear();

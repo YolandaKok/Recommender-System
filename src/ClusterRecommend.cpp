@@ -38,7 +38,7 @@ ClusterRecommend::ClusterRecommend(vector<Point*> dataset, int P, string init, s
     // Number of the clusters
     // Size of the dataset and P neighbors
     this->total_time = clock();
-    int num_clusters = size / P;
+    int num_clusters = dataset.size() / P;
     this->points = dataset;
     this->queries = query;
     /* Concat the two vectors */
@@ -64,7 +64,7 @@ vector<tuple<string, vector<string>>> ClusterRecommend::getRecommendations(vecto
         // Calculate Rating
         //cout << which_cluster[this->points.at(i)->getId()] << endl;
         neighbors = this->clusters.at(which_cluster[this->queries.at(i)->getId()]);
-        Rating *rating = new Rating(queries.at(i), neighbors);
+        Rating *rating = new Rating(queries.at(i), neighbors, "euclidean");
         coins_indexes = rating->mainRating(num_of_coins);
         for(int j = 0; j < coins_indexes.size(); j++) {
             coins.push_back(coin_names.at(coins_indexes.at(j)));

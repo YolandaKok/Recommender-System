@@ -12,15 +12,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-Rating::Rating(Point *query, vector<Point*> neighbors) {
+Rating::Rating(Point *query, vector<Point*> neighbors, string metric) {
     this->query = query;
-    this->query->subtractAverage();
+    //this->query->subtractAverage();
+    this->metric = metric;
     this->neighbors = neighbors;
-    for( int i = 0; i < neighbors.size(); i++ ) {
-        if(this->query->getId().compare(neighbors.at(i)->getId()) != 0) {
-            neighbors.at(i)->subtractAverage();
-        }
-    }
     this->z = calculateZ();
 }
 
@@ -28,7 +24,12 @@ Rating::Rating(Point *query, vector<Point*> neighbors) {
 double Rating::calculateZ() {
     double sum = 0.0, result;
     for( int i = 0; i < neighbors.size(); i++ ) {
-        result = query->cosine_similarity(neighbors.at(i));
+        if(this->metric.compare("cosine") == 0) {
+            result = query->cosine_similarity(neighbors.at(i));
+        }
+        else {
+            result = query->euclidean_similarity(neighbors.at(i));
+        }
         this->similarity_array.push_back(result);
         result = abs(result);
         sum += result;
@@ -48,6 +49,7 @@ vector<int> Rating::mainRating(int coins) {
             sum += ratingForItem(this->neighbors.at(i), j, i);
         }
         sum = sum * this->z;
+        sum = sum + this->query->getAverage();
         //cout << sum << endl;
         point->setId(this->query->getId());
         point->addCoord(sum);
@@ -60,7 +62,7 @@ vector<int> Rating::mainRating(int coins) {
     sort(coin_rating.begin(), coin_rating.end(), sortdesc);
     for(int i = 0; i < coins; i++) {
         //cout << get<0>(coin_rating.at(i)) << endl;
-        cout << get<1>(coin_rating.at(i)) << " coin" << endl;
+        //cout << get<1>(coin_rating.at(i)) << " coin" << endl;
         recommended_coins.push_back(get<1>(coin_rating.at(i)));
     }
     // cout << "lala" << endl;

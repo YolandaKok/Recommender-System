@@ -14,8 +14,9 @@ class Rating {
         Point *query;
         vector<double> similarity_array;
         double z;
+        string metric;
     public:
-        Rating(Point *query, vector<Point*> neighbors);
+        Rating(Point *query, vector<Point*> neighbors, string metric);
         // Calculate z -> the normalizing factor
         double calculateZ();
         // Calculate Rating for i item

@@ -12,6 +12,10 @@ LshRecommend::LshRecommend(int L, int size, int k, vector<Point *> points, strin
 
     this->lsh = new LSH(L, size, k, points, lsh_family, input_size, dimension, w);
     this->user_points = points;
+    // Normalization with the average
+    for( int i = 0; i < user_points.size(); i++ ) {
+        user_points.at(i)->subtractAverage();
+    }
     this->P = P;
 }
 
@@ -45,7 +49,7 @@ vector<tuple<string, vector<string>>> LshRecommend::getRecommendations(vector<st
             count++;
         }
         else {
-            Rating *rating = new Rating(user_points.at(i), neighbors);
+            Rating *rating = new Rating(user_points.at(i), neighbors, "cosine");
             coins_indexes = rating->mainRating(num_of_coins);
             for(int j = 0; j < coins_indexes.size(); j++) {
                 coins.push_back(coin_names.at(coins_indexes.at(j)));

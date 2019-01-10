@@ -38,6 +38,7 @@ int main(int argc, char* argv[]) {
     unordered_map<string, int> coins_queries;
     vector<string> coins;
 
+    // Get Coins names
     vector<string> coin_names;
     readCoins("datasets/coins_queries.csv", &coins_queries, &coins, &coin_names, '\t');
 
@@ -63,20 +64,23 @@ int main(int argc, char* argv[]) {
     map<string, Tweet*> tweets, tweets1;
     tweets_per_user = readFileRecommend(inputFile, input_size, true, P, '\t', &tweets);
 
+    // Create a map between the id and the tweet
     tweets1 = readFileRecommendMap(inputFile, input_size, true, P, '\t');
 
     vector<int> user_ids;
     vector<Sentiment*> sentiments;
     Sentiment *sentiment;
 
+    // Find user ids
     for(map<int,vector<Tweet*>>::iterator it = tweets_per_user.begin(); it != tweets_per_user.end(); ++it) {
         user_ids.push_back(it->first);
     }
 
     // Input for Lsh
-    vector<Point*> users;
+    vector<Point*> users, users1;
     Point *user;
 
+    // Find Sentiment for every user and remove the zero users
     for( int i = 0; i < user_ids.size(); i++ ) {
         sentiment = new Sentiment(coins_queries, dictionary, 100, user_ids.at(i), tweets_per_user[user_ids.at(i)]);
         user = sentiment->computeUserSentiment();
@@ -89,27 +93,29 @@ int main(int argc, char* argv[]) {
         delete sentiment;
     }
 
-    cout << users.size() << endl;
-    /* vector<tuple<string, vector<string>>> coins_per_user;
-    LshRecommend *lshRecommend = new LshRecommend(L, size, k, points, "cosine", input_size, points.at(0)->getDimension(), w, P);
-    coins_per_user = lshRecommend->getRecommendations(coin_names);
-    lshRecommend->print(outputFile);
-    delete lshRecommend;*/
+    /*// Question 1A !
+    vector<tuple<string, vector<string>>> coins_per_user;
+    LshRecommend *lshRecommend = new LshRecommend(L, size, k, users, "cosine", input_size, users.at(0)->getDimension(), w, P);
+    coins_per_user = lshRecommend->getRecommendations(coin_names, 5);
+    lshRecommend->print(outputFile, "1A");
+    delete lshRecommend;
+    // End of 1A */
 
     // Recommendation through clustering
     int probes = 20;
     vector<string> initialization = {"random_selection", "k-means++"};
     vector<string> assignment = {"Lloyds", "RangeLSH", "RangeHypercube"};
     vector<string> update = {"k-means", "PAM"};
-    /*vector<tuple<string, vector<string>>> coins_per_user;
-    ClusterRecommend *clusterRecommend = new ClusterRecommend(points, P, initialization.at(0), assignment.at(0), update.at(0), k, L,
-            "euclidean", points.size(), probes, w);
-    coins_per_user = clusterRecommend->getRecommendations(coin_names);
-    clusterRecommend->print(outputFile);
-    delete clusterRecommend;*/
+    // Question 2A
+    /*vector<tuple<string, vector<string>>> coins_per_user1;
+    ClusterRecommend *clusterRecommend = new ClusterRecommend(users, P, initialization.at(0), assignment.at(0), update.at(0), k, L,
+            "euclidean", users.size(), probes, w);
+    coins_per_user1 = clusterRecommend->getRecommendations(coin_names, 5);
+    clusterRecommend->print(outputFile, "2A");
+    delete clusterRecommend;
+    // End of 2A*/
 
-
-
+    /* Preprocessing for 2B */
     /* Read tweets from the second assignment */
     char sep = ',';
     vector<Point*> input;
@@ -139,32 +145,29 @@ int main(int argc, char* argv[]) {
     Sentiment *tweetsSentiment = new Sentiment(coins_queries, dictionary, 100, input);
     tweetsSentiment->computeTweetSentiment(tweets1, which_cluster, &output);
     delete tweetsSentiment;
-    //vector<double> si = tweetsClustering->Silhouette();
-    //cout << "Silhouette hoho " << si.at(si.size() - 1) << endl;
-    //clustering->print(si, outputFile, myfile, true);
-    /*for( int i = 0; i < output.size(); i++ ) {
-        output.at(i)->print();
-    }*/
 
-    /* LSH using the cluster users - 1B */
-    /*vector<tuple<string, vector<string>>> coins_per_user;
+    /*vector<double> si = tweetsClustering->Silhouette();
+    cout << "Silhouette hoho " << si.at(si.size() - 1) << endl;
+    //clustering->print(si, outputFile, myfile, true);*/
+
+    // LSH using the cluster users - 1B
+    vector<tuple<string, vector<string>>> coins_per_user;
     int size1;
     LshRecommend *lshRecommend = new LshRecommend(L, size1, k, output, "cosine", output.size(), output.at(0)->getDimension(), w, P, users);
     coins_per_user = lshRecommend->getRecommendations(coin_names, 2);
     lshRecommend->print(outputFile, "1B");
     delete lshRecommend;
-*/
 
-
+    // End of 1B
 
     /* 2B Exercise ! */
 
-    vector<tuple<string, vector<string>>> coins_per_user;
+    /* vector<tuple<string, vector<string>>> coins_per_user;
     ClusterRecommend *clusterRecommend = new ClusterRecommend(output, P, initialization.at(0), assignment.at(0), update.at(0), k, L,
                                                               "euclidean", output.size(), probes, w, users);
     coins_per_user = clusterRecommend->getRecommendations(coin_names, 2);
     clusterRecommend->print(outputFile, "2B");
-    delete clusterRecommend;
+    delete clusterRecommend; */
 
     /* Free memory for the tweets */
     for( int i = 0; i < user_ids.size(); i++ ) {
@@ -174,9 +177,9 @@ int main(int argc, char* argv[]) {
     }
 
     /* Free memory from tweet vectors */
-    for( int i = 0; i < input.size(); i++ ) {
+    /*for( int i = 0; i < input.size(); i++ ) {
         delete input.at(i);
-    }
+    }*/
 
     free(inputFile); free(outputFile);
 
