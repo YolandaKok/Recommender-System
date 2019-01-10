@@ -9,13 +9,12 @@ using namespace std;
 
 LshRecommend::LshRecommend(int L, int size, int k, vector<Point *> points, string lsh_family, int input_size,
                            double dimension, double w, int P) {
-
-    this->lsh = new LSH(L, size, k, points, lsh_family, input_size, dimension, w);
     this->user_points = points;
-    // Normalization with the average
     for( int i = 0; i < user_points.size(); i++ ) {
         user_points.at(i)->subtractAverage();
     }
+    this->lsh = new LSH(L, size, k, this->user_points, lsh_family, input_size, dimension, w);
+    // Normalization with the average
     this->P = P;
 }
 
@@ -38,11 +37,11 @@ vector<tuple<string, vector<string>>> LshRecommend::getRecommendations(vector<st
     int count = 0;
     for(int i = 0; i < this->user_points.size(); i++) {
         neighbors = this->lsh->rangeSearchAll(user_points.at(i));
+        //cout << neighbors.size() << endl;
         // Find if neighbors are > P
         if(neighbors.size() > this->P) {
             // truncate some results from the vector
             neighbors.resize(P);
-            // cout << neighbors.at(0)->getId() << " neighbor id" << endl;
         }
         //cout << neighbors.size() << " neighbors" << endl;
         if(neighbors.size() == 0) {

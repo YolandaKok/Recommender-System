@@ -25,9 +25,6 @@ ClusterRecommend::ClusterRecommend(vector<Point*> dataset, int P, string init, s
     this->clustering->findClusters();
     this->clustering->Silhouette();
     this->clusters = this->clustering->getClusters();
-    for( int i = 0; i < clusters.size(); i++ ) {
-        cout << clusters.at(i).size() << endl;
-    }
 }
 
 /* Cluster Recommendation with different query set */
@@ -48,9 +45,6 @@ ClusterRecommend::ClusterRecommend(vector<Point*> dataset, int P, string init, s
     this->clustering->findClusters();
     this->clustering->Silhouette();
     this->clusters = this->clustering->getClusters();
-    for( int i = 0; i < clusters.size(); i++ ) {
-        cout << clusters.at(i).size() << endl;
-    }
 }
 
 vector<tuple<string, vector<string>>> ClusterRecommend::getRecommendations(vector<string>& coin_names, int num_of_coins) {

@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
     char *inputFile = NULL, *outputFile = NULL;
     // Number of the default Nearest Neighbors
     int P = 20, input_size;
-    int L = 10, k = 15, size;
+    int L = 3, k = 15, size;
     double w = 4.0, R = 0.0;
     string metric("euclidean");
     srand(time(NULL));
@@ -68,7 +68,6 @@ int main(int argc, char* argv[]) {
     tweets1 = readFileRecommendMap(inputFile, input_size, true, P, '\t');
 
     vector<int> user_ids;
-    vector<Sentiment*> sentiments;
     Sentiment *sentiment;
 
     // Find user ids
@@ -93,14 +92,33 @@ int main(int argc, char* argv[]) {
         delete sentiment;
     }
 
-    /*// Question 1A !
+    Point *user1;
+    for( int i = 0; i < user_ids.size(); i++ ) {
+        sentiment = new Sentiment(coins_queries, dictionary, 100, user_ids.at(i), tweets_per_user[user_ids.at(i)]);
+        user1 = sentiment->computeUserSentiment();
+        if(user1 == nullptr) {
+            user_ids.erase (user_ids.begin() + i);
+        }
+        else {
+            users1.push_back(user1);
+        }
+        delete sentiment;
+    }
+
+    // users1.at(0)->print();
+    // users1.at(0)->printModified();
+    users.at(15)->print();
+    users.at(15)->printModified();
+
+    // Question 1A !
     vector<tuple<string, vector<string>>> coins_per_user;
     LshRecommend *lshRecommend = new LshRecommend(L, size, k, users, "cosine", input_size, users.at(0)->getDimension(), w, P);
     coins_per_user = lshRecommend->getRecommendations(coin_names, 5);
     lshRecommend->print(outputFile, "1A");
     delete lshRecommend;
-    // End of 1A */
-
+    // End of 1A
+    users1.at(15)->print();
+    //users.at(15)->print();
     // Recommendation through clustering
     int probes = 20;
     vector<string> initialization = {"random_selection", "k-means++"};
@@ -117,7 +135,7 @@ int main(int argc, char* argv[]) {
 
     /* Preprocessing for 2B */
     /* Read tweets from the second assignment */
-    char sep = ',';
+    /*char sep = ',';
     vector<Point*> input;
     input = readFile("datasets/twitter_dataset_small_v2.csv", k, size, 1, R, metric, sep);
 
@@ -141,33 +159,28 @@ int main(int argc, char* argv[]) {
     }
 
     // Compute Sentiments for every cluster
-    //vector<Point*> sentiments_clusters;
     Sentiment *tweetsSentiment = new Sentiment(coins_queries, dictionary, 100, input);
     tweetsSentiment->computeTweetSentiment(tweets1, which_cluster, &output);
-    delete tweetsSentiment;
-
-    /*vector<double> si = tweetsClustering->Silhouette();
-    cout << "Silhouette hoho " << si.at(si.size() - 1) << endl;
-    //clustering->print(si, outputFile, myfile, true);*/
+    delete tweetsSentiment; */
 
     // LSH using the cluster users - 1B
-    vector<tuple<string, vector<string>>> coins_per_user;
+    /* vector<tuple<string, vector<string>>> coins_per_user;
     int size1;
     LshRecommend *lshRecommend = new LshRecommend(L, size1, k, output, "cosine", output.size(), output.at(0)->getDimension(), w, P, users);
     coins_per_user = lshRecommend->getRecommendations(coin_names, 2);
     lshRecommend->print(outputFile, "1B");
-    delete lshRecommend;
+    delete lshRecommend; */
 
     // End of 1B
 
-    /* 2B Exercise ! */
+    // 2B Exercise !
 
-    /* vector<tuple<string, vector<string>>> coins_per_user;
+    /*vector<tuple<string, vector<string>>> coins_per_user;
     ClusterRecommend *clusterRecommend = new ClusterRecommend(output, P, initialization.at(0), assignment.at(0), update.at(0), k, L,
                                                               "euclidean", output.size(), probes, w, users);
     coins_per_user = clusterRecommend->getRecommendations(coin_names, 2);
     clusterRecommend->print(outputFile, "2B");
-    delete clusterRecommend; */
+    delete clusterRecommend;*/
 
     /* Free memory for the tweets */
     for( int i = 0; i < user_ids.size(); i++ ) {
@@ -175,11 +188,6 @@ int main(int argc, char* argv[]) {
             delete tweets_per_user[user_ids.at(i)].at(j);
         }
     }
-
-    /* Free memory from tweet vectors */
-    /*for( int i = 0; i < input.size(); i++ ) {
-        delete input.at(i);
-    }*/
 
     free(inputFile); free(outputFile);
 

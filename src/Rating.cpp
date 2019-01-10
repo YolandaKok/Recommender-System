@@ -50,7 +50,6 @@ vector<int> Rating::mainRating(int coins) {
         }
         sum = sum * this->z;
         sum = sum + this->query->getAverage();
-        //cout << sum << endl;
         point->setId(this->query->getId());
         point->addCoord(sum);
         estimated_ratings.push_back(sum);
@@ -65,10 +64,7 @@ vector<int> Rating::mainRating(int coins) {
         //cout << get<1>(coin_rating.at(i)) << " coin" << endl;
         recommended_coins.push_back(get<1>(coin_rating.at(i)));
     }
-    // cout << "lala" << endl;
-    // cout << endl;
     // Estimated Ratings for every coin
-    //point->print();
     // From query find the modified and exclude them from the results
     return recommended_coins;
 }
