@@ -38,13 +38,15 @@ class Sentiment {
         //vector<Point*> clusterSentiment;
     public:
         Sentiment();
-        Sentiment(unordered_map<string, int> coins_queries, unordered_map<string, double> dictionary, int dimension, int userId, vector<Tweet*> tweets);
+        Sentiment(unordered_map<string, int> coins_queries, unordered_map<string, double> dictionary, int dimension,
+                int userId, vector<Tweet*> tweets);
         Sentiment(unordered_map<string, int>& coins_queries, unordered_map<string, double>& dictionary,
                int dimension, vector<Point*> input);
         int findCoin(vector<string> coins, string word);
         Point* computeUserSentiment();
         double normalizeSi(double totalscore, double alpha);
-        void computeTweetSentiment(map<string, Tweet*> map_tweets, map<string,int>& which_cluster, vector<Point*> *output);
+        void computeTweetSentiment(map<string, Tweet*> map_tweets, map<string,int>& which_cluster,
+                vector<Point*> *output, int clusters, int coins);
         ~Sentiment();
 };
 

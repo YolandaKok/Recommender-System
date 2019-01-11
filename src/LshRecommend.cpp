@@ -35,10 +35,15 @@ vector<tuple<string, vector<string>>> LshRecommend::getRecommendations(vector<st
     vector<string> coins;
     vector<int> coins_indexes;
     int count = 0;
+
+    for( int i = 0; i < user_points.size(); i++ ) {
+        this->user_points.at(i)->subtractAverage();
+    }
+
     for(int i = 0; i < this->user_points.size(); i++) {
-        cout << "lala" << endl;
+        user_points.at(i)->addAverage();
         neighbors = this->lsh->rangeSearchAll(user_points.at(i));
-        cout << neighbors.size() << endl;
+        //cout << neighbors.size() << endl;
         // Find if neighbors are > P
         if(neighbors.size() > this->P) {
             // truncate some results from the vector
@@ -47,8 +52,10 @@ vector<tuple<string, vector<string>>> LshRecommend::getRecommendations(vector<st
         //cout << neighbors.size() << " neighbors" << endl;
         if(neighbors.size() == 0) {
             count++;
+            user_points.at(i)->subtractAverage();
         }
         else {
+            user_points.at(i)->subtractAverage();
             Rating *rating = new Rating(user_points.at(i), neighbors, "cosine");
             coins_indexes = rating->mainRating(num_of_coins);
             for(int j = 0; j < coins_indexes.size(); j++) {
@@ -62,12 +69,13 @@ vector<tuple<string, vector<string>>> LshRecommend::getRecommendations(vector<st
     }
     // For every user recommend k coins
     this->total_time = double( clock () - begin_time ) /  CLOCKS_PER_SEC;
+    for( int i = 0; i < this->user_points.size(); i++ ) {
+        this->user_points.at(i)->addAverage();
+    }
     return this->coins_per_user;
 }
 
-void LshRecommend::print(string outputFile, string exercise) {
-    ofstream myfile;
-    myfile.open(outputFile);
+void LshRecommend::print(string outputFile, string exercise, ofstream& myfile) {
     myfile << "Cosine Lsh" << endl;
     myfile << exercise << endl;
     for( int i = 0; i < this->coins_per_user.size(); i++ ) {
@@ -79,7 +87,6 @@ void LshRecommend::print(string outputFile, string exercise) {
         myfile << endl;
     }
     myfile << "Execution Time: " << this->total_time << "secs" << endl;
-    myfile.close();
 }
 
 LshRecommend::~LshRecommend() {

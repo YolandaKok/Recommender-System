@@ -22,7 +22,7 @@ class LshRecommend {
                                double dimension, double w, int P, vector<Point *> queries);
         // Recommend k items
         vector<tuple<string, vector<string>>> getRecommendations(vector<string>& coin_names, int num_of_coins);
-        void print(string outputFile, string exercise);
+        void print(string outputFile, string exercise, ofstream& myfile);
         // Destructor
         ~LshRecommend();
 

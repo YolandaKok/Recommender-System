@@ -14,7 +14,6 @@ using namespace std;
 
 Rating::Rating(Point *query, vector<Point*> neighbors, string metric) {
     this->query = query;
-    //this->query->subtractAverage();
     this->metric = metric;
     this->neighbors = neighbors;
     this->z = calculateZ();
@@ -34,6 +33,10 @@ double Rating::calculateZ() {
         this->similarity_array.push_back(result);
         result = abs(result);
         sum += result;
+    }
+    // cout << sum << endl;
+    if(sum == 0) {
+        sum = 1;
     }
     return 1 / sum;
 }
@@ -61,7 +64,7 @@ vector<int> Rating::mainRating(int coins) {
     }
     sort(coin_rating.begin(), coin_rating.end(), sortdesc);
     for(int i = 0; i < coins; i++) {
-        // cout << get<0>(coin_rating.at(i)) << endl;
+        //cout << get<0>(coin_rating.at(i)) << endl;
         // cout << get<1>(coin_rating.at(i)) << " coin" << endl;
         recommended_coins.push_back(get<1>(coin_rating.at(i)));
     }

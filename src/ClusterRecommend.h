@@ -22,7 +22,7 @@ class ClusterRecommend {
         ClusterRecommend(vector<Point*> dataset, int P, string init, string assign, string update, int k, int L,
                                        string metric, int size, int probes, double w, vector<Point*> query);
         vector<tuple<string, vector<string>>> getRecommendations(vector<string>& coin_names, int num_of_coins);
-        void print(string outputFile, string exercise);
+        void print(string outputFile, string exercise, ofstream& myfile);
         ~ClusterRecommend();
 };
 

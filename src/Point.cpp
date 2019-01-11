@@ -60,10 +60,8 @@ void Point::subtractAverage() {
 }
 
 void Point::addAverage() {
-    for( int i = 0; i < this->coords.size(); i++ ) {
-       if(findModified(i) == false) {
-           this->coords.at(i) = numeric_limits<int>::max();
-       }
+    for( int i = 0; i < this->modified.size(); i++ ) {
+       this->coords.at(this->modified.at(i)) += this->average;
     }
 }
 
@@ -235,7 +233,12 @@ double Point::cosine_similarity(Point *p) {
     }
     norm_x = sqrt(norm_x);
     norm_y = sqrt(norm_y);
-    return (this->innerProduct(p) / (norm_x * norm_y));
+    if(isnan(this->innerProduct(p) / (norm_x * norm_y))) {
+        return 0.0;
+    }
+    else {
+        return this->innerProduct(p) / (norm_x * norm_y);
+    }
 }
 
 double Point::getAverage() {

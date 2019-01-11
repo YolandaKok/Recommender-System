@@ -43,7 +43,7 @@ ClusterRecommend::ClusterRecommend(vector<Point*> dataset, int P, string init, s
     // Create clustering instance
     this->clustering = new Clustering(num_clusters, this->points, init, assign, update, k, L, metric, this->points.size(), probes, w);
     this->clustering->findClusters();
-    this->clustering->Silhouette();
+    //this->clustering->Silhouette();
     this->clusters = this->clustering->getClusters();
 }
 
@@ -52,6 +52,9 @@ vector<tuple<string, vector<string>>> ClusterRecommend::getRecommendations(vecto
     vector<string> coins;
     vector<int> coins_indexes;
     map<string, int> which_cluster = this->clustering->getWhichCluster();
+    for(int i = 0; i < this->queries.size(); i++) {
+        this->queries.at(i)->subtractAverage();
+    }
     for(int i = 0; i < this->queries.size(); i++) {
         // Find in which cluster is the user
         // Get all the items of this cluster
@@ -68,12 +71,13 @@ vector<tuple<string, vector<string>>> ClusterRecommend::getRecommendations(vecto
         delete rating;
     }
     this->total_time = double( clock () - this->total_time ) /  CLOCKS_PER_SEC;
+    for(int i = 0; i < this->queries.size(); i++) {
+        this->queries.at(i)->addAverage();
+    }
     return this->coins_per_user;
 }
 
-void ClusterRecommend::print(string outputFile, string exercise) {
-    ofstream myfile;
-    myfile.open(outputFile);
+void ClusterRecommend::print(string outputFile, string exercise, ofstream& myfile) {
     myfile << "Clustering" << endl;
     myfile << exercise << endl;
     for( int i = 0; i < this->coins_per_user.size(); i++ ) {
@@ -85,7 +89,6 @@ void ClusterRecommend::print(string outputFile, string exercise) {
         myfile << endl;
     }
     myfile << "Execution Time: " << this->total_time << "secs" << endl;
-    myfile.close();
 }
 
 ClusterRecommend::~ClusterRecommend() {

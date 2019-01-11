@@ -41,7 +41,8 @@ Sentiment::Sentiment( unordered_map<string, int>& coins_queries, unordered_map<s
     this->input = input;
 }
 
-void Sentiment::computeTweetSentiment(map<string, Tweet*> map_tweets, map<string,int>& which_cluster, vector<Point*> *output) {
+void Sentiment::computeTweetSentiment(map<string, Tweet*> map_tweets, map<string,int>& which_cluster, vector<Point*> *output, int clusters, int coins) {
+
     // Keep all the sentiments for a cluster for every coin
     // For every Cluster Create a vector
     vector<int> coin_indexes;
@@ -76,6 +77,11 @@ void Sentiment::computeTweetSentiment(map<string, Tweet*> map_tweets, map<string
         }
         sum = 0.0;
         coin_indexes.clear();
+    }
+
+    // Calculate average for the users
+    for( int i = 0; i < output->size(); i++ ) {
+        output->at(i)->computeAverage();
     }
 
     //return output;

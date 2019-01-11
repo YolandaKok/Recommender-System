@@ -92,16 +92,17 @@ int main(int argc, char* argv[]) {
         delete sentiment;
     }
 
-    users.at(15)->print();
-/*
+    ofstream myfile;
+    myfile.open(outputFile);
+
     // Question 1A !
     vector<tuple<string, vector<string>>> coins_per_user;
     LshRecommend *lshRecommend = new LshRecommend(L, size, k, users, "cosine", input_size, users.at(0)->getDimension(), w, P);
     coins_per_user = lshRecommend->getRecommendations(coin_names, 5);
-    lshRecommend->print(outputFile, "1A");
+    lshRecommend->print(outputFile, "1A", myfile);
     delete lshRecommend;
     // End of 1A
-*/
+
     // Recommendation through clustering
     int probes = 20;
     vector<string> initialization = {"random_selection", "k-means++"};
@@ -112,13 +113,14 @@ int main(int argc, char* argv[]) {
     ClusterRecommend *clusterRecommend = new ClusterRecommend(users, P, initialization.at(0), assignment.at(0), update.at(0), k, L,
             "euclidean", users.size(), probes, w);
     coins_per_user1 = clusterRecommend->getRecommendations(coin_names, 5);
-    clusterRecommend->print(outputFile, "2A");
+    clusterRecommend->print(outputFile, "2A", myfile);
     delete clusterRecommend;
     // End of 2A
 
+
     /* Preprocessing for 2B */
     /* Read tweets from the second assignment */
-    /*char sep = ',';
+    char sep = ',';
     vector<Point*> input;
     input = readFile("datasets/twitter_dataset_small_v2.csv", k, size, 1, R, metric, sep);
 
@@ -133,37 +135,36 @@ int main(int argc, char* argv[]) {
 
     vector<Point*> output;
     Point *point;
-    for( int i = 0; i < 200; i++ ) {
+    for( int i = 0; i < clusters; i++ ) {
         point = new Point();
         for( int j = 0; j < 100; j++ ) {
             point->addCoord(0.0);
         }
         output.push_back(point);
     }
-
     // Compute Sentiments for every cluster
     Sentiment *tweetsSentiment = new Sentiment(coins_queries, dictionary, 100, input);
-    tweetsSentiment->computeTweetSentiment(tweets1, which_cluster, &output);
-    delete tweetsSentiment; */
+    tweetsSentiment->computeTweetSentiment(tweets1, which_cluster, &output, clusters, 100);
+    delete tweetsSentiment;
 
     // LSH using the cluster users - 1B
-    /* vector<tuple<string, vector<string>>> coins_per_user;
+    vector<tuple<string, vector<string>>> coins_per_user2;
     int size1;
-    LshRecommend *lshRecommend = new LshRecommend(L, size1, k, output, "cosine", output.size(), output.at(0)->getDimension(), w, P, users);
-    coins_per_user = lshRecommend->getRecommendations(coin_names, 2);
-    lshRecommend->print(outputFile, "1B");
-    delete lshRecommend; */
+    LshRecommend *lshRecommend2 = new LshRecommend(L, size1, k, output, "cosine", output.size(), output.at(0)->getDimension(), w, P, users);
+    coins_per_user2 = lshRecommend2->getRecommendations(coin_names, 2);
+    lshRecommend2->print(outputFile, "1B", myfile);
+    delete lshRecommend2;
 
     // End of 1B
 
     // 2B Exercise !
 
-    /*vector<tuple<string, vector<string>>> coins_per_user;
-    ClusterRecommend *clusterRecommend = new ClusterRecommend(output, P, initialization.at(0), assignment.at(0), update.at(0), k, L,
+    //vector<tuple<string, vector<string>>> coins_per_user;
+    ClusterRecommend *clusterRecommend2 = new ClusterRecommend(output, P, initialization.at(0), assignment.at(0), update.at(0), k, L,
                                                               "euclidean", output.size(), probes, w, users);
-    coins_per_user = clusterRecommend->getRecommendations(coin_names, 2);
-    clusterRecommend->print(outputFile, "2B");
-    delete clusterRecommend;*/
+    coins_per_user = clusterRecommend2->getRecommendations(coin_names, 2);
+    clusterRecommend2->print(outputFile, "2B", myfile);
+    delete clusterRecommend2;
 
     /* Free memory for the tweets */
     for( int i = 0; i < user_ids.size(); i++ ) {
@@ -172,7 +173,13 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    for( int i = 0; i < output.size(); i++ ) {
+        delete output.at(i);
+    }
+
     free(inputFile); free(outputFile);
+
+    myfile.close();
 
     return 1;
 }
