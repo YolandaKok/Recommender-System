@@ -24,6 +24,7 @@ Rating::Rating(Point *query, vector<Point*> neighbors, string metric) {
 double Rating::calculateZ() {
     double sum = 0.0, result;
     for( int i = 0; i < neighbors.size(); i++ ) {
+
         if(this->metric.compare("cosine") == 0) {
             result = query->cosine_similarity(neighbors.at(i));
         }
@@ -60,8 +61,8 @@ vector<int> Rating::mainRating(int coins) {
     }
     sort(coin_rating.begin(), coin_rating.end(), sortdesc);
     for(int i = 0; i < coins; i++) {
-        //cout << get<0>(coin_rating.at(i)) << endl;
-        //cout << get<1>(coin_rating.at(i)) << " coin" << endl;
+        // cout << get<0>(coin_rating.at(i)) << endl;
+        // cout << get<1>(coin_rating.at(i)) << " coin" << endl;
         recommended_coins.push_back(get<1>(coin_rating.at(i)));
     }
     // Estimated Ratings for every coin
@@ -77,7 +78,7 @@ bool Rating::sortdesc(const tuple<double, int>& a, const tuple<double, int>& b) 
 double Rating::ratingForItem(Point *user, int coin, int user_index) {
     // Rating for item i (coin i)
     double result;
-    result = this->similarity_array.at(user_index) * user->getCoord(coin);
+    result = this->similarity_array.at(user_index) * (user->getCoord(coin));
     return result;
 }
 

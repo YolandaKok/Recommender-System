@@ -6,6 +6,7 @@
 #include "Point.h"
 #include <math.h>
 #include <fstream>
+#include <limits>
 
 using namespace std;
 /* Constructor of the Class Point */
@@ -55,6 +56,14 @@ void Point::subtractAverage() {
     // Subtract from the modified
     for( int i = 0; i < this->modified.size(); i++ ) {
         this->coords.at(this->modified.at(i)) -= this->average;
+    }
+}
+
+void Point::addAverage() {
+    for( int i = 0; i < this->coords.size(); i++ ) {
+       if(findModified(i) == false) {
+           this->coords.at(i) = numeric_limits<int>::max();
+       }
     }
 }
 

@@ -10,10 +10,11 @@ using namespace std;
 LshRecommend::LshRecommend(int L, int size, int k, vector<Point *> points, string lsh_family, int input_size,
                            double dimension, double w, int P) {
     this->user_points = points;
-    for( int i = 0; i < user_points.size(); i++ ) {
+    /*for( int i = 0; i < user_points.size(); i++ ) {
         user_points.at(i)->subtractAverage();
-    }
+    }*/
     this->lsh = new LSH(L, size, k, this->user_points, lsh_family, input_size, dimension, w);
+    //this->lsh->bucket();
     // Normalization with the average
     this->P = P;
 }
@@ -31,13 +32,13 @@ vector<tuple<string, vector<string>>> LshRecommend::getRecommendations(vector<st
     //this->lsh->bucket();
     clock_t begin_time = clock();
     vector<Point*> neighbors;
-    //vector<tuple<string, vector<string>>> recommended_coins;
     vector<string> coins;
     vector<int> coins_indexes;
     int count = 0;
     for(int i = 0; i < this->user_points.size(); i++) {
+        cout << "lala" << endl;
         neighbors = this->lsh->rangeSearchAll(user_points.at(i));
-        //cout << neighbors.size() << endl;
+        cout << neighbors.size() << endl;
         // Find if neighbors are > P
         if(neighbors.size() > this->P) {
             // truncate some results from the vector

@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
     char *inputFile = NULL, *outputFile = NULL;
     // Number of the default Nearest Neighbors
     int P = 20, input_size;
-    int L = 3, k = 15, size;
+    int L = 3, k = 8, size;
     double w = 4.0, R = 0.0;
     string metric("euclidean");
     srand(time(NULL));
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Input for Lsh
-    vector<Point*> users, users1;
+    vector<Point*> users;
     Point *user;
 
     // Find Sentiment for every user and remove the zero users
@@ -92,24 +92,8 @@ int main(int argc, char* argv[]) {
         delete sentiment;
     }
 
-    Point *user1;
-    for( int i = 0; i < user_ids.size(); i++ ) {
-        sentiment = new Sentiment(coins_queries, dictionary, 100, user_ids.at(i), tweets_per_user[user_ids.at(i)]);
-        user1 = sentiment->computeUserSentiment();
-        if(user1 == nullptr) {
-            user_ids.erase (user_ids.begin() + i);
-        }
-        else {
-            users1.push_back(user1);
-        }
-        delete sentiment;
-    }
-
-    // users1.at(0)->print();
-    // users1.at(0)->printModified();
     users.at(15)->print();
-    users.at(15)->printModified();
-
+/*
     // Question 1A !
     vector<tuple<string, vector<string>>> coins_per_user;
     LshRecommend *lshRecommend = new LshRecommend(L, size, k, users, "cosine", input_size, users.at(0)->getDimension(), w, P);
@@ -117,21 +101,20 @@ int main(int argc, char* argv[]) {
     lshRecommend->print(outputFile, "1A");
     delete lshRecommend;
     // End of 1A
-    users1.at(15)->print();
-    //users.at(15)->print();
+*/
     // Recommendation through clustering
     int probes = 20;
     vector<string> initialization = {"random_selection", "k-means++"};
     vector<string> assignment = {"Lloyds", "RangeLSH", "RangeHypercube"};
     vector<string> update = {"k-means", "PAM"};
     // Question 2A
-    /*vector<tuple<string, vector<string>>> coins_per_user1;
+    vector<tuple<string, vector<string>>> coins_per_user1;
     ClusterRecommend *clusterRecommend = new ClusterRecommend(users, P, initialization.at(0), assignment.at(0), update.at(0), k, L,
             "euclidean", users.size(), probes, w);
     coins_per_user1 = clusterRecommend->getRecommendations(coin_names, 5);
     clusterRecommend->print(outputFile, "2A");
     delete clusterRecommend;
-    // End of 2A*/
+    // End of 2A
 
     /* Preprocessing for 2B */
     /* Read tweets from the second assignment */

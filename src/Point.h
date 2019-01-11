@@ -30,6 +30,7 @@ class Point {
     void addModified(int index);
     bool findModified(int index);
     void subtractAverage();
+    void addAverage();
     void printModified();
     void computeAverage();
     double getAverage();
