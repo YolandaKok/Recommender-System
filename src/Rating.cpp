@@ -69,6 +69,7 @@ vector<int> Rating::mainRating(int coins) {
         recommended_coins.push_back(get<1>(coin_rating.at(i)));
     }
     // Estimated Ratings for every coin
+    delete point;
     // From query find the modified and exclude them from the results
     return recommended_coins;
 }

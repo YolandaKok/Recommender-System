@@ -75,6 +75,11 @@ int main(int argc, char* argv[]) {
         user_ids.push_back(it->first);
     }
 
+    vector<string> tweets_ids;
+    for(map<string, Tweet*>::iterator it = tweets1.begin(); it != tweets1.end(); ++it) {
+        tweets_ids.push_back(it->first);
+    }
+
     // Input for Lsh
     vector<Point*> users;
     Point *user;
@@ -124,7 +129,6 @@ int main(int argc, char* argv[]) {
     vector<Point*> input;
     input = readFile("datasets/twitter_dataset_small_v2.csv", k, size, 1, R, metric, sep);
 
-    cout << input.size() << endl;
     int clusters = 200;
     Clustering *tweetsClustering;
     tweetsClustering = new Clustering(clusters, input, initialization.at(0), assignment.at(0), update.at(0), k, L, metric, size, probes, w);
@@ -172,6 +176,13 @@ int main(int argc, char* argv[]) {
             delete tweets_per_user[user_ids.at(i)].at(j);
         }
     }
+
+    for( int i = 0; i < tweets_ids.size(); i++ ) {
+        delete tweets1[tweets_ids.at(i)];
+    }
+
+    for(int i = 0; i < users.size(); i++)
+        delete users.at(i);
 
     for( int i = 0; i < output.size(); i++ ) {
         delete output.at(i);
