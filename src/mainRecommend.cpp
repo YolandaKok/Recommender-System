@@ -84,6 +84,7 @@ int main(int argc, char* argv[]) {
     vector<Point*> users;
     Point *user;
 
+    cout << "Creating user vectors ..." << endl;
     // Find Sentiment for every user and remove the zero users
     for( int i = 0; i < user_ids.size(); i++ ) {
         sentiment = new Sentiment(coins_queries, dictionary, 100, user_ids.at(i), tweets_per_user[user_ids.at(i)]);
@@ -97,9 +98,12 @@ int main(int argc, char* argv[]) {
         delete sentiment;
     }
 
+    cout << "Created user vectors ..." << endl;
+
     ofstream myfile;
     myfile.open(outputFile);
 
+    cout << "Starting question 1A" << endl;
     // Question 1A !
     vector<tuple<string, vector<string>>> coins_per_user;
     LshRecommend *lshRecommend = new LshRecommend(L, size, k, users, "cosine", input_size, users.at(0)->getDimension(), w, P);
@@ -108,6 +112,9 @@ int main(int argc, char* argv[]) {
     delete lshRecommend;
     // End of 1A
 
+    cout << "Completed 1A" << endl;
+
+    cout << "Starting question 2A" << endl;
     // Recommendation through clustering
     int probes = 20;
     vector<string> initialization = {"random_selection", "k-means++"};
@@ -121,7 +128,7 @@ int main(int argc, char* argv[]) {
     clusterRecommend->print(outputFile, "2A", myfile);
     delete clusterRecommend;
     // End of 2A
-
+    cout << "Completed 2A" << endl;
 
     /* Preprocessing for 2B */
     /* Read tweets from the second assignment */
@@ -146,11 +153,14 @@ int main(int argc, char* argv[]) {
         }
         output.push_back(point);
     }
+    cout << "Creating virtual users' vectors" << endl;
     // Compute Sentiments for every cluster
     Sentiment *tweetsSentiment = new Sentiment(coins_queries, dictionary, 100, input);
     tweetsSentiment->computeTweetSentiment(tweets1, which_cluster, &output, clusters, 100);
     delete tweetsSentiment;
+    cout << "Created virtual users' vectors" << endl;
 
+    cout << "Starting 1B" << endl;
     // LSH using the cluster users - 1B
     vector<tuple<string, vector<string>>> coins_per_user2;
     int size1;
@@ -160,8 +170,11 @@ int main(int argc, char* argv[]) {
     delete lshRecommend2;
 
     // End of 1B
+    cout << "Completed 1B" << endl;
 
     // 2B Exercise !
+
+    cout << "Starting 2B" << endl;
 
     //vector<tuple<string, vector<string>>> coins_per_user;
     ClusterRecommend *clusterRecommend2 = new ClusterRecommend(output, P, initialization.at(0), assignment.at(0), update.at(0), k, L,
@@ -169,6 +182,8 @@ int main(int argc, char* argv[]) {
     coins_per_user = clusterRecommend2->getRecommendations(coin_names, 2);
     clusterRecommend2->print(outputFile, "2B", myfile);
     delete clusterRecommend2;
+
+    cout << "Completed 2B" << endl;
 
     /* Free memory for the tweets */
     for( int i = 0; i < user_ids.size(); i++ ) {

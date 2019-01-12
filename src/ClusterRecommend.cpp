@@ -23,7 +23,7 @@ ClusterRecommend::ClusterRecommend(vector<Point*> dataset, int P, string init, s
     // Create clustering instance
     this->clustering = new Clustering(num_clusters, dataset, init, assign, update, k, L, metric, size, probes, w);
     this->clustering->findClusters();
-    this->clustering->Silhouette();
+    //this->clustering->Silhouette();
     this->clusters = this->clustering->getClusters();
 }
 
