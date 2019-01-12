@@ -23,7 +23,7 @@ cube: $(OBJS2)
 cluster: $(OBJS3)
 	g++ -o $(EXE3) $(CFLAGS) $(OBJS3) $(LIBS)
 recommendation: $(OBJS4)
-	g++ -o $(EXE4) $(CFLAGS) $(OBJS4) $(LIBS)
+	g++ -o $(EXE4) $(CFLAGS) $(OBJS4)
 
 IOutils.o: src/IOutils.cpp
 	g++ -c -o IOutils.o src/IOutils.cpp -std=c++14
@@ -83,8 +83,6 @@ Tweet.o: src/Tweet.cpp
 	g++ -c -o Tweet.o src/Tweet.cpp -std=c++14
 Sentiment.o: src/Sentiment.cpp
 	g++ -c -o Sentiment.o src/Sentiment.cpp -std=c++14
-SentimentTest.o: test/SentimentTest.cpp
-	g++ -c -o SentimentTest.o test/SentimentTest.cpp $(INC) -std=c++14
 LshRecommend.o: src/LshRecommend.cpp
 	g++ -c -o LshRecommend.o src/LshRecommend.cpp -std=c++14
 Rating.o: src/Rating.cpp
