@@ -42,6 +42,8 @@ int main(int argc, char* argv[]) {
     vector<string> coin_names;
     readCoins("datasets/coins_queries.csv", &coins_queries, &coins, &coin_names, '\t');
 
+    cout << "Coins size: " << coin_names.size() << endl;
+
     /* Read Arguments */
     for(int i = 1; i < argc; i += 2) {
         /* Input File */
@@ -87,7 +89,7 @@ int main(int argc, char* argv[]) {
     cout << "Creating user vectors ..." << endl;
     // Find Sentiment for every user and remove the zero users
     for( int i = 0; i < user_ids.size(); i++ ) {
-        sentiment = new Sentiment(coins_queries, dictionary, 100, user_ids.at(i), tweets_per_user[user_ids.at(i)]);
+        sentiment = new Sentiment(coins_queries, dictionary, coin_names.size(), user_ids.at(i), tweets_per_user[user_ids.at(i)]);
         user = sentiment->computeUserSentiment();
         if(user == nullptr) {
             user_ids.erase (user_ids.begin() + i);
@@ -145,18 +147,11 @@ int main(int argc, char* argv[]) {
     delete tweetsClustering;
 
     vector<Point*> output;
-    Point *point;
-    for( int i = 0; i < clusters; i++ ) {
-        point = new Point();
-        for( int j = 0; j < 100; j++ ) {
-            point->addCoord(0.0);
-        }
-        output.push_back(point);
-    }
+
     cout << "Creating virtual users' vectors" << endl;
     // Compute Sentiments for every cluster
-    Sentiment *tweetsSentiment = new Sentiment(coins_queries, dictionary, 100, input);
-    tweetsSentiment->computeTweetSentiment(tweets1, which_cluster, &output, clusters, 100);
+    Sentiment *tweetsSentiment = new Sentiment(coins_queries, dictionary, coin_names.size(), input);
+    tweetsSentiment->computeTweetSentiment(tweets1, which_cluster, &output, clusters, coin_names.size());
     delete tweetsSentiment;
     cout << "Created virtual users' vectors" << endl;
 

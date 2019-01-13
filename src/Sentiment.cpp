@@ -43,6 +43,14 @@ Sentiment::Sentiment( unordered_map<string, int>& coins_queries, unordered_map<s
 
 void Sentiment::computeTweetSentiment(map<string, Tweet*> map_tweets, map<string,int>& which_cluster, vector<Point*> *output, int clusters, int coins) {
 
+    Point *point;
+    for( int i = 0; i < clusters; i++ ) {
+        point = new Point();
+        for( int j = 0; j < coins; j++ ) {
+            point->addCoord(0.0);
+        }
+        output->push_back(point);
+    }
     // Keep all the sentiments for a cluster for every coin
     // For every Cluster Create a vector
     vector<int> coin_indexes;
