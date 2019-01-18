@@ -30,8 +30,10 @@ class Point {
     void addModified(int index);
     bool findModified(int index);
     void subtractAverage();
+    void addAverage();
     void printModified();
     void computeAverage();
+    double getAverage();
     /* Get Dimensions */
     double getDimension();
     /* Set Id */
@@ -61,6 +63,7 @@ class Point {
     double manhattan(Point *p);
     double cosine(Point *p);
     double cosine_similarity(Point *p);
+    double euclidean_similarity(Point *p);
     double norm2(Point *p);
     void sumVectors(Point* p);
     void divideVector(int divider);

@@ -15,7 +15,8 @@ Sentiment::Sentiment() {
 
 }
 
-Sentiment::Sentiment(unordered_map<string, int> coins_queries, unordered_map<string, double> dictionary, int dimension, int userId, vector<Tweet*> tweets) {
+Sentiment::Sentiment(unordered_map<string, int> coins_queries, unordered_map<string, double> dictionary,
+        int dimension, int userId, vector<Tweet*> tweets) {
     this->userId = userId;
     this->dimension = dimension;
     this->tweets = tweets;
@@ -29,6 +30,69 @@ Sentiment::Sentiment(unordered_map<string, int> coins_queries, unordered_map<str
         this->user_sentiments_per_coin[i] = 0;
         this->point->addCoord(0.0);
     }
+}
+
+// Constructor for tweets
+Sentiment::Sentiment( unordered_map<string, int>& coins_queries, unordered_map<string, double>& dictionary,
+        int dimension, vector<Point*> input ) {
+    //this->clusters = clusters;
+    this->dictionary = dictionary;
+    this->coins_queries = coins_queries;
+    this->input = input;
+}
+
+void Sentiment::computeTweetSentiment(map<string, Tweet*> map_tweets, map<string,int>& which_cluster, vector<Point*> *output, int clusters, int coins) {
+
+    Point *point;
+    for( int i = 0; i < clusters; i++ ) {
+        point = new Point();
+        for( int j = 0; j < coins; j++ ) {
+            point->addCoord(0.0);
+        }
+        output->push_back(point);
+    }
+    // Keep all the sentiments for a cluster for every coin
+    // For every Cluster Create a vector
+    vector<int> coin_indexes;
+    //vector<Point*> output;
+    // Compute cluster Sentiment
+    int cluster;
+    vector<string> words;
+    double sum = 0.0;
+    // Find the sentiment of every tweet
+    for( int i = 0; i < input.size(); i++ ) {
+        cluster = which_cluster[input.at(i)->getId()];
+        //cout << cluster << endl;
+        // Find the sentiment for the coin
+        words = map_tweets[input.at(i)->getId()]->getWords();
+        //cout << words.size() << " SIZE" << endl;
+        for( int j = 0; j < words.size(); j++ ) {
+            if(this->coins_queries[words.at(j)] != 0) {
+                coin_indexes.push_back(this->coins_queries[words.at(j)]);
+            }
+            sum += dictionary[words.at(j)];
+        }
+        //cout << sum << endl;
+        double si = normalizeSi(sum, 15.0);
+        //cout << si << endl;
+        // Save the user sentiment
+        for( int j = 0; j < coin_indexes.size(); j++ ) {
+            // Save which was modified
+            if(!output->at(cluster)->findModified(coin_indexes.at(j) - 1)) {
+                output->at(cluster)->modifyCoord(coin_indexes.at(j) - 1, si);
+                output->at(cluster)->addModified(coin_indexes.at(j) - 1);
+            }
+        }
+        sum = 0.0;
+        coin_indexes.clear();
+    }
+
+    // Calculate average for the users
+    for( int i = 0; i < output->size(); i++ ) {
+        output->at(i)->computeAverage();
+    }
+
+    //return output;
 }
 
 /* Return a point */

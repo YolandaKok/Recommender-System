@@ -6,6 +6,7 @@
 #include "Point.h"
 #include <math.h>
 #include <fstream>
+#include <limits>
 
 using namespace std;
 /* Constructor of the Class Point */
@@ -52,15 +53,15 @@ void Point::addModified(int index) {
 }
 
 void Point::subtractAverage() {
-    /*double sum = 0.0;
-    // Calculate Sum
-    for( int i = 0; i < this->modified.size(); i++ ) {
-        sum += this->coords.at(this->modified.at(i));
-    }
-    sum /= this->modified.size();*/
     // Subtract from the modified
     for( int i = 0; i < this->modified.size(); i++ ) {
-        this->coords.at(i) -= this->average;
+        this->coords.at(this->modified.at(i)) -= this->average;
+    }
+}
+
+void Point::addAverage() {
+    for( int i = 0; i < this->modified.size(); i++ ) {
+       this->coords.at(this->modified.at(i)) += this->average;
     }
 }
 
@@ -232,7 +233,20 @@ double Point::cosine_similarity(Point *p) {
     }
     norm_x = sqrt(norm_x);
     norm_y = sqrt(norm_y);
-    return (this->innerProduct(p) / (norm_x * norm_y));
+    if(isnan(this->innerProduct(p) / (norm_x * norm_y))) {
+        return 0.0;
+    }
+    else {
+        return this->innerProduct(p) / (norm_x * norm_y);
+    }
+}
+
+double Point::getAverage() {
+    return this->average;
+}
+
+double Point::euclidean_similarity(Point *p) {
+    return 1.0 / (1.0 + this->euclidean(p));
 }
 
 /* Destructor of the Class Point */
